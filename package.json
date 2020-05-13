@@ -2,7 +2,6 @@
   "name": "@randajan/react-form",
   "version": "1.0.0",
   "description": "Basic react forms and fields",
-  "author": "randajan",
   "license": "MIT",
   "repository": "randajan/react-form",
   "main": "dist/index.js",
@@ -48,6 +47,28 @@
     "react-scripts": "^3.4.1"
   },
   "files": [
-    "dist"
-  ]
+    "dist",
+    "README.md"
+  ],
+  "keywords": [
+    "react",
+    "js",
+    "javascript",
+    "randajan",
+    "forms",
+    "fields"
+  ],
+  "homepage": "https://github.com/randajan/react-form",
+  "bugs": {
+    "url": "https://github.com/randajan/react-form/issues"
+  },
+  "author": {
+    "name": "Jan Randa",
+    "email": "jnranda@gmail.com",
+    "url": "https://www.linkedin.com/in/randajan/"
+  },
+  "dependencies": {
+    "@randajan/jetpack": "^3.4.12",
+    "node-sass": "^4.14.1"
+  }
 }

@@ -1,0 +1,22 @@
+.Switch {
+
+    display:inline-block;
+    padding: 1vh 1vw;
+    cursor:pointer;
+
+    input {
+        display:none;
+    }
+
+    .Track {
+
+        &.horizontal {
+            width:3em;
+        }
+        &.vertical {
+            height:3em;
+        }
+    }
+
+
+}

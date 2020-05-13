@@ -1,0 +1,68 @@
+.Field {
+    position:relative;
+    min-width:10em;
+    padding: 1vh 1vw;
+
+    .Label {
+        position:relative;
+        display:block;
+        pointer-events:none;
+    }  
+
+    input, textarea {
+        font-size:1.2em; 
+    }
+    
+    input, textarea {
+        display:block;
+        width:100%;
+        resize:none;
+        border:none;
+        outline:none;
+        background-color:transparent;
+    }
+
+    .underline {
+        height:1px;
+        width:100%;
+ 
+        background-color:#666;
+        transition: width .4s;
+    }
+
+    &.blur.empty {
+        input, textarea {
+            cursor:pointer;
+        }
+        .underline {
+            width:0;
+
+        }
+    }
+
+    &.blur, &.empty {
+        .Label {
+            font-size:1em;
+            transform: translateY(100%);
+            transition: transform .6s, font-size .6s;
+        }
+    }
+    
+    &.focus, &.full {
+        .Label {
+            font-size:.8em;
+            transform: none;
+            transition: transform .4s, font-size .4s;
+        }
+    }
+    
+    &.blur.empty:hover {
+        .Label {
+            font-size:1em;
+            transform: translateY(90%);
+            transition: transform .4s, font-size .4s;
+        }
+    }
+
+
+}

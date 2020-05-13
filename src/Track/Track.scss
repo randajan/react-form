@@ -1,0 +1,84 @@
+.Track {
+
+    display:inline-block;
+
+    padding:1em;
+
+    .path {
+        position:relative;
+    }
+
+    .rail {
+        position:relative;
+        background-color:#ccc;
+        border-radius:.2em;
+        overflow:hidden;
+    }
+
+    .mark {
+        position:absolute;
+        background-color:#666;
+    }
+
+    &.static {
+        .mark {
+            transition: width .5s, height .5s;
+        }
+    }
+
+    &.horizontal {
+        width:10em;
+
+        .path {
+            width:100%;
+        }
+
+        .rail {
+            width:100%;
+            height:.5em;
+        }
+
+        .mark {
+            height:100%;
+            width:0;
+        }
+
+        &.upend .mark {
+            left:0;
+        }
+
+        &.downend .mark {
+            right:0;
+        }
+    }
+
+    &.vertical {
+        height:10em;
+
+        .path {
+            height:100%;
+        }
+
+        .rail {
+            height:100%;
+            width:.5em;
+        }
+
+        .mark {
+            width:100%;
+            height:0;
+        }
+
+        &.upend .mark {
+            top:0;
+        }
+
+        &.downend .mark {
+            bottom:0
+        }
+    }
+
+
+
+
+}
