@@ -51,8 +51,10 @@ class Input extends Component {
   }
 
   componentDidUpdate() {
+    
     if (this.lastPropsValue !== this.props.value) {
       this.setState({output:this.props.value});
+      
       this.lastPropsValue = this.props.value;
     }
   }
@@ -126,6 +128,7 @@ class Input extends Component {
     state.output = jet.isEmpty(state.output) ? state.focus ? output : this.getInputValue() : state.output;
 
     if (output !== state.output) {
+      this.setInputValue(state.output);
       onInput(state.output, output);
     }
 
@@ -134,8 +137,8 @@ class Input extends Component {
     }
 
     if (focus !== state.focus || output !== state.output) {
-      super.setState(state);
       onChange(state);
+      super.setState(state);
     }
   }
 

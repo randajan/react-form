@@ -14,7 +14,7 @@ function App() {
 
   return (
     <Form>
-      <Field autoSize/>
+      <Field autoSize value={"TEST"}/>
       <Input/>
       <Track/>
       <Switch/>
