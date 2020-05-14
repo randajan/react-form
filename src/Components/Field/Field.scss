@@ -1,25 +1,18 @@
 .Field {
+    display:inline-block;
     position:relative;
-    min-width:10em;
-    padding: 1vh 1vw;
+    cursor:pointer;
 
     .Label {
+        display:block;
         position:relative;
-        display:block;
-        pointer-events:none;
-    }  
-
-    input, textarea {
-        font-size:1.2em; 
+        transform-origin:0 0;
     }
-    
-    input, textarea {
+
+    .Input {
         display:block;
-        width:100%;
-        resize:none;
-        border:none;
-        outline:none;
-        background-color:transparent;
+        max-width:100%;
+        max-height:100%;
     }
 
     .underline {
@@ -29,20 +22,21 @@
         background-color:#666;
         transition: width .4s;
     }
-
+    
     &.blur.empty {
-        input, textarea {
+        .Input, textarea, input {
             cursor:pointer;
         }
+    }
+
+    &.blur.empty {
         .underline {
             width:0;
-
         }
     }
 
     &.blur, &.empty {
         .Label {
-            font-size:1em;
             transform: translateY(100%);
             transition: transform .6s, font-size .6s;
         }
@@ -50,19 +44,18 @@
     
     &.focus, &.full {
         .Label {
-            font-size:.8em;
-            transform: none;
+            transform: scale(.8);
             transition: transform .4s, font-size .4s;
         }
     }
     
     &.blur.empty:hover {
         .Label {
-            font-size:1em;
             transform: translateY(90%);
             transition: transform .4s, font-size .4s;
         }
     }
+
 
 
 }

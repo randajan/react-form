@@ -1,18 +1,34 @@
 
-import Form from "./Form/Form";
-import Label from "./Label/Label";
-import Pin from "./Pin/Pin";
-import Switch from "./Switch/Switch";
-import Track from "./Track/Track";
-import Field from "./Field/Field";
+import ClassNames from "./Helpers/ClassNames";
+import Proper from "./Helpers/Proper";
+import Checker from "./Helpers/Checker";
 
+
+import Form from "./Components/Form/Form";
+import Label from "./Components/Label/Label";
+import Pin from "./Components/Pin/Pin";
+import Switch from "./Components/Switch/Switch";
+import Track from "./Components/Track/Track";
+import Input from "./Components/Input/Input";
+import Field from "./Components/Field/Field";
+
+import {
+  useChecker,
+  useShift,
+} from "./Hooks";
 
 
 export {
+  ClassNames,
+  Proper,
+  Checker,
   Form,
   Label,
   Pin,
   Switch,
   Track,
-  Field
+  Field,
+  Input,
+  useChecker,
+  useShift,
 }

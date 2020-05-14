@@ -8,15 +8,18 @@
         display:none;
     }
 
-    .Track {
-
-        &.horizontal {
-            width:3em;
-        }
-        &.vertical {
-            height:3em;
+    &.horizontal {
+        .Track {
+            width:2em;
         }
     }
+
+    &.vertical {
+        .Track {
+            height:2em;
+        }
+    }
+
 
 
 }

@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import jet from "@randajan/jetpack";
 
 import Track from "../Track/Track";
-
 import Label from "../Label/Label";
 
-import "./Switch.scss";
+import css from "./Switch.scss";
+import ClassNames from "../../Helpers/ClassNames";
+const CN = ClassNames.getFactory(css);
 
 function Switch(props) {
     let { name, label, value, onChange, downend, vertical } = props;
@@ -16,7 +17,7 @@ function Switch(props) {
 
     const pass = {
         ...props,
-        className:jet.obj.join(["Switch", state?"on":"off"], " "),
+        className:CN.get("Switch", vertical?"vertical":"horizontal", state?"on":"off"),
         onClick:_=>setState(!state),
     }
 
@@ -29,8 +30,8 @@ function Switch(props) {
 
     return (
         <div {...pass}>
-            <Label>{label}</Label>
-            <Track to={1} value={+state} onChange={onChange} downend={downend} vertical={vertical}/>
+            <Label className={CN.pass("Label")}>{label}</Label>
+            <Track className={CN.pass("Track")} to={1} value={+state} onChange={onChange} downend={downend} vertical={vertical}/>
             <input type="checkbox" checked={state} name={name} readOnly/>
         </div>
     )

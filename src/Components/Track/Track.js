@@ -1,10 +1,12 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useState } from "react";
 
 import jet from "@randajan/jetpack";
 
 import Pin from "../Pin/Pin";
 
-import "./Track.scss";
+import css from "./Track.scss";
+import ClassNames from "../../Helpers/ClassNames";
+const CN = ClassNames.getFactory(css);
 
 function invert(bol, value) {
   return bol ? 1-value : value;
@@ -22,7 +24,7 @@ function Track(props) {
 
     const pass = {
       ...props,
-      className:jet.obj.join(["Track", shifting?"shifting":"static", vertical?"vertical":"horizontal", downend?"downend":"upend", className], " "),
+      className:CN.get("Track", shifting?"shifting":"static", vertical?"vertical":"horizontal", downend?"downend":"upend", className),
     }
 
     delete pass.vertical;
@@ -33,9 +35,9 @@ function Track(props) {
 
     return (
         <div {...pass}>
-            <div className="path">
-              <div className="rail">
-                <div ref={mark} className="mark"/>
+            <div className={CN.get("path")}>
+              <div className={CN.get("rail")}>
+                <div ref={mark} className={CN.get("mark")}/>
               </div>
               <Pin x={vertical?.5:value} y={vertical?value:.5} onChange={(bound, state)=>{
                 if (state !== "shift") { setShifting(state==="start"); }

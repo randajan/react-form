@@ -1,10 +1,27 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
-import { ExampleComponent } from '@randajan/react-form'
-import '@randajan/react-form/dist/index.css'
 
-const App = () => {
-  return <ExampleComponent text="Create React Library Example 😄" />
+import { ClassNames, Form, Input, Track, Switch, Field, Label, Pin } from '@randajan/react-form';
+
+import "@randajan/react-form/dist/index.css";
+
+ClassNames.redefine({
+  "on":"switch-on",
+  "off":"switch-off"
+})
+
+function App() {
+
+  return (
+    <Form>
+      <Field autoSize/>
+      <Input/>
+      <Track/>
+      <Switch/>
+      <Label/>
+      <Pin/>
+    </Form>
+  )
 }
 
 export default App
