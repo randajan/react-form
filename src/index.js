@@ -9,8 +9,9 @@ import Label from "./Components/Label/Label";
 import Pin from "./Components/Pin/Pin";
 import Switch from "./Components/Switch/Switch";
 import Track from "./Components/Track/Track";
-import Input from "./Components/Input/Input";
+import Feed from "./Components/Feed/Feed";
 import Field from "./Components/Field/Field";
+import Group from "./Components/Group/Group";
 
 import {
   useChecker,
@@ -28,7 +29,8 @@ export {
   Switch,
   Track,
   Field,
-  Input,
+  Group,
+  Feed,
   useChecker,
   useShift,
 }

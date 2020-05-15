@@ -1,9 +1,9 @@
-.Input {
+.Feed {
     display:inline-block;
     position:relative;
     overflow:auto;
     
-    input, textarea {
+    input.inbox, textarea.inbox, textarea.onbox {
         display:block;
         padding: 0;
         margin: 0;
@@ -18,7 +18,7 @@
         max-height:100%;
     }
 
-    input {
+    input.inbox {
         position:absolute;
         top:0;
         left:0;
@@ -26,10 +26,9 @@
         height:100%;
     }
 
-    &:not(.textarea) textarea {
+    .onbox {
         visibility:hidden;
         opacity:0;
     }
-
 
 }

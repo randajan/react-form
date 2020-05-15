@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import css from "./Form.scss";
+import jet from "@randajan/jetpack";
 
+import css from "./Form.scss";
+import ClassNames from "../../Helpers/ClassNames";
+const CN = ClassNames.getFactory(css);
 
 class Form extends Component {
   static propTypes = {
@@ -12,16 +15,22 @@ class Form extends Component {
 
   submit(ev) {
     const onSubmit = this.props.onSubmit;
-    const form = ev.target;
     if (onSubmit) {
-      ev.preventDefault();
-      onSubmit(form);
+      jet.event.stop(ev);
+      onSubmit(this);
     }
   }
 
+  serialize() {
+    const data = {};
+    for (let field of new FormData(this.refs.body).entries()) { data[field[0]] = field[1]; }
+    return data;
+  }
+
   render() {
+    const { className } = this.props;
     return (
-      <form {...this.props} onSubmit={ev=>this.submit(ev)}>
+      <form ref="body" {...this.props} onSubmit={ev=>this.submit(ev)} className={CN.get(["Form", className])}>
         {this.props.children}
       </form>
     )
