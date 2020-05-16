@@ -13,7 +13,7 @@ ClassNames.redefine({
 function App() {
   return (
     <Form>
-      <Group fields={{hip:"Test", fuk:"Best", tap:"Chest", get:{value:"test"}}}/>
+      <Group fields={{hip:"Test", fuk:"Best", tap:"Chest", get:{value:"test", maxLength:20}}}/>
       <Track to={6} value={2} step={6}/>
       <Switch value={true} label={"Beta"}/>
       <Label/>

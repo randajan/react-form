@@ -9,23 +9,31 @@
         transition: transform .6s, font-size .6s;
     }
 
-    .underline, .underline:after, .underline:before {
-        height:1px;
-        width:0;
-        background-color:#999;
+
+    .underline, .underline:before {
+        position:relative;
+        display:block;
+        height:2px;
+        width:100%;
         transition: .4s;
     }
 
-    .underline:after, .underline:before {
-        content:"";
-        display:block;
-        position:absolute;
-        background-color:#666;
+    .underline {
+        background-color:#eee;
     }
 
     .underline:before {
-        z-index:-1;
-        background-color:#eee;
+        content:"";
+        background-color:rgba(0,0,0,.3);
+    }
+
+    .mark {
+        position:absolute;
+        top:0;
+        left:0;
+        height:100%;
+        background-color:red;
+        transition: .4s;
     }
 
     &.editable {
@@ -39,11 +47,12 @@
         color:#999;
     }
 
-    &.focus {
-        .underline:after {
-            width:100%;
+    &.blur {
+        .underline:before {
+            width:0;
         }
     }
+
 
     &.blur, &.empty {
         .Label {
@@ -55,9 +64,6 @@
         .Label {
             transform: scale(.8);
             transition: transform .4s, font-size .4s;
-        }
-        .underline {
-            width:100%;
         }
     }
     

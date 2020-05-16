@@ -189,10 +189,10 @@ class Feed extends Component {
   }
 
   fetchPropsInbox() {
-    const {tabIndex, name, autoFocus, readOnly, autoCorrect, autoCapitalize, spellCheck, autoComplete, onPaste } = this.props;
+    const {tabIndex, name, autoFocus, readOnly, autoCorrect, autoCapitalize, spellCheck, autoComplete, onPaste, maxLength } = this.props;
     return {
       ref:"inbox", className:CN.get("inbox"),
-      name, autoFocus, readOnly, autoCorrect, autoCapitalize, spellCheck, autoComplete, 
+      name, autoFocus, readOnly, autoCorrect, autoCapitalize, spellCheck, autoComplete, maxLength, 
       tabIndex:readOnly?-1:tabIndex,
       onFocus: _=> this.focus(),
       onBlur: _=> this.blur(),

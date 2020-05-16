@@ -16,7 +16,7 @@ class Field extends Component {
 
   static propTypes = {
     type: PropTypes.oneOf(["number", "text", "email", "tel", "textarea", "password"]),
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
   }
 
   static defaultProps = {
@@ -86,12 +86,27 @@ class Field extends Component {
     })
   }
 
+  fetchPropsMark() {
+    const { maxLength } = this.props;
+    const { focus, input } = this.state;
+    const max = jet.get("number", maxLength);
+    const len = jet.get("string", input).length;
+    const ratio = (focus && maxLength) ? len / max : 0;
+
+    return {
+      ref:"mark", className:CN.get("mark"),
+      style:{width:(ratio*100)+"%"}
+    }
+  }
+
   render() {
     return (
       <div {...this.fetchPropsSelf()}>
         <Label {...this.fetchPropsLabel()}/>
         <Feed {...this.fetchPropsFeed()}/>
-        <div className={CN.get("underline")}/>
+        <div className={CN.get("underline")}>
+          <div {...this.fetchPropsMark()}/>
+        </div>
       </div>
     )
   }
