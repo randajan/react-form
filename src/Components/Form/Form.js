@@ -77,7 +77,7 @@ class Form extends Component {
     const { focus, submited } = this.state;
 
     return Proper.pass(this.props, {
-      className:CN.get(["Form", focus?"focus":"blur", submited?"submited":"dirty", className]),
+      className:CN.get(["Form", focus?"focus":"blur", readOnly?"readonly":"editable", submited?"submited":"dirty", className]),
       onSubmit:ev=>{this.submit(); jet.event.stop(ev);},
     }, { name, values, labels, titles, readOnly, onOutput, onBlur, onFocus, onChange });
   }
