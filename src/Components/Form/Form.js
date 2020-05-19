@@ -87,10 +87,11 @@ class Form extends Component {
     
     const name = jet.get("string", ele.props.name, level+"-"+key);
     return {
-      name, readOnly,
+      name,
       value: retrieveStr(values, name, value),
       label: retrieveStr(labels, name, label),
       title: retrieveStr(titles, name, title),
+      readOnly:ele.props.readOnly || readOnly,
       onChange:[onChange, (ele, changes)=>{
         const focus = ele.state.focus;
         if (changes.includes("focus") || changes.includes("output")) { this.setState({focus}, ele); }
