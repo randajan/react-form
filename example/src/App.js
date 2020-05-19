@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 
 
-import { ClassNames, Form, Feed, Track, Switch, Field, Group, Label, Pin } from '@randajan/react-form';
+import { useState, ClassNames, Form, Track, Switch, Field, Label, Pin } from '@randajan/react-form';
 
 import "@randajan/react-form/dist/index.css";
 
@@ -11,13 +11,20 @@ ClassNames.redefine({
 })
 
 function App() {
+  const [output, setOutput] = useState({});
+
   return (
-    <Form>
-      <Group fields={{hip:"Test", fuk:"Best", tap:"Chest", get:{value:"test", maxLength:20}}}/>
-      <Track to={6} value={2} step={6}/>
-      <Switch value={true} label={"Beta"}/>
-      <Label/>
-      <Pin/>
+    <Form name="user" onOutput={form=>setOutput(form.state.output)} labels={{foo:"foo2", bar:"bar2", test:"test2"}}>
+      <div className={"test"}>
+        <Field name="betatest"/>
+      </div>
+      <Field name="foo" maxLength={10} label="foo"/>
+      <Field name="bar" readOnly value="xyz" label="bar"/>
+      <Field/>
+      <Track pins={1} value={50} label="Testuji"/>
+      <Track value={0} to={1} label="test"/>
+      <Switch name="switch" label="switch"/>
+      <input type="submit"/>
     </Form>
   )
 }

@@ -16,7 +16,7 @@ function Pin (props) {
   const pass = {
     ...props,
     ref,
-    className:CN.get("Pin", shifting?"shifting":"static", className)
+    className:CN.get("Pin", shifting?"focus":"blur", className)
   }
 
   delete pass.x;

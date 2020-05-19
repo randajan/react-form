@@ -1,8 +1,9 @@
 .Track {
-
     display:inline-block;
 
-    padding:1em;
+    .interface {
+        box-sizing:border-box;
+    }
 
     .path {
         position:relative;
@@ -16,11 +17,11 @@
     }
 
     .mark {
-        position:absolute;
+        position:relative;
         background-color:#666;
     }
 
-    &.static {
+    &.blur {
         .mark {
             transition: width .5s, height .5s;
         }
@@ -29,12 +30,15 @@
     &.horizontal {
         width:10em;
 
-        .path {
+        .interface, .path, .rail {
             width:100%;
         }
 
+        .interface {
+            padding: .5em 1em;
+        }
+
         .rail {
-            width:100%;
             height:.5em;
         }
 
@@ -55,12 +59,15 @@
     &.vertical {
         height:10em;
 
-        .path {
+        .interface, .path, .rail {
             height:100%;
         }
 
+        .interface {
+            padding: 1em .5em;
+        }
+
         .rail {
-            height:100%;
             width:.5em;
         }
 
@@ -78,6 +85,25 @@
         }
     }
 
+}
+
+.Switch {
+
+    cursor:pointer;
+
+    .interface {
+        pointer-events:none;
+    }
+
+    &.horizontal {
+        width:4em;
+
+    }
+
+    &.vertical {
+
+        height:4em;
+    }
 
 
 

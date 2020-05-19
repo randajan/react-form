@@ -68,7 +68,7 @@
     "url": "https://www.linkedin.com/in/randajan/"
   },
   "dependencies": {
-    "@randajan/jetpack": "^3.4.13",
+    "@randajan/jetpack": "^3.4.15",
     "node-sass": "^4.14.1"
   }
 }

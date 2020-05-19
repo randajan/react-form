@@ -24,8 +24,12 @@ class ClassNames {
             }
         };
     }
-}
 
+    static getDataMark(ratio) {
+        const r = Math.round(jet.get("number", ratio) * 10);
+        return Array(11).fill(1).map((v,k)=>(k === r ? "" : k > r ? "<" : ">")+(k*10)).joins(" ");
+    }
+}
 
 export default ClassNames;
 

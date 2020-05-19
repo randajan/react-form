@@ -9,11 +9,11 @@
     border: 1px solid #222;
     transition:transform .2s;
 
-    &.shifting {
+    &.focus {
         transform:translate(-50%, -50%) scale(1.1);
     }
 
-    &.static {
+    &.blur {
         transition: top .5s, left .5s, transform .2s;
     }
 }

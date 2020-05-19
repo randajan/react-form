@@ -9,7 +9,12 @@ const CN = ClassNames.getFactory(css);
 
 function Label(props) {
   const { className, children, name } = props;
-  return <label className={CN.get("Label", className)} htmlFor={name}>{children}</label>
+  
+  return !children ? null : (
+    <label className={CN.get("Label", className)} htmlFor={name}>
+      {children}
+    </label>
+  )
 }
 
 export default Label;
