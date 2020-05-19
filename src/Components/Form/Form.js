@@ -47,7 +47,7 @@ class Form extends Component {
     const { onSubmit, onOutput, onFocus, onBlur, onChange } = this.props;
     const { focus, output, submited } = this.state;
     
-    const now = {...this.state, ...jet.get("object", state)};
+    const now = {...this.state, ...jet.get("object", state), output};
     const changes = [];
 
     if (now.focus !== focus) {
@@ -56,14 +56,13 @@ class Form extends Component {
       changes.push("focus");
     }
     if (ele && jet.str.to(output[ele.props.name]) != ele.state.output) {
-      onOutput(this);
-      output[ele.props.name] = ele.state.output;
+      now.output[ele.props.name] = ele.state.output;
       now.submited = false;
-      now.output = output;
+      onOutput(this, output);
       changes.push("output");
     }
     if (now.submited !== submited) {
-      if (now.submited) { onSubmit(this, output); }
+      if (now.submited) { onSubmit(this, now.output); }
       changes.push("submited");
     }
     if (changes.length) {
@@ -88,7 +87,7 @@ class Form extends Component {
     
     const name = jet.get("string", ele.props.name, level+"-"+key);
     return {
-      name, readOnly, ref:name,
+      name, readOnly,
       value: retrieveStr(values, name, value),
       label: retrieveStr(labels, name, label),
       title: retrieveStr(titles, name, title),
