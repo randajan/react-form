@@ -17,6 +17,7 @@ function App() {
     <Form name="user" onOutput={form=>setOutput(form.state.output)} labels={{foo:"foo2", bar:"bar2", test:"test2"}}>
       <div className={"test"}>
         <Field name="betatest"/>
+        <Field name="betatest2"/>
       </div>
       <Field name="foo" maxLength={10} label="foo"/>
       <Field name="bar" readOnly value="xyz" label="bar"/>

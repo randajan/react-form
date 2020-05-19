@@ -11,10 +11,11 @@ class Proper {
         const level = jet.get("number", deep);
         if (filter) { filter = jet.get("array", filter, [filter]); }
         return React.Children.toArray(children).map((ele, key)=>{
+            const children = ele.props.children;
             const include = (!filter || filter.includes(ele.type));
             const inject = jet.get("object", include ? jet.is("function", injection) ? injection(ele, key, level) : injection : null);
-            if (deep && jet.is("object", ele.props.children)) {
-                inject.children = Proper.inject(ele.props.children, injection, filter, level+1);
+            if (deep && jet.is("object", children, true)) {
+                inject.children = Proper.inject(children, injection, filter, level+1);
             }
             return jet.isFull(inject) ? React.cloneElement(ele, inject) : ele;
         });
