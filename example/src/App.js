@@ -16,6 +16,7 @@ function App() {
   return (
     <Form name="user" onOutput={form=>setOutput(form.state.output)} labels={{foo:"foo2", bar:"bar2", test:"test2"}}>
       <div className={"test"}>
+        Testuji
         <Field name="betatest"/>
         <Field name="betatest2"/>
       </div>
