@@ -1,7 +1,6 @@
 import React from 'react'
 
-
-import { useState, ClassNames, Form, Track, Switch, Field, Label, Pin } from '@randajan/react-form';
+import {ClassNames, Form, Range, Switch, Control, Field } from '@randajan/react-form';
 
 import "@randajan/react-form/dist/index.css";
 
@@ -10,25 +9,35 @@ ClassNames.redefine({
   "off":"switch-off"
 })
 
-function App() {
-  const [output, setOutput] = useState({});
-
+function TestForm() {
   return (
-    <Form name="user" onOutput={form=>setOutput(form.state.output)} labels={{foo:"foo2", bar:"bar2", test:"test2"}}>
-      <div className={"test"}>
-        Testuji
-        <Field name="betatest"/>
-        <Field name="betatest2"/>
+    <Form
+      rawput={{ fullname:"Adam", age:0 }}
+      output={{ fullname:"Boris", age:30 }}
+      input={{ fullname:"Cyril", age:60 }}
+      labels={{fullname:"Name", age:"Age", gender:"Gender"}}
+      onOutput={(...args)=>{console.log("form_output", ...args)}}
+      onInput={(...args)=>{console.log("form_input", ...args)}}
+      onChange={(...args)=>{console.log("form_change", ...args);}}
+    >
+      <Field input={"Denis"} name="fullname" maxLength={15}/>
+      <Range vertical inverted input={100} name="age" step={1} to={100}/>
+      <Switch name="gender"/>
+      <div>
+        <Control onSubmit="rejectOutput">Clear</Control>
+        <Control onSubmit="rejectInput">Undo changes</Control>
+        <Control onSubmit="submitInput">Submit</Control>
       </div>
-      <Field name="foo" maxLength={10} label="foo"/>
-      <Field name="bar" readOnly value="xyz" label="bar"/>
-      <Field/>
-      <Track pins={1} value={50} label="Testuji"/>
-      <Track value={0} to={1} label="test"/>
-      <Switch name="switch" label="switch"/>
-      <input type="submit"/>
     </Form>
   )
+}
+
+function App() {
+  return (
+    <div className="App">
+      <TestForm/>
+    </div>
+  );
 }
 
 export default App

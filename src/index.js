@@ -1,4 +1,3 @@
-import { useState } from "react";
 import ClassNames from "./Helpers/ClassNames";
 import Proper from "./Helpers/Proper";
 import Checker from "./Helpers/Checker";
@@ -6,10 +5,12 @@ import Checker from "./Helpers/Checker";
 
 import Form from "./Components/Form/Form";
 import Label from "./Components/Label/Label";
-import Pin from "./Components/Pin/Pin";
-import Switch from "./Components/Track/Switch";
-import Track from "./Components/Track/Track";
+import Slider from "./Components/Slider/Slider";
+import Control from "./Components/Control/Control";
+import Switch from "./Components/Switch/Switch";
+import Range from "./Components/Range/Range";
 import Field from "./Components/Field/Field";
+import Bar from "./Components/Bar/Bar";
 
 import {
   useChecker,
@@ -23,11 +24,12 @@ export {
   Checker,
   Form,
   Label,
-  Pin,
+  Control,
+  Slider,
   Switch,
-  Track,
+  Range,
   Field,
+  Bar,
   useChecker,
-  useShift,
-  useState
+  useShift
 }

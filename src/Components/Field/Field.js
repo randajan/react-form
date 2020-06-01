@@ -3,58 +3,65 @@ import PropTypes from 'prop-types';
 
 import jet from "@randajan/jetpack";
 
+import Proper from "../../Helpers/Proper" ;
 import Checker from "../../Helpers/Checker";
 
+import Control from "../Control/Control";
 import Label from "../Label/Label";
 
 import css from "./Field.scss";
 import ClassNames from "../../Helpers/ClassNames";
 const CN = ClassNames.getFactory(css);
 
-
-function reqValue(self, handle, to, from) {
-  const res = handle(self, jet.str.to(to), jet.str.to(from));
-  return jet.str.to(res === false ? from : (res === true || res === undefined) ? to : res);
-}
-
 class Field extends Component {
-  cleanUp;
   
   static propTypes = {
     type: PropTypes.oneOf(["number", "text", "email", "tel", "textarea", "password"]),
     rows:PropTypes.number,
     cols:PropTypes.number,
     maxLength:PropTypes.number,
+    flags:PropTypes.object,
     onBlur: PropTypes.func,
     onFocus: PropTypes.func,
-    onInput: PropTypes.func,
+    onRawput: PropTypes.func,
     onOutput: PropTypes.func,
+    onInput: PropTypes.func,
     onKeyDown: PropTypes.func,
     onPaste: PropTypes.func,
   }
   static defaultProps = {
     type:"text",
     rows:1,
-    cols:20,
-    onBlur: ()=>{},
-    onFocus: ()=>{},
-    onInput: ()=>{},
-    onOutput: ()=>{},
-    onKeyDown: ()=>{},
-    onPaste: ()=>{}
+    cols:20
   }
+
+  static defaultFlags = {
+    blank:(p, s)=>!s.input,
+    full:(p, s)=>s.mark===1,
+    focus:(p, s)=>s.focus,
+    dirtyOut:(p, s)=>s.outputDirty,
+    dirtyIn:(p, s)=>s.inputDirty,
+    lock:(p,s)=>s.lock,
+    autosize:p=>p.autoSize,
+  }
+
+  static validateValue(value, props) { return jet.str.to(value).slice(0, props.maxLength); }
+  static fetchPropState(props) {
+    const { lock, focus, rawput, output, input} = props;
+    return {
+      lock, focus, 
+      rawput:Field.validateValue(rawput, props), 
+      output:Field.validateValue(jet.get("full", output, rawput), props),
+      input:Field.validateValue(jet.get("full", input, output, rawput), props)
+    };
+  }
+
+  cleanUp;
 
   constructor(props) {
     super(props);
-    this.state = {
-      focus:false,
-      input:"",
-      output:"",
-      preput:"",
-      mark:0
-    }
+    this.state = this.fetchState(Field.fetchPropState(props));
   }
-
   componentDidMount() {
     const cleanUp = this.cleanUp = new jet.RunPool();
     const checker = this.checker.bind(this);
@@ -67,34 +74,50 @@ class Field extends Component {
       clearTimeout(autoSizeTimeout);
       autoSizeTimeout = setTimeout(this.autoSize.bind(this), 50);
     }));
-    
-    this.setState();
+    this.refresh();
+  }
+  componentWillUnmount() { this.cleanUp.run(); }
+  componentDidUpdate(props) {
+    const to = Field.fetchPropState(this.props);
+    const from = Field.fetchPropState(props);
+    this.setState(jet.obj.compare(from, to, true, true));
+    this.refresh();
   }
 
-  componentDidUpdate() { this.setState(); }
-  componentWillUnmount() { this.cleanUp.run(); }
+  async setState(state) {
+    const { onChange } = this.props;
+    const to = this.fetchState(state);
+    const changes = jet.obj.compare(this.state, to, true);
+    if (changes.length) { await super.setState(to); jet.run(onChange, this, changes); }
+    return changes;
+  }
+
+  isTextArea() { return this.props.type === "textarea"; }
+
+  isOutputDirty() { return this.state.outputDirty; }
+  isInputDirty() { return this.state.inputDirty; }
+
+  getOutputDirty() { return this.state.outputDirty; }
+  getInputDirty() { return this.state.inputDirty; }
+
+  getName() { return this.props.name; }
+  getFocus() { return this.state.focus; }
+  getLock() { return this.state.lock; }
+
+  getRawput() { return this.state.rawput; }
+  getOutput() { return this.state.output; }
+  getInput() { return this.state.input; }
 
   getOnbox() { return this.isTextArea() ? this.refs.inbox : this.refs.onbox; }
 
-  isTextArea() { return this.props.type === "textarea"; }
-  isFocused() { return this.refs.inbox === document.activeElement; }
+  getCarret() {
+    const inbox = this.refs.inbox;
+    return [ inbox.selectionStart, inbox.selectionEnd ];
+  };
 
-  setInput(input) { return this.setState({input}); }
-  setOutput(output) { return this.setState({output}); }
-  getInput() { return this.refs.inbox.value; }
-  getOutput() { return this.refs.outbox.value; }
-
-  undo() { return this.setInput(this.state.output); }
-  clear(hard) { return hard ? this.setOutput("") : this.setInput(""); }
-  reset(hard) { return hard ? this.setOutput(this.state.preput) : this.setInput(this.state.preput); }
-
-  focus() { return this.setState({focus:true}); }
-  blur() { return this.setState({focus:false}); }
-  escape() {
-    const { input, output } = this.state;
-    if (input === output) { this.blur(); } 
-    else { this.undo(); } 
-  }
+  async setRawput(rawput) { await this.setState({rawput, output:rawput, input:rawput}); return this.getRawput(); }
+  async setOutput(output) { await this.setState({output, input:output}); return this.getOutput(); }
+  async setInput(input) { await this.setState({input}); return this.getInput(); }
 
   setCarret(start, end) {
     const inbox = this.refs.inbox;
@@ -104,10 +127,26 @@ class Field extends Component {
     };
   }
 
-  getCarret() {
-    const inbox = this.refs.inbox;
-    return [ inbox.selectionStart, inbox.selectionEnd ];
-  };
+  submitOutput() { return this.setRawput(this.getOutput()); }
+  rejectOutput() { return this.setOutput(this.getRawput()); }
+  submitInput() { return this.setOutput(this.getInput()); }
+  rejectInput() { return this.setInput(this.getOutput()); }
+
+  reset() { return this.setState(Field.fetchPropState(this.props)); }
+
+  focus() { return this.setState({focus:true}); }
+  blur() { return this.setState({focus:false, output:this.getInput()}); }
+  lock() { return this.setState({lock:true}); }
+  unlock() { return this.setState({lock:false}); }
+
+  refresh() {
+    const { focus, input, output } = this.state;
+    const { inbox, onbox } = this.refs;
+    if (onbox && onbox.value !== input) { onbox.value = input; }
+    if (inbox.value !== input) { inbox.value = input; }
+    if (focus) { inbox.focus(); } else { inbox.blur(); } //sync state with reality
+    this.autoSize();
+  }
 
   autoSize(force) {
     if (!this.props.autoSize && !force) { return false; }
@@ -124,104 +163,78 @@ class Field extends Component {
     return true;
   }
 
-  refresh() {
-    const { input, output } = this.state;
-    const { inbox, outbox, onbox } = this.refs;
-    if (onbox && onbox.value !== input) { onbox.value = input; }
-    if (inbox.value !== input) { inbox.value = input; }
-    if (outbox.value !== output) { outbox.value = output; }
-    this.autoSize();
-  }
-
-  async setState(now) {
-    const { onInput, onOutput, onChange, onFocus, onBlur, readOnly, value, maxLength } = this.props;
-    const { focus, input, output, preput } = this.state;
-    const changes = [];
-
-    now = {...this.state, ...jet.get("object", now), preput:value};
-
-    if (readOnly) { now.focus = false; now.input = input; } //locked input
-    if (now.focus !== focus) { //change focus
-      if (now.focus && onFocus(this, true) === false) { now.focus = false; }
-      else if (!now.focus && onBlur(this, false) === false) { now.focus = true; }
-      else { changes.push("focus"); }; 
-    }
-    if (now.preput !== preput) { now.output = now.preput; changes.push("preput"); } //redefine output 
-    if (now.output !== output) { now.input = now.output; } //output changing input
-    if (now.input !== input) { //input change
-      now.input = reqValue(this, onInput, now.input, input);
-      if (now.input !== input) {
-        now.mark = (focus && maxLength) ? now.input.length / maxLength : 0;
-        changes.push("input");
-      }
-    }
-    if (now.output !== output || !now.focus) { now.output = now.input; } //input changing output
-    if (now.output !== output) { //output change
-      now.output = reqValue(this, onOutput, now.output, output);
-      if (now.output !== output) { changes.push("output"); }
-    }
-
-    if (changes.length) {
-      await super.setState(now); this.refresh(); jet.run(onChange, this, changes);
-    }
-    if (now.focus) { this.refs.inbox.focus(); } else { this.refs.inbox.blur(); } //sync state with reality
-    return changes;
-  }
-
   handleKeyDown(ev) {
+    const onKeyDown = this.props.onKeyDown;
     const k = ev.keyCode;
-    if (this.props.onKeyDown(this, ev) === false) { return; }
+    if (onKeyDown && onKeyDown(this, ev) === false) { return; }
     else if (ev.isDefaultPrevented()) { return; }
 
-    if (k === 27) { this.escape(); } //escape 
-    else if (k === 13 && (ev.ctrlKey === this.isTextArea())) { this.blur(); }//not enter
+    if (k === 27) { if (this.getInput() === this.getOutput()) { this.blur() } else { this.rejectInput(); } } //escape 
+    else if (k === 13 && (ev.ctrlKey === this.isTextArea())) { this.blur(); } //not enter
     else { return }
 
     jet.event.stop(ev);
   }
 
   checker() {
-    if (this.state.focus) { return; }
+    if (this.getFocus()) { return; }
     const { value } = this.refs.inbox;
-    if (this.state.input !== value) { this.setOutput(value); }
+    if (this.getOutput() !== value) { this.setOutput(value); }
+  }
+
+  fetchValue(validator, to, from) {
+    const res = validator(this, to, from);
+    return res === false ? from : (res === true || res === undefined) ? to : res;
+  }
+
+  fetchState(state) {
+    const { onInput, onOutput, onRawput, onFocus, onBlur, maxLength } = this.props;
+    const { focus, input, output, rawput } = jet.get("object", this.state);
+    const now = jet.obj.merge(this.state, state);
+
+    if (now.lock) { now.focus = false; } //locked input
+    if (now.focus !== focus) { //change focus
+      if (onFocus && now.focus  && onFocus(this, true) === false) { now.focus = false; }
+      else if (onBlur && !now.focus && onBlur(this, false) === false) { now.focus = true; }
+    }
+    if (onRawput && now.rawput !== rawput) { now.rawput = this.fetchValue(onRawput, now.rawput, rawput); }
+    if (onOutput && now.output !== output) { now.output = this.fetchValue(onOutput, now.output, output); }
+    if (!now.focus) { now.input = now.output; } //no focus = sync values
+    else if (onInput && now.input !== input) { now.input = this.fetchValue(onInput, now.input, input); }
+    
+    now.rawput = Field.validateValue(now.rawput, this.props);
+    now.output = Field.validateValue(now.output, this.props);
+    now.input = Field.validateValue(now.input, this.props);
+
+    now.outputDirty = now.rawput !== now.output;
+    now.inputDirty = now.output !== now.input;
+    now.mark = maxLength ? now.input.length / maxLength : 0;
+
+    return now;
   }
 
   fetchPropsSelf() {
-    const { focus, input, mark } = this.state
-    const { id, className, title, autoSize, type, readOnly } = this.props;
+    const { id, className, title, type, flags } = this.props;
     return {
       id, title, 
-      "data-mark":ClassNames.getDataMark(mark),
-      className:CN.get("Field", type, 
-         readOnly?"readonly":"editable", 
-         autoSize?"dynamic":"static", 
-         focus ? "focus" : "blur", 
-         input ? "full" : "empty", 
-         className
-      )
+      "data-flag":Proper.fetchFlags({...Field.defaultFlags, ...flags}, this.props, this.state).joins(" "),
+      className:CN.get("Field", type, className)
     }
   }
 
   fetchPropsInbox() {
-    const {tabIndex, name, autoFocus, readOnly, autoCorrect, autoCapitalize, spellCheck, autoComplete, onPaste, maxLength } = this.props;
+    const {tabIndex, name, autoCorrect, autoCapitalize, spellCheck, autoComplete, onPaste, maxLength } = this.props;
+    const { focus, lock } = this.state;
     return {
       ref:"inbox", className:CN.get("inbox"),
-      name, autoFocus, readOnly, autoCorrect, autoCapitalize, spellCheck, autoComplete, maxLength, 
-      tabIndex:readOnly?-1:tabIndex,
+      name, autoFocus:focus, autoCorrect, autoCapitalize, spellCheck, autoComplete, maxLength, 
+      readOnly:lock, disabled:lock, tabIndex:lock?-1:tabIndex,
       onFocus: _=> this.focus(),
       onBlur: _=> this.blur(),
       onInput: ev=> this.setInput(ev.target.value),
       onKeyDown: this.handleKeyDown.bind(this),
-      onPaste: ev=>onPaste(this, ev)
+      onPaste: ev=>{if (onPaste) {onPaste(this, ev)}}
     };
-  }
-
-  fetchPropsOutbox() {
-    const { name } = this.props;
-    return {
-      ref:"outbox", className:CN.get("outbox"),
-      name, style: {display:"none"}
-    }
   }
 
   fetchPropsOnbox() {
@@ -245,14 +258,14 @@ class Field extends Component {
     }
   }
 
-  render() {
-    const { type } = this.props;
+  injectControl() { return { parent:this }; }
 
+  render() {
+    const { type, children } = this.props;
     return (
       <div {...this.fetchPropsSelf()}>
         <Label {...this.fetchPropsLabel()}/>
         <div className={CN.get("interface")}>
-          <textarea {...this.fetchPropsOutbox()}/>
           {
             this.isTextArea() ? 
             <textarea {...this.fetchPropsOnbox()} {...this.fetchPropsInbox()} /> :
@@ -265,6 +278,7 @@ class Field extends Component {
         <div className={CN.get("underline")}>
           <div {...this.fetchPropsMark()}/>
         </div>
+        {Proper.inject(children, this.injectControl.bind(this), true, Control)}
       </div>
     );
 

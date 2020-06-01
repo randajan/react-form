@@ -71,53 +71,52 @@
         transition: .4s;
     }
 
-    &.editable {
-        cursor:pointer;
+    &:not([data-flag~="lock"]) {
         .underline:before {
             width:100%;
         }
     }
 
-    &.readonly {
+    &[data-flag~="lock"] {
         .Label, .inbox {
             color:#999;
         }
     }
 
-    &[data-mark~="100"] {
+    &[data-flag~="full"] {
         .inbox {
             color:#666;
         }
     }
 
-    &.blur {
+    &:not([data-flag~="focus"]) {
         .underline:before {
             width:0;
         }
     }
 
-
-    &.blur, &.empty {
-        .Label {
-            transform: translateY(100%);
-        }
-    }
-    
-    &.full {
+    &[data-flag~="focus"], &:not([data-flag~="blank"]) {
         .Label {
             transform: scale(.8);
         }
     }
-    
-    &.empty.focus, &.empty.blur.editable:hover {
-        .Label {
-            transform: translateY(85%);
-        }
-    }
 
-    &.editable.blur.empty {
-        textarea, input {
-            cursor:pointer;
+    &[data-flag~="blank"]:not([data-flag~="focus"]) {
+        .Label {
+            transform: translateY(100%);
+        }
+        &:not([data-flag~="lock"]) {
+
+            textarea, input {
+                cursor:pointer;
+            }
+
+            &:hover {
+                .Label {
+                    transform: translateY(85%);
+                }
+            }
+
         }
     }
 

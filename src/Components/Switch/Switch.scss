@@ -1,0 +1,48 @@
+.Switch {
+    display:inline-block;
+
+    .interface {
+        box-sizing:border-box;
+    }
+
+    .track {
+        position:relative;
+    }
+
+    &[data-flag~="lock"] {
+        .Label {
+            color:#999;
+        }
+    }
+
+    &:not([data-flag~="vertical"]) {
+        .interface {
+            padding: .2em .5em;
+        }
+        .track {
+            height:.5em;
+            width:1em;
+        }
+    }
+
+    &[data-flag~="vertical"] {
+
+        .interface {
+            padding: .5em .2em;
+        }
+        .track {
+            height:1em;
+            width:.5em;
+        }
+    }
+
+    &:not([data-flag~="lock"]):not([data-flag~="shifting"]) {
+        .interface {
+            cursor:pointer;
+        }
+        .Bar > * {
+            transition: width .2s, height .2s;
+        }
+    }
+
+}

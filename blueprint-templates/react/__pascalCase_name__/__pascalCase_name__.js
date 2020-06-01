@@ -10,14 +10,15 @@ const CN = ClassNames.getFactory(css);
 
 
 function {{pascalCase name}} (props) {
-  const { className } = props;
+  const { id, title, className } = props;
 
-  const pass = {
+  const selfProps = {
+    id, title,
     className:CN.get("{{pascalCase name}}", className)
   }
 
   return (
-    <div {...pass}>
+    <div {...selfProps}>
 
     </div>
   );

@@ -1,0 +1,27 @@
+.Control {
+    display:inline-block;
+    padding:.8em;
+    margin:.2em;
+    background-color: #ccc;
+    text-align:center;
+    text-decoration: none;
+    border:none;
+    transition:color .2s, background-color .2s;
+
+    &[data-flag~="lock"] {
+        pointer-events:none;
+        background-color: #eee;
+        color:#666;
+    }
+
+    &:not([data-flag~="lock"]) {
+        cursor:pointer;
+        &:hover {
+            background-color:#ddd;
+        }
+        &:active {
+            background-color:#eee;
+        }
+    }
+
+}
