@@ -23,7 +23,9 @@
     "deploy": "gh-pages -d example/build"
   },
   "peerDependencies": {
-    "react": "^16.0.0"
+    "react": "^16.0.0",
+    "@randajan/jetpack": "^3.4.19",
+    "node-sass": "^4.14.1"
   },
   "devDependencies": {
     "microbundle-crl": "^0.13.10",
@@ -68,7 +70,6 @@
     "url": "https://www.linkedin.com/in/randajan/"
   },
   "dependencies": {
-    "@randajan/jetpack": "^3.4.19",
-    "node-sass": "^4.14.1"
+
   }
 }
