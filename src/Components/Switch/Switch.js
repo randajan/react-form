@@ -6,7 +6,7 @@ import jet from "@randajan/jetpack";
 import Proper from "../../Helpers/Proper" ;
 
 import Label from "../Label/Label";
-import Control from "../Control/Control";
+import Button from "../Button/Button";
 import Bar from "../Bar/Bar";
 import Slider from "../Slider/Slider";
 
@@ -171,8 +171,6 @@ class Switch extends Component {
     }
   }
 
-  injectControl() { return { parent:this }; }
-
   render() {
     const { children } = this.props;
     return (
@@ -184,7 +182,7 @@ class Switch extends Component {
             <Slider {...this.fetchSliderProps()}/>
           </div>
         </div>
-        {Proper.inject(children, this.injectControl.bind(this), true, Control)}
+        {Proper.inject(children, ele=>Button.injectParent(ele, this), true, Button)}
       </div>
     );
   }

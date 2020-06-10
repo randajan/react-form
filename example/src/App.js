@@ -1,6 +1,7 @@
 import React from 'react'
 
-import {ClassNames, Form, Range, Switch, Control, Field } from '@randajan/react-form';
+
+import {ClassNames, Form, Range, Switch, Control, Button, Field } from '@randajan/react-form';
 
 import "@randajan/react-form/dist/index.css";
 
@@ -8,6 +9,7 @@ ClassNames.redefine({
   "on":"switch-on",
   "off":"switch-off"
 })
+
 
 function TestForm() {
   return (
@@ -24,10 +26,11 @@ function TestForm() {
       <Range vertical inverted input={100} name="age" step={1} to={100}/>
       <Switch name="gender"/>
       <div>
-        <Control onSubmit="rejectOutput">Clear</Control>
-        <Control onSubmit="rejectInput">Undo changes</Control>
-        <Control onSubmit="submitInput">Submit</Control>
+        <Button type="rejectOutput">Clear</Button>
+        <Button type="rejectInput">Undo changes</Button>
+        <Button type="submitInput">Submit</Button>
       </div>
+
     </Form>
   )
 }
@@ -36,6 +39,7 @@ function App() {
   return (
     <div className="App">
       <TestForm/>
+      <Button onSubmit={console.log}>Test</Button>
     </div>
   );
 }

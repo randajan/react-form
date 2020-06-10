@@ -24,8 +24,7 @@
   },
   "peerDependencies": {
     "react": "^16.0.0",
-    "@randajan/jetpack": "^3.4.19",
-    "node-sass": "^4.14.1"
+    "@randajan/jetpack": "^4.0.0"
   },
   "devDependencies": {
     "microbundle-crl": "^0.13.10",
@@ -69,5 +68,7 @@
     "email": "jnranda@gmail.com",
     "url": "https://www.linkedin.com/in/randajan/"
   },
-  "dependencies": {}
+  "dependencies": {
+    "node-sass": "^4.14.1"
+  }
 }

@@ -6,7 +6,7 @@ import jet from "@randajan/jetpack";
 import Proper from "../../Helpers/Proper" ;
 import Checker from "../../Helpers/Checker";
 
-import Control from "../Control/Control";
+import Button from "../Button/Button";
 import Label from "../Label/Label";
 
 import css from "./Field.scss";
@@ -258,8 +258,6 @@ class Field extends Component {
     }
   }
 
-  injectControl() { return { parent:this }; }
-
   render() {
     const { type, children } = this.props;
     return (
@@ -278,7 +276,7 @@ class Field extends Component {
         <div className={CN.get("underline")}>
           <div {...this.fetchPropsMark()}/>
         </div>
-        {Proper.inject(children, this.injectControl.bind(this), true, Control)}
+        {Proper.inject(children, ele=>Button.injectParent(this, ele), true, Button)}
       </div>
     );
 

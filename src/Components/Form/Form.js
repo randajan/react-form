@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import jet from "@randajan/jetpack";
 
 import Proper from "../../Helpers/Proper" ;
-import Control from "../Control/Control";
+import Button from "../Button/Button";
 
 import Field from "../Field/Field";
 import Switch from "../Switch/Switch";
@@ -34,7 +34,7 @@ class Form extends Component {
     dirtyIn:(p,s)=>jet.isFull(s.inputDirty),
   }
 
-  static childs = [Field, Switch, Range, Control];
+  static childs = [Field, Switch, Range, Button];
 
   static fetchName(name, key, level) {
     return jet.get("string", name, jet.num.toLetter(level)+key);
@@ -48,7 +48,7 @@ class Form extends Component {
     const state = {lock, rawput:{}, output:{}, input:{}};
 
     Proper.inject(children, (ele, key, level)=>{
-      if (ele.type === Control) { return; }
+      if (ele.type === Button) { return; }
       const name = Form.fetchName(ele.props.name, key, level); /*RAWPUT?*/
       state.rawput[name] = ele.type.validateValue(Form.fetchValue(rawput, name), ele.props);
       state.output[name] = ele.type.validateValue(jet.get("full", Form.fetchValue(output, name, ele.props.rawput), state.rawput[name]), ele.props);
@@ -131,7 +131,6 @@ class Form extends Component {
 
   fetchSelfProps() {
     const { id, title, className, flags } = this.props;
-    const { lock } = this.state;
 
     return {
       id, title,
@@ -141,8 +140,9 @@ class Form extends Component {
       onSubmit:ev=>{ this.submitInput(); jet.event.stop(ev); },
     };
   }
+
   injectProps(ele, key, level) {
-    if (ele.type === Control) { return { parent:this } } //inject control
+    if (ele.type === Button) { return Button.injectParent(this, ele); }
     const { labels, titles } = this.props;
     const { lock } = this.state;
     const { label, title, onChange } = ele.props;

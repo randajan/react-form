@@ -6,7 +6,7 @@ import jet from "@randajan/jetpack";
 import Proper from "../../Helpers/Proper" ;
 
 import Label from "../Label/Label";
-import Control from "../Control/Control";
+import Button from "../Button/Button";
 import Bar from "../Bar/Bar";
 import Slider from "../Slider/Slider";
 
@@ -49,7 +49,7 @@ class Range extends Component {
   
   static validateValue(value, props) {
     const { min, max, from, to, step } = props;
-    const val = jet.str.toNum(value);
+    const val = jet.num.to(value);
     return step ? jet.num.snap(val, step, min||from, max||to) : jet.num.frame(val, min||from, max||to);
   }
 
@@ -189,8 +189,6 @@ class Range extends Component {
     }
   }
 
-  injectControl() { return { parent:this }; }
-
   render() {
     const { children } = this.props;
     return (
@@ -202,7 +200,7 @@ class Range extends Component {
             <Slider {...this.fetchSliderProps()}/>
           </div>
         </div>
-        {Proper.inject(children, this.injectControl.bind(this), true, Control)}
+        {Proper.inject(children, ele=>Button.injectParent(ele, this), true, Button)}
       </div>
     );
   }

@@ -42,7 +42,7 @@ class Slider extends Component {
   
   static validateValue(value, props) {
     const { min, max, step } = props;
-    const val = jet.str.toNum(value);
+    const val = jet.num.to(value);
     return step ? jet.num.snap(val, step, min, max) : jet.num.frame(val, min, max);
   }
 

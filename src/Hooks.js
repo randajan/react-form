@@ -17,11 +17,10 @@ function useShift(initial, onChange, deps) {
   const [shifting, setShifting] = useState(false);
   const ref = useRef();
   initial = jet.get("object", initial);
-  deps = jet.obj.toArray(deps);
+  deps = jet.arr.wrap(deps);
   deps.push(ref.current, initial.x, initial.y)
     
   useEffect(_=>jet.event.listenShift(ref.current, (ev, bound, state)=>{
-    console.log(deps);
     if (state !== "shift") {setShifting( state === "start");}     
     jet.run(onChange, bound, state);
   }, initial), deps);

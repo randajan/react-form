@@ -6,7 +6,7 @@ import Checker from "./Helpers/Checker";
 import Form from "./Components/Form/Form";
 import Label from "./Components/Label/Label";
 import Slider from "./Components/Slider/Slider";
-import Control from "./Components/Control/Control";
+import Button from "./Components/Button/Button";
 import Switch from "./Components/Switch/Switch";
 import Range from "./Components/Range/Range";
 import Field from "./Components/Field/Field";
@@ -24,7 +24,7 @@ export {
   Checker,
   Form,
   Label,
-  Control,
+  Button,
   Slider,
   Switch,
   Range,
