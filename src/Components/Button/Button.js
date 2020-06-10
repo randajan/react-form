@@ -43,7 +43,7 @@ class Button extends Component {
 
   static injectParent(parent, ele) {
     const { type, onSubmit, lock } = ele.props;
-    const lockTemp = Button.injectLockTemplates[type](parent);
+    const lockTemp = jet.run(Button.injectLockTemplates[type], parent);
     return {
       parent,
       onSubmit: jet.filter("full", onSubmit, parent[type] ? parent[type].bind(parent) : null),
