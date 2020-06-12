@@ -8,12 +8,7 @@ import Proper from "../../Helpers/Proper" ;
 import css from "./Button.scss";
 import ClassNames from "../../Helpers/ClassNames";
 
-
-window.jet = jet
-
 const CN = ClassNames.getFactory(css);
-
-
 
 class Button extends Component {
   static propTypes = {
