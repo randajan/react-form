@@ -36,13 +36,13 @@ class Field extends Component {
   }
 
   static defaultFlags = {
-    blank:(p, s)=>!s.input,
-    full:(p, s)=>s.mark===1,
-    focus:(p, s)=>s.focus,
-    dirtyOut:(p, s)=>s.outputDirty,
-    dirtyIn:(p, s)=>s.inputDirty,
-    lock:(p,s)=>s.lock,
-    autosize:p=>p.autoSize,
+    blank:p=>!p.state.input,
+    full:p=>p.state.mark===1,
+    focus:p=>p.state.focus,
+    dirtyOut:p=>p.state.outputDirty,
+    dirtyIn:p=>p.state.inputDirty,
+    lock:p=>p.state.lock,
+    autosize:p=>p.props.autoSize,
   }
 
   static validateValue(value, props) { return jet.str.to(value).slice(0, props.maxLength); }
@@ -217,7 +217,7 @@ class Field extends Component {
     const { id, className, title, type, flags } = this.props;
     return {
       id, title, 
-      "data-flag":Proper.fetchFlags({...Field.defaultFlags, ...flags}, this.props, this.state).joins(" "),
+      "data-flag":Proper.fetchFlags({...Field.defaultFlags, ...flags}, this).joins(" "),
       className:CN.get("Field", type, className)
     }
   }

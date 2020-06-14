@@ -18,8 +18,8 @@ class Bar extends Component {
   }
 
   static defaultFlags = {
-    inverted:p=>p.inverted,
-    vertical:p=>p.vertical
+    inverted:p=>p.props.inverted,
+    vertical:p=>p.props.vertical
   }
 
   fetchSelfProps() {
@@ -27,7 +27,7 @@ class Bar extends Component {
     return {
       id, title,
       className:CN.get("Bar",  className),
-      "data-flag":Proper.fetchFlags({...Bar.defaultFlags, ...flags}, this.props, this.state).joins(" ")
+      "data-flag":Proper.fetchFlags({...Bar.defaultFlags, ...flags}, this).joins(" ")
     }
   }
 

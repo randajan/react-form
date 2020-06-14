@@ -26,16 +26,18 @@ class Switch extends Component {
 
   static defaultProps = {
     inverted:false,
-    vertical:false
+    vertical:false,
   }
 
   static defaultFlags = {
-    lock:(p, s)=>s.lock,
-    vertical:p=>p.vertical,
-    inverted:p=>p.inverted,
-    focus:(p, s)=>s.focus,
-    dirtyOut:(p, s)=>s.outputDirty,
-    dirtyIn:(p, s)=>s.inputDirty,
+    lock:p=>p.state.lock,
+    vertical:p=>p.props.vertical,
+    inverted:p=>p.props.inverted,
+    focus:p=>p.state.focus,
+    dirtyOut:p=>p.state.outputDirty,
+    dirtyIn:p=>p.state.inputDirty,
+    on:p=>p.state.input,
+    off:p=>!p.state.input
   }
   
   static validateValue(value) { return !!value; }
@@ -135,7 +137,7 @@ class Switch extends Component {
     return {
       id, title, style,
       className:CN.get("Switch", className),
-      "data-flag":Proper.fetchFlags({...Switch.defaultFlags, ...flags}, this.props, this.state).joins(" ")
+      "data-flag":Proper.fetchFlags({...Switch.defaultFlags, ...flags}, this).joins(" ")
     }
   }
 

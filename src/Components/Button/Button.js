@@ -20,7 +20,7 @@ class Button extends Component {
   }
 
   static defaultFlags = {
-    lock:(p,s)=>s.lock,
+    lock:p=>p.getLock(),
   }
 
   static getDerivedStateFromProps(props) {
@@ -70,7 +70,7 @@ class Button extends Component {
       type:type.startsWith("submit") ? "submit" : type.startsWith("reject") ? "reset" : type,
       disabled:lock, readOnly:lock, tabIndex:lock?-1:tabIndex,
       className:CN.get("Button", type, className),
-      "data-flag":Proper.fetchFlags({...Button.defaultFlags, ...flags}, this.props, this.state).joins(" "),
+      "data-flag":Proper.fetchFlags({...Button.defaultFlags, ...flags}, this).joins(" "),
       onClick:this.submit.bind(this),
       onKeyUp:this.handleKeyUp.bind(this)
     }

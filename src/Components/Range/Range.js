@@ -38,13 +38,13 @@ class Range extends Component {
   }
 
   static defaultFlags = {
-    lock:(p, s)=>s.lock,
-    vertical:p=>p.vertical,
-    inverted:p=>p.inverted,
-    focus:(p, s)=>s.focus,
-    shifting:(p, s)=>s.shifting,
-    dirtyOut:(p, s)=>s.outputDirty,
-    dirtyIn:(p, s)=>s.inputDirty,
+    lock:p=>p.state.lock,
+    vertical:p=>p.props.vertical,
+    inverted:p=>p.props.inverted,
+    focus:p=>p.state.focus,
+    shifting:p=>p.state.shifting,
+    dirtyOut:p=>p.state.outputDirty,
+    dirtyIn:p=>p.state.inputDirty,
   }
   
   static validateValue(value, props) {
@@ -152,7 +152,7 @@ class Range extends Component {
     return {
       id, title, style,
       className:CN.get("Range", className),
-      "data-flag":Proper.fetchFlags({...Range.defaultFlags, ...flags}, this.props, this.state).joins(" ")
+      "data-flag":Proper.fetchFlags({...Range.defaultFlags, ...flags}, this).joins(" ")
     }
   }
 
