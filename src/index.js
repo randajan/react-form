@@ -1,3 +1,5 @@
+import jet from "@randajan/jetpack";
+
 import ClassNames from "./Helpers/ClassNames";
 import Proper from "./Helpers/Proper";
 import Checker from "./Helpers/Checker";
@@ -19,6 +21,7 @@ import {
 
 
 export {
+  jet,
   ClassNames,
   Proper,
   Checker,
