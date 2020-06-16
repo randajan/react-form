@@ -27,7 +27,7 @@ class Bar extends Component {
     return {
       id, title,
       className:CN.get("Bar",  className),
-      "data-flag":ClassNames.fetchFlags({...Bar.defaultFlags, ...flags}, this).joins(" ")
+      "data-flag":ClassNames.fetchFlags([Bar.defaultFlags, flags], this).joins(" ")
     }
   }
 

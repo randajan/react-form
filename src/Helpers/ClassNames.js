@@ -30,8 +30,10 @@ class ClassNames {
 
         jet.obj.map(flagsmap, (flag, key)=>{
             flag = jet.to("string", flag, ...args);
-            if (flag === "true") { flags.add(key); } 
-            else if (flag && flag !== "false") { flags.add(key+":"+flag); }
+            if (!flag || flag === "false") { return; }
+            else if (flag === "true") { flags.add(key); } 
+            else if (jet.is("string", key)) { flags.add(key+":"+flag); }
+            else { flags.add(flag); }
         }, true);
 
         return Array.from(flags);

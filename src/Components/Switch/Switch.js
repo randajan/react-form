@@ -138,7 +138,7 @@ class Switch extends Component {
     return {
       id, title, style,
       className:CN.get("Switch", className),
-      "data-flag":ClassNames.fetchFlags({...Switch.defaultFlags, ...flags}, this).joins(" ")
+      "data-flag":ClassNames.fetchFlags([Switch.defaultFlags, flags], this).joins(" ")
     }
   }
 

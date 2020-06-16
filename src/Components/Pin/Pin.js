@@ -109,7 +109,7 @@ class Pin extends Component {
     return {
       id, title, style, ref:"body", 
       className:CN.get("Pin", className),
-      "data-flag":ClassNames.fetchFlags({...Pin.defaultFlags, ...flags}, this).joins(" ")
+      "data-flag":ClassNames.fetchFlags([Pin.defaultFlags, flags], this).joins(" ")
     }
   }
 

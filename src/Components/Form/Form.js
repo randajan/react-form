@@ -134,7 +134,7 @@ class Form extends Component {
 
     return {
       id, title,
-      "data-flag":ClassNames.fetchFlags({...Form.defaultFlags, ...flags}, this).joins(" "),
+      "data-flag":ClassNames.fetchFlags([Form.defaultFlags, flags], this).joins(" "),
       className:CN.get(["Form", className]),
       onReset:ev=>{ this.reset(); jet.event.stop(ev); },
       onSubmit:ev=>{ this.submitInput(); jet.event.stop(ev); },

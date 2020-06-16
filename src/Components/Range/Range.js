@@ -152,7 +152,7 @@ class Range extends Component {
     return {
       id, title, style,
       className:CN.get("Range", className),
-      "data-flag":ClassNames.fetchFlags({...Range.defaultFlags, ...flags}, this).joins(" ")
+      "data-flag":ClassNames.fetchFlags([Range.defaultFlags, flags], this).joins(" ")
     }
   }
 

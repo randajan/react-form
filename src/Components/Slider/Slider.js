@@ -201,7 +201,7 @@ class Slider extends Component {
       id, title, style, children, autoFocus:focus, ref:"body", type:"button",
       readOnly:lock, disabled:lock, tabIndex:lock?-1:tabIndex,
       className:CN.get("Slider", className),
-      "data-flag":ClassNames.fetchFlags({...Slider.defaultFlags, ...flags}, this).joins(" "),
+      "data-flag":ClassNames.fetchFlags([Slider.defaultFlags, flags], this).joins(" "),
       onFocus: this.focus.bind(this),
       onBlur: this.blur.bind(this),
       onKeyDown:this.handleKeyDown.bind(this),

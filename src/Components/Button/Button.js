@@ -68,7 +68,7 @@ class Button extends Component {
       type:type.startsWith("submit") ? "submit" : type.startsWith("reject") ? "reset" : type,
       disabled:lock, readOnly:lock, tabIndex:lock?-1:tabIndex,
       className:CN.get("Button", type, className),
-      "data-flag":ClassNames.fetchFlags({...Button.defaultFlags, ...flags}, this).joins(" "),
+      "data-flag":ClassNames.fetchFlags([Button.defaultFlags, flags], this).joins(" "),
       onClick:this.submit.bind(this),
       onKeyUp:this.handleKeyUp.bind(this)
     }

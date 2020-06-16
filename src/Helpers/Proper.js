@@ -21,10 +21,6 @@ class Proper {
             return jet.isFull(inject) ? React.cloneElement(ele, inject) : ele;
         });
     }
-
-    static fetchFlags(dataFlags, ...args) {
-        return Object.entries(dataFlags).map(flag=>{if (jet.run(flag[1], ...args)) { return flag[0]; }});
-    }
 }
 
 

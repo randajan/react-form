@@ -217,7 +217,7 @@ class Field extends Component {
     const { id, className, title, type, flags } = this.props;
     return {
       id, title, 
-      "data-flag":ClassNames.fetchFlags({...Field.defaultFlags, ...flags}, this).joins(" "),
+      "data-flag":ClassNames.fetchFlags([Field.defaultFlags, flags], this).joins(" "),
       className:CN.get("Field", type, className)
     }
   }
