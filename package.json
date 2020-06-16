@@ -24,7 +24,7 @@
   },
   "peerDependencies": {
     "react": "^16.0.0",
-    "@randajan/jetpack": "^4.0.2"
+    "@randajan/jetpack": "^4.0.3"
   },
   "devDependencies": {
     "microbundle-crl": "^0.13.10",
