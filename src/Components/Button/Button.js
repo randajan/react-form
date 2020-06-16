@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 
 import jet from "@randajan/jetpack";
 
-import Proper from "../../Helpers/Proper" ;
-
 import css from "./Button.scss";
 import ClassNames from "../../Helpers/ClassNames";
 
@@ -70,7 +68,7 @@ class Button extends Component {
       type:type.startsWith("submit") ? "submit" : type.startsWith("reject") ? "reset" : type,
       disabled:lock, readOnly:lock, tabIndex:lock?-1:tabIndex,
       className:CN.get("Button", type, className),
-      "data-flag":Proper.fetchFlags({...Button.defaultFlags, ...flags}, this).joins(" "),
+      "data-flag":ClassNames.fetchFlags({...Button.defaultFlags, ...flags}, this).joins(" "),
       onClick:this.submit.bind(this),
       onKeyUp:this.handleKeyUp.bind(this)
     }

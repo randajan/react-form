@@ -30,12 +30,13 @@ class Switch extends Component {
   }
 
   static defaultFlags = {
-    lock:p=>p.state.lock,
+    lock:p=>p.getLock(),
     vertical:p=>p.props.vertical,
     inverted:p=>p.props.inverted,
-    focus:p=>p.state.focus,
-    dirtyOut:p=>p.state.outputDirty,
-    dirtyIn:p=>p.state.inputDirty,
+    focus:p=>p.getFocus(),
+    shifting:p=>p.state.shifting,
+    dirtyOut:p=>p.isOutputDirty(),
+    dirtyIn:p=>p.isInputDirty(),
     on:p=>p.state.input,
     off:p=>!p.state.input
   }
@@ -137,7 +138,7 @@ class Switch extends Component {
     return {
       id, title, style,
       className:CN.get("Switch", className),
-      "data-flag":Proper.fetchFlags({...Switch.defaultFlags, ...flags}, this).joins(" ")
+      "data-flag":ClassNames.fetchFlags({...Switch.defaultFlags, ...flags}, this).joins(" ")
     }
   }
 

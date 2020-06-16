@@ -36,12 +36,12 @@ class Field extends Component {
   }
 
   static defaultFlags = {
-    blank:p=>!p.state.input,
+    blank:p=>!p.getInput(),
     full:p=>p.state.mark===1,
-    focus:p=>p.state.focus,
-    dirtyOut:p=>p.state.outputDirty,
-    dirtyIn:p=>p.state.inputDirty,
-    lock:p=>p.state.lock,
+    focus:p=>p.getFocus(),
+    dirtyOut:p=>p.isOutputDirty(),
+    dirtyIn:p=>p.isInputDirty(),
+    lock:p=>p.getLock(),
     autosize:p=>p.props.autoSize,
   }
 
@@ -217,7 +217,7 @@ class Field extends Component {
     const { id, className, title, type, flags } = this.props;
     return {
       id, title, 
-      "data-flag":Proper.fetchFlags({...Field.defaultFlags, ...flags}, this).joins(" "),
+      "data-flag":ClassNames.fetchFlags({...Field.defaultFlags, ...flags}, this).joins(" "),
       className:CN.get("Field", type, className)
     }
   }

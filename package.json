@@ -70,7 +70,7 @@
     "url": "https://www.linkedin.com/in/randajan/"
   },
   "dependencies": {
-    "@randajan/jetpack": "^4.0.2",
+    "@randajan/jetpack": "^4.0.3",
     "react": "^16.0.0"
   }
 }

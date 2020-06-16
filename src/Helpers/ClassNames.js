@@ -24,6 +24,18 @@ class ClassNames {
             }
         };
     }
+
+    static fetchFlags(flagsmap, ...args) {
+        const flags = new Set();
+
+        jet.obj.map(flagsmap, (flag, key)=>{
+            flag = jet.to("string", flag, ...args);
+            if (flag === "true") { flags.add(key); } 
+            else if (flag && flag !== "false") { flags.add(key+":"+flag); }
+        }, true);
+
+        return Array.from(flags);
+    }
 }
 
 export default ClassNames;

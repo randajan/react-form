@@ -28,10 +28,10 @@ class Form extends Component {
   }
 
   static defaultFlags = {
-    lock:p=>p.state.lock,
-    focus:p=>p.state.focus,
-    dirtyOut:p=>jet.isFull(p.state.outputDirty),
-    dirtyIn:p=>jet.isFull(p.state.inputDirty),
+    lock:p=>p.getLock(),
+    focus:p=>p.getFocus(),
+    dirtyOut:p=>p.isOutputDirty(),
+    dirtyIn:p=>p.isInputDirty(),
   }
 
   static childs = [Field, Switch, Range, Button];
@@ -134,7 +134,7 @@ class Form extends Component {
 
     return {
       id, title,
-      "data-flag":Proper.fetchFlags({...Form.defaultFlags, ...flags}, this).joins(" "),
+      "data-flag":ClassNames.fetchFlags({...Form.defaultFlags, ...flags}, this).joins(" "),
       className:CN.get(["Form", className]),
       onReset:ev=>{ this.reset(); jet.event.stop(ev); },
       onSubmit:ev=>{ this.submitInput(); jet.event.stop(ev); },

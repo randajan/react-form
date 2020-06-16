@@ -31,13 +31,13 @@ class Slider extends Component {
   }
 
   static defaultFlags = {
-    lock:p=>p.state.lock,
+    lock:p=>p.getLock(),
     vertical:p=>p.props.vertical,
     inverted:p=>p.props.inverted,
-    focus:p=>p.state.focus,
+    focus:p=>p.getFocus(),
     shifting:p=>p.state.shifting,
-    dirtyOut:p=>p.state.outputDirty,
-    dirtyIn:p=>p.state.inputDirty,
+    dirtyOut:p=>p.isOutputDirty(),
+    dirtyIn:p=>p.isInputDirty(),
   }
   
   static validateValue(value, props) {
@@ -201,7 +201,7 @@ class Slider extends Component {
       id, title, style, children, autoFocus:focus, ref:"body", type:"button",
       readOnly:lock, disabled:lock, tabIndex:lock?-1:tabIndex,
       className:CN.get("Slider", className),
-      "data-flag":Proper.fetchFlags({...Slider.defaultFlags, ...flags}, this).joins(" "),
+      "data-flag":ClassNames.fetchFlags({...Slider.defaultFlags, ...flags}, this).joins(" "),
       onFocus: this.focus.bind(this),
       onBlur: this.blur.bind(this),
       onKeyDown:this.handleKeyDown.bind(this),

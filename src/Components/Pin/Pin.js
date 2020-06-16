@@ -9,12 +9,6 @@ import css from "./Pin.scss";
 import ClassNames from "../../Helpers/ClassNames";
 const CN = ClassNames.getFactory(css);
 
-const DEFAULTFLAGS = {
-  focus:(p, s)=> (!p.readOnly && s.focus),
-  readonly:p=>p.readOnly,
-  inverted:p=>p.inverted
-}
-
 class Pin extends Component {
 
   static propTypes = {
@@ -38,6 +32,14 @@ class Pin extends Component {
     xStep: 0.01,
     yStep: 0.01,
   }
+
+  static defaultFlags = {
+    focus:p=> (!p.props.readOnly && p.state.focus),
+    readonly:p=>p.props.readOnly,
+    inverted:p=>p.props.inverted
+  }
+
+
   static validateX(x, props) {
     const { xMin, xMax, xStep } = props;
     return xStep ? jet.num.snap(x, xStep, xMin, xMax) : jet.num.frame(x, xMin, xMax);
@@ -107,7 +109,7 @@ class Pin extends Component {
     return {
       id, title, style, ref:"body", 
       className:CN.get("Pin", className),
-      "data-flag":Proper.fetchFlags({...DEFAULTFLAGS, ...flags}, this.props, this.state).joins(" ")
+      "data-flag":ClassNames.fetchFlags({...Pin.defaultFlags, ...flags}, this).joins(" ")
     }
   }
 
