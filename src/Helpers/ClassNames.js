@@ -32,7 +32,6 @@ class ClassNames {
             flag = jet.to("string", flag, ...args);
             if (!flag || flag === "false") { return; }
             else if (flag === "true") { flags.add(key); } 
-            else if (jet.is("string", key)) { flags.add(key+":"+flag); }
             else { flags.add(flag); }
         }, true);
 

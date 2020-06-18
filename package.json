@@ -24,7 +24,7 @@
   },
   "peerDependencies": {
     "react": "^16.0.0",
-    "@randajan/jetpack": "^4.0.3"
+    "@randajan/jetpack": "^4.0.4"
   },
   "devDependencies": {
     "microbundle-crl": "^0.13.10",
@@ -70,7 +70,7 @@
     "url": "https://www.linkedin.com/in/randajan/"
   },
   "dependencies": {
-    "@randajan/jetpack": "^4.0.3",
+    "@randajan/jetpack": "^4.0.4",
     "react": "^16.0.0"
   }
 }
