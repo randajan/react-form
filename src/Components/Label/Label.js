@@ -1,8 +1,9 @@
 import React from 'react';
 
-import css from "./Label.scss";
-import ClassNames from "../../Helpers/ClassNames";
-const CN = ClassNames.getFactory(css);
+import cssfile from "./Label.scss";
+import csslib from "../../css";
+
+const css = csslib.open(cssfile);
 
 
 //LABEL
@@ -11,7 +12,7 @@ function Label(props) {
   const { className, children, name } = props;
   
   return !children ? null : (
-    <label className={CN.get("Label", className)} htmlFor={name}>
+    <label className={css.get("Label", className)} htmlFor={name}>
       {children}
     </label>
   )

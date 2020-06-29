@@ -24,7 +24,13 @@
   },
   "peerDependencies": {
     "react": "^16.0.0",
-    "@randajan/jetpack": "^4.0.4"
+    "@randajan/react-jetpack": "^1.0.3",
+    "@randajan/jetpack": "^4.0.5"
+  },
+  "dependencies": {
+    "@randajan/jetpack": "^4.3.3",
+    "@randajan/react-jetpack": "^1.0.3",
+    "react": "^16.0.0"
   },
   "devDependencies": {
     "microbundle-crl": "^0.13.10",
@@ -68,9 +74,5 @@
     "name": "Jan Randa",
     "email": "jnranda@gmail.com",
     "url": "https://www.linkedin.com/in/randajan/"
-  },
-  "dependencies": {
-    "@randajan/jetpack": "^4.0.4",
-    "react": "^16.0.0"
   }
 }

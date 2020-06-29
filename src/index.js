@@ -1,9 +1,7 @@
-import jet from "@randajan/jetpack";
+import jet from "@randajan/react-jetpack";
 
-import ClassNames from "./Helpers/ClassNames";
-import Proper from "./Helpers/Proper";
+import css from "./css";
 import Checker from "./Helpers/Checker";
-
 
 import Form from "./Components/Form/Form";
 import Label from "./Components/Label/Label";
@@ -22,8 +20,7 @@ import {
 
 export {
   jet,
-  ClassNames,
-  Proper,
+  css,
   Checker,
   Form,
   Label,

@@ -3,16 +3,15 @@ import PropTypes from 'prop-types';
 
 import jet from "@randajan/jetpack";
 
-import Proper from "../../Helpers/Proper" ;
-
 import Label from "../Label/Label";
 import Button from "../Button/Button";
 import Bar from "../Bar/Bar";
 import Slider from "../Slider/Slider";
 
-import css from "./Switch.scss";
-import ClassNames from "../../Helpers/ClassNames";
-const CN = ClassNames.getFactory(css);
+import cssfile from "./Switch.scss";
+import csslib from "../../css";
+
+const css = csslib.open(cssfile);
 
 class Switch extends Component {
 
@@ -21,12 +20,14 @@ class Switch extends Component {
     output: PropTypes.bool,
     rawput: PropTypes.bool,
     inverted: PropTypes.bool,
-    vertical: PropTypes.bool
+    vertical: PropTypes.bool,
+    flags: PropTypes.object
   }
 
   static defaultProps = {
     inverted:false,
     vertical:false,
+    flags:{}
   }
 
   static defaultFlags = {
@@ -58,14 +59,15 @@ class Switch extends Component {
   }
 
   componentDidUpdate(props) {
-    const changes = jet.obj.compare(Switch.fetchPropState(props), Switch.fetchPropState(this.props), true, true);
-    this.setState(changes);
+    const to = Switch.fetchPropState(this.props);
+    const from = Switch.fetchPropState(props);
+    this.setState(jet.obj.match(to, from, (t, f, p)=>t === f ? jet.obj.get(this.state, p) : t));
   }
 
   async setState(state) {
     const { onChange } = this.props;
     const to = this.fetchState(state);
-    const changes = jet.obj.compare(this.state, to, true);
+    const changes = jet.obj.compare(this.state, to);
     if (changes.length) { await super.setState(to); jet.run(onChange, this, changes); }
     return changes;
   }
@@ -137,14 +139,14 @@ class Switch extends Component {
     const { id, title, style, className, flags} = this.props;
     return {
       id, title, style,
-      className:CN.get("Switch", className),
-      "data-flag":ClassNames.fetchFlags([Switch.defaultFlags, flags], this).joins(" ")
+      className:css.get("Switch", className),
+      "data-flag":jet.react.fetchFlags({...Switch.defaultFlags, ...flags}, this)
     }
   }
 
   fetchInterfaceProps() {
     return {
-      className:CN.get("interface"),
+      className:css.get("interface"),
       onMouseDown:ev=>{this.tap(); jet.event.stop(ev, true);}
     }
   }
@@ -152,7 +154,7 @@ class Switch extends Component {
   fetchBarProps() {
     const { vertical, inverted } = this.props;
     const { input } = this.state;
-    return { vertical, inverted, value:+input, className:CN.get("Bar") }
+    return { vertical, inverted, value:+input, className:css.get("Bar") }
   }
 
   fetchSliderProps() {
@@ -169,7 +171,7 @@ class Switch extends Component {
   fetchPropsLabel() {
     const { name, label } = this.props;
     return {
-      className:CN.pass("Label"), name,
+      className:css.get("Label"), name,
       children:label
     }
   }
@@ -180,12 +182,12 @@ class Switch extends Component {
       <div {...this.fetchSelfProps()}>
         <Label {...this.fetchPropsLabel()}/>
         <div {...this.fetchInterfaceProps()}>
-          <div className={CN.get("track")}>
+          <div className={css.get("track")}>
             <Bar {...this.fetchBarProps()}/>
             <Slider {...this.fetchSliderProps()}/>
           </div>
         </div>
-        {Proper.inject(children, ele=>Button.injectParent(ele, this), true, Button)}
+        {jet.react.injectProps(children, ele=>Button.injectParent(ele, this), true, Button)}
       </div>
     );
   }

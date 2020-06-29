@@ -3,16 +3,16 @@ import PropTypes from 'prop-types';
 
 import jet from "@randajan/jetpack";
 
-import Proper from "../../Helpers/Proper" ;
 import Button from "../Button/Button";
 
 import Field from "../Field/Field";
 import Switch from "../Switch/Switch";
 import Range from "../Range/Range";
 
-import css from "./Form.scss";
-import ClassNames from "../../Helpers/ClassNames";
-const CN = ClassNames.getFactory(css);
+import cssfile from "./Form.scss";
+import csslib from "../../css";
+
+const css = csslib.open(cssfile);
 
 class Form extends Component {
 
@@ -20,11 +20,12 @@ class Form extends Component {
     onBlur: PropTypes.func,
     onFocus: PropTypes.func,
     onInput: PropTypes.func,
-    onOutput: PropTypes.func
+    onOutput: PropTypes.func,
+    flags:PropTypes.object
   }
 
   static defaultProps = {
-
+    flags:{}
   }
 
   static defaultFlags = {
@@ -47,7 +48,7 @@ class Form extends Component {
     const { children, rawput, output, input, lock } = props; 
     const state = {lock, rawput:{}, output:{}, input:{}};
 
-    Proper.inject(children, (ele, key, level)=>{
+    jet.react.injectProps(children, (ele, key, level)=>{
       if (ele.type === Button) { return; }
       const name = Form.fetchName(ele.props.name, key, level); /*RAWPUT?*/
       state.rawput[name] = ele.type.validateValue(Form.fetchValue(rawput, name), ele.props);
@@ -65,13 +66,13 @@ class Form extends Component {
   componentDidUpdate(props) {
     const to = Form.fetchPropState(this.props);
     const from = Form.fetchPropState(props);
-    this.setState(jet.obj.compare(from, to, true, true));
+    this.setState(jet.obj.match(to, from, (t, f, p)=>t === f ? jet.obj.get(this.state, p) : t));
   }
 
   async setState(state) {
     const { onChange } = this.props;
     const to = this.fetchState(state);
-    const changes = jet.obj.compare(this.state, to, true);
+    const changes = jet.obj.compare(this.state, to);
     if (changes.length) { await super.setState(to); jet.run(onChange, this, changes); }
     return changes;
   }
@@ -113,18 +114,18 @@ class Form extends Component {
       else if (onBlur) { onBlur(this, false); }
     }
     
-    if (onRawput && jet.isFull(rawputChanges = jet.obj.compare(rawput, now.rawput, false, true))) {
+    if (onRawput && jet.isFull(rawputChanges = jet.obj.compare(rawput, now.rawput))) {
       onRawput(this, now.rawput, rawput, rawputChanges);
     }
-    if (onOutput && jet.isFull(outputChanges = jet.obj.compare(output, now.output, false, true))) {
+    if (onOutput && jet.isFull(outputChanges = jet.obj.compare(output, now.output))) {
       onOutput(this, now.output, output, outputChanges);
     }
-    if (onInput && jet.isFull(inputChanges = jet.obj.compare(input, now.input, false, true))) {
+    if (onInput && jet.isFull(inputChanges = jet.obj.compare(input, now.input))) {
       onInput(this, now.input, input, inputChanges);
     }
 
-    now.outputDirty = jet.obj.compare(now.rawput, now.output, false, true);
-    now.inputDirty = jet.obj.compare(now.output, now.input, false, true);
+    now.outputDirty = jet.obj.compare(now.rawput, now.output);
+    now.inputDirty = jet.obj.compare(now.output, now.input);
 
     return now;
   }
@@ -134,15 +135,15 @@ class Form extends Component {
 
     return {
       id, title,
-      "data-flag":ClassNames.fetchFlags([Form.defaultFlags, flags], this).joins(" "),
-      className:CN.get(["Form", className]),
+      "data-flag":jet.react.fetchFlags({...Form.defaultFlags, ...flags}, this),
+      className:css.get(["Form", className]),
       onReset:ev=>{ this.reset(); jet.event.stop(ev); },
       onSubmit:ev=>{ this.submitInput(); jet.event.stop(ev); },
     };
   }
 
   injectProps(ele, key, level) {
-    if (ele.type === Button) { return Button.injectParent(this, ele); }
+    if (ele.type === Button) { return Button.injectParent(this, ele, key, level); }
     const { labels, titles } = this.props;
     const { lock } = this.state;
     const { label, title, onChange } = ele.props;
@@ -172,7 +173,7 @@ class Form extends Component {
     const { children } = this.props;
     return (
       <form {...this.fetchSelfProps()}>
-        {Proper.inject(children, this.injectProps.bind(this), true, Form.childs)}
+        {jet.react.injectProps(React.Children.toArray(children), this.injectProps.bind(this), true, Form.childs)}
       </form>
     )
   }

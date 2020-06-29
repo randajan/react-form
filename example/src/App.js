@@ -1,17 +1,22 @@
 import React from 'react'
 
 
-import {ClassNames, Form, Range, Switch, Control, Button, Field } from '@randajan/react-form';
+import {jet, css, Form, Range, Switch, Control, Button, Field } from '@randajan/react-form';
 
 import "@randajan/react-form/dist/index.css";
 
-ClassNames.redefine({
-  "on":"switch-on",
-  "off":"switch-off"
+window.jet = jet
+
+css.define({
+  "Switch":"Switcher",
 })
+
+// 
 
 
 function TestForm() {
+
+;
   return (
     <Form
       rawput={{ fullname:"Adam", age:0 }}
@@ -22,14 +27,14 @@ function TestForm() {
       onInput={(...args)=>{console.log("form_input", ...args)}}
       onChange={(...args)=>{console.log("form_change", ...args);}}
     >
-      <Field input={"Denis"} name="fullname" maxLength={15}/>
-      <Range vertical inverted input={100} name="age" step={1} to={100}/>
-      <Switch name="gender"/>
-      <div>
-        <Button type="rejectOutput">Clear</Button>
-        <Button type="rejectInput">Undo changes</Button>
-        <Button type="submitInput">Submit</Button>
-      </div>
+    <Field input={"Denis"} name="fullname" maxLength={15}/>
+    <Range vertical inverted input={100} name="age" step={1} to={100}/>
+    <Switch name="gender"/>
+    <div>
+      <Button type="rejectOutput">Clear</Button>
+      <Button type="rejectInput">Undo changes</Button>
+      <Button type="submitInput">Submit</Button>
+    </div>
 
     </Form>
   )

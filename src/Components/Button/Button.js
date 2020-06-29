@@ -3,18 +3,20 @@ import PropTypes from 'prop-types';
 
 import jet from "@randajan/jetpack";
 
-import css from "./Button.scss";
-import ClassNames from "../../Helpers/ClassNames";
+import cssfile from "./Button.scss";
+import csslib from "../../css";
 
-const CN = ClassNames.getFactory(css);
+const css = csslib.open(cssfile);
 
 class Button extends Component {
   static propTypes = {
     type: PropTypes.oneOf(["button", "submit", "submitInput", "submitOutput", "rejectInput", "rejectOutput", "reset"]),
+    flags: PropTypes.object
   }
 
   static defaultProps = {
-    type:"button"
+    type:"button",
+    flags:{}
   }
 
   static defaultFlags = {
@@ -34,7 +36,7 @@ class Button extends Component {
     submit:parent=>_=>!parent.isInputDirty(),
   }
 
-  static injectParent(parent, ele) {
+  static injectParent(parent, ele, key, level) {
     const { type, onSubmit, lock } = ele.props;
     const lockTemp = jet.run(Button.injectLockTemplates[type], parent);
     return {
@@ -67,8 +69,8 @@ class Button extends Component {
       id, title, style, children, type, 
       type:type.startsWith("submit") ? "submit" : type.startsWith("reject") ? "reset" : type,
       disabled:lock, readOnly:lock, tabIndex:lock?-1:tabIndex,
-      className:CN.get("Button", type, className),
-      "data-flag":ClassNames.fetchFlags([Button.defaultFlags, flags], this).joins(" "),
+      className:css.get("Button", type, className),
+      "data-flag":jet.react.fetchFlags({...Button.defaultFlags, ...flags}, this),
       onClick:this.submit.bind(this),
       onKeyUp:this.handleKeyUp.bind(this)
     }

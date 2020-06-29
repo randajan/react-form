@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 
 import jet from "@randajan/jetpack";
 
-import Proper from "../../Helpers/Proper";
+import cssfile from "./Pin.scss";
+import csslib from "../../css";
 
-import css from "./Pin.scss";
-import ClassNames from "../../Helpers/ClassNames";
-const CN = ClassNames.getFactory(css);
+const css = csslib.open(cssfile);
 
 class Pin extends Component {
 
@@ -20,6 +19,7 @@ class Pin extends Component {
     yMax: PropTypes.number,
     xStep: PropTypes.number,
     yStep: PropTypes.number,
+    flags:PropTypes.object
   }
 
   static defaultProps = {
@@ -31,6 +31,7 @@ class Pin extends Component {
     yMax: 1,
     xStep: 0.01,
     yStep: 0.01,
+    flags:{}
   }
 
   static defaultFlags = {
@@ -69,7 +70,7 @@ class Pin extends Component {
   async setState(state) {
     const { onChange } = this.props;
     const to = this.fetchState(state);
-    const changes = jet.obj.compare(this.state, to, true);
+    const changes = jet.obj.compare(this.state, to);
     if (changes.length) { await super.setState(to); jet.run(onChange, this, changes); }
     return changes;
   }
@@ -108,8 +109,8 @@ class Pin extends Component {
     const { id, title, style, className, flags } = this.props;
     return {
       id, title, style, ref:"body", 
-      className:CN.get("Pin", className),
-      "data-flag":ClassNames.fetchFlags([Pin.defaultFlags, flags], this).joins(" ")
+      className:css.get("Pin", className),
+      "data-flag":jet.react.fetchFlags({...Pin.defaultFlags, ...flags}, this)
     }
   }
 

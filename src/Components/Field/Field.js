@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 
 import jet from "@randajan/jetpack";
 
-import Proper from "../../Helpers/Proper" ;
 import Checker from "../../Helpers/Checker";
 
 import Button from "../Button/Button";
 import Label from "../Label/Label";
 
-import css from "./Field.scss";
-import ClassNames from "../../Helpers/ClassNames";
-const CN = ClassNames.getFactory(css);
+import cssfile from "./Field.scss";
+import csslib from "../../css";
+
+const css = csslib.open(cssfile);
 
 class Field extends Component {
   
@@ -32,7 +32,8 @@ class Field extends Component {
   static defaultProps = {
     type:"text",
     rows:1,
-    cols:20
+    cols:20,
+    flags:{}
   }
 
   static defaultFlags = {
@@ -80,14 +81,14 @@ class Field extends Component {
   componentDidUpdate(props) {
     const to = Field.fetchPropState(this.props);
     const from = Field.fetchPropState(props);
-    this.setState(jet.obj.compare(from, to, true, true));
+    this.setState(jet.obj.match(to, from, (t, f, p)=>t === f ? jet.obj.get(this.state, p) : t));
     this.refresh();
   }
 
   async setState(state) {
     const { onChange } = this.props;
     const to = this.fetchState(state);
-    const changes = jet.obj.compare(this.state, to, true);
+    const changes = jet.obj.compare(this.state, to);
     if (changes.length) { await super.setState(to); jet.run(onChange, this, changes); }
     return changes;
   }
@@ -217,8 +218,8 @@ class Field extends Component {
     const { id, className, title, type, flags } = this.props;
     return {
       id, title, 
-      "data-flag":ClassNames.fetchFlags([Field.defaultFlags, flags], this).joins(" "),
-      className:CN.get("Field", type, className)
+      "data-flag":jet.react.fetchFlags({...Field.defaultFlags, ...flags}, this),
+      className:css.get("Field", type, className)
     }
   }
 
@@ -226,7 +227,7 @@ class Field extends Component {
     const {tabIndex, name, autoCorrect, autoCapitalize, spellCheck, autoComplete, onPaste, maxLength } = this.props;
     const { focus, lock } = this.state;
     return {
-      ref:"inbox", className:CN.get("inbox"),
+      ref:"inbox", className:css.get("inbox"),
       name, autoFocus:focus, autoCorrect, autoCapitalize, spellCheck, autoComplete, maxLength, 
       readOnly:lock, disabled:lock, tabIndex:lock?-1:tabIndex,
       onFocus: _=> this.focus(),
@@ -239,13 +240,13 @@ class Field extends Component {
 
   fetchPropsOnbox() {
     const { rows, cols } = this.props;
-    return { ref:"onbox", className:CN.get("onbox"), rows, cols };
+    return { ref:"onbox", className:css.get("onbox"), rows, cols };
   }
 
   fetchPropsMark() {
     const { mark } = this.state;
     return {
-      ref:"mark", className:CN.get("mark"),
+      ref:"mark", className:css.get("mark"),
       style:{width:(mark*100)+"%"}
     }
   }
@@ -253,7 +254,7 @@ class Field extends Component {
   fetchPropsLabel() {
     const { name, label } = this.props;
     return {
-      className:CN.pass("Label"), name,
+      className:css.get("Label"), name,
       children:label
     }
   }
@@ -263,7 +264,7 @@ class Field extends Component {
     return (
       <div {...this.fetchPropsSelf()}>
         <Label {...this.fetchPropsLabel()}/>
-        <div className={CN.get("interface")}>
+        <div className={css.get("interface")}>
           {
             this.isTextArea() ? 
             <textarea {...this.fetchPropsOnbox()} {...this.fetchPropsInbox()} /> :
@@ -273,10 +274,10 @@ class Field extends Component {
             ]
           }
         </div>
-        <div className={CN.get("underline")}>
+        <div className={css.get("underline")}>
           <div {...this.fetchPropsMark()}/>
         </div>
-        {Proper.inject(children, ele=>Button.injectParent(this, ele), true, Button)}
+        {jet.react.injectProps(children, ele=>Button.injectParent(this, ele), true, Button)}
       </div>
     );
 

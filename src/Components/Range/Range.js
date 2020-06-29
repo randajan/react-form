@@ -3,16 +3,15 @@ import PropTypes from 'prop-types';
 
 import jet from "@randajan/jetpack";
 
-import Proper from "../../Helpers/Proper" ;
-
 import Label from "../Label/Label";
 import Button from "../Button/Button";
 import Bar from "../Bar/Bar";
 import Slider from "../Slider/Slider";
 
-import css from "./Range.scss";
-import ClassNames from "../../Helpers/ClassNames";
-const CN = ClassNames.getFactory(css);
+import cssfile from "./Range.scss";
+import csslib from "../../css";
+
+const css = csslib.open(cssfile);
 
 class Range extends Component {
 
@@ -26,7 +25,8 @@ class Range extends Component {
     max: PropTypes.number,
     step: PropTypes.number,
     inverted: PropTypes.bool,
-    vertical: PropTypes.bool
+    vertical: PropTypes.bool,
+    flags:PropTypes.object
   }
 
   static defaultProps = {
@@ -34,7 +34,8 @@ class Range extends Component {
     to: 1,
     step: 0.01,
     inverted:false,
-    vertical:false
+    vertical:false,
+    flags:{}
   }
 
   static defaultFlags = {
@@ -73,14 +74,15 @@ class Range extends Component {
   }
 
   componentDidUpdate(props) {
-    const changes = jet.obj.compare(Range.fetchPropState(props), Range.fetchPropState(this.props), true, true);
-    this.setState(changes);
+    const to = Range.fetchPropState(this.props);
+    const from = Range.fetchPropState(props);
+    this.setState(jet.obj.match(to, from, (t, f, p)=>t === f ? jet.obj.get(this.state, p) : t));
   }
 
   async setState(state) {
     const { onChange } = this.props;
     const to = this.fetchState(state);
-    const changes = jet.obj.compare(this.state, to, true);
+    const changes = jet.obj.compare(this.state, to);
     if (changes.length) { await super.setState(to); jet.run(onChange, this, changes); }
     return changes;
   }
@@ -151,21 +153,21 @@ class Range extends Component {
     const { id, title, style, className, flags} = this.props;
     return {
       id, title, style,
-      className:CN.get("Range", className),
-      "data-flag":ClassNames.fetchFlags([Range.defaultFlags, flags], this).joins(" ")
+      className:css.get("Range", className),
+      "data-flag":jet.react.fetchFlags({...Range.defaultFlags, ...flags}, this)
     }
   }
 
   fetchInterfaceProps() {
     return {
-      className:CN.get("interface")
+      className:css.get("interface")
     }
   }
 
   fetchBarProps() {
     const { vertical, inverted } = this.props;
     const { input } = this.state;
-    return { vertical, inverted, value:Range.valueToRatio(input, this.props), className:CN.get("Bar") }
+    return { vertical, inverted, value:Range.valueToRatio(input, this.props), className:css.get("Bar") }
   }
 
   fetchSliderProps() {
@@ -184,7 +186,7 @@ class Range extends Component {
   fetchPropsLabel() {
     const { name, label } = this.props;
     return {
-      className:CN.pass("Label"), name,
+      className:css.get("Label"), name,
       children:label
     }
   }
@@ -195,12 +197,12 @@ class Range extends Component {
       <div {...this.fetchSelfProps()}>
         <Label {...this.fetchPropsLabel()}/>
         <div {...this.fetchInterfaceProps()}>
-          <div className={CN.get("track")}>
+          <div className={css.get("track")}>
             <Bar {...this.fetchBarProps()}/>
             <Slider {...this.fetchSliderProps()}/>
           </div>
         </div>
-        {Proper.inject(children, ele=>Button.injectParent(ele, this), true, Button)}
+        {jet.react.injectProps(children, ele=>Button.injectParent(ele, this), true, Button)}
       </div>
     );
   }

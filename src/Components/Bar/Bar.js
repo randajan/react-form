@@ -1,20 +1,23 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import Proper from "../../Helpers/Proper";
+import jet from '@randajan/jetpack';
 
-import css from "./Bar.scss";
-import ClassNames from "../../Helpers/ClassNames";
-const CN = ClassNames.getFactory(css);
+import cssfile from "./bar.scss";
+import csslib from "../../css";
+
+const css = csslib.open(cssfile);
 
 class Bar extends Component {
 
   static propTypes = {
-    value: PropTypes.number
+    value: PropTypes.number,
+    flags: PropTypes.object
   }
 
   static defaultProps = {
-    value: 0
+    value: 0,
+    flags:{}
   }
 
   static defaultFlags = {
@@ -26,8 +29,8 @@ class Bar extends Component {
     const { id, title, className, flags} = this.props;
     return {
       id, title,
-      className:CN.get("Bar",  className),
-      "data-flag":ClassNames.fetchFlags([Bar.defaultFlags, flags], this).joins(" ")
+      className:css.get("Bar",  className),
+      "data-flag":jet.react.fetchFlags({...Bar.defaultFlags, ...flags}, this)
     }
   }
 
@@ -35,7 +38,7 @@ class Bar extends Component {
     const { vertical, inverted, value } = this.props;
     const stickTo = vertical ? (inverted ? "bottom" : "top") : (inverted ? "right" : "left");
     return {
-      className:CN.get("mark"),
+      className:css.get("mark"),
       style:{
         width:(vertical?1:value)*100+"%",
         height:(vertical?value:1)*100+"%",
@@ -49,7 +52,7 @@ class Bar extends Component {
     return (
       <div {...this.fetchSelfProps()}>
         <div {...this.fetchMarkProps()}/>
-        {children ? <div className={CN.get("caption")}>{children}</div>: null}
+        {children ? <div className={css.get("caption")}>{children}</div>: null}
       </div>
     );
   }

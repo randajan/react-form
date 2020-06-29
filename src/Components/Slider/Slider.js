@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 
 import jet from "@randajan/jetpack";
 
-import Proper from "../../Helpers/Proper";
+import cssfile from "./Slider.scss";
+import csslib from "../../css";
 
-import css from "./Slider.scss";
-import ClassNames from "../../Helpers/ClassNames";
-const CN = ClassNames.getFactory(css);
+const css = csslib.open(cssfile);
 
 class Slider extends Component {
 
@@ -19,7 +18,8 @@ class Slider extends Component {
     max: PropTypes.number,
     step: PropTypes.number,
     inverted: PropTypes.bool,
-    vertical: PropTypes.bool
+    vertical: PropTypes.bool,
+    flags: PropTypes.object
   }
 
   static defaultProps = {
@@ -27,7 +27,8 @@ class Slider extends Component {
     max: 1,
     step: 0.01,
     inverted:false,
-    vertical:false
+    vertical:false,
+    flags:{}
   }
 
   static defaultFlags = {
@@ -82,15 +83,16 @@ class Slider extends Component {
   }
 
   componentDidUpdate(props) {
-    const changes = jet.obj.compare(Slider.fetchPropState(props), Slider.fetchPropState(this.props), true, true);
-    this.setState(changes);
+    const to = Slider.fetchPropState(this.props);
+    const from = Slider.fetchPropState(props);
+    this.setState(jet.obj.match(to, from, (t, f, p)=>t === f ? jet.obj.get(this.state, p) : t));
     this.refresh();
   }
 
   async setState(state) {
     const { onChange } = this.props;
     const to = this.fetchState(state);
-    const changes = jet.obj.compare(this.state, to, true);
+    const changes = jet.obj.compare(this.state, to);
     if (changes.length) { await super.setState(to); jet.run(onChange, this, changes); }
     return changes;
   }
@@ -200,8 +202,8 @@ class Slider extends Component {
     return {
       id, title, style, children, autoFocus:focus, ref:"body", type:"button",
       readOnly:lock, disabled:lock, tabIndex:lock?-1:tabIndex,
-      className:CN.get("Slider", className),
-      "data-flag":ClassNames.fetchFlags([Slider.defaultFlags, flags], this).joins(" "),
+      className:css.get("Slider", className),
+      "data-flag":jet.react.fetchFlags({...Slider.defaultFlags, ...flags}, this),
       onFocus: this.focus.bind(this),
       onBlur: this.blur.bind(this),
       onKeyDown:this.handleKeyDown.bind(this),
