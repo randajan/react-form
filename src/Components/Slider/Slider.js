@@ -48,13 +48,13 @@ class Slider extends Component {
   }
 
   static boundToValue(bound, props) {
-    const value = props.vertical ? bound.y : bound.x;
+    const value = props.vertical ? bound.relY : bound.relX;
     return Slider.validateValue(props.inverted ? 1-value : value, props);
   }
 
   static valueToBound(value, props) {
     const bound = props.inverted ? 1-value : value;
-    return { x:props.vertical?.5:bound, y:props.vertical?bound:.5 }
+    return { relX:props.vertical?.5:bound, relY:props.vertical?bound:.5 }
   }
 
   static fetchPropState(props) {
@@ -67,7 +67,7 @@ class Slider extends Component {
     };
   }
 
-  cleanUp;
+  cleanUp = new jet.RunPool();
 
   constructor(props) {
     super(props);
@@ -75,11 +75,14 @@ class Slider extends Component {
   }
 
   componentDidMount() {
+    const bound = Slider.valueToBound(this.state.input, this.props);
+    this.cleanUp.add(jet.event.listenShift(this.refs.body, this.handleShift.bind(this), bound.relX, bound.relY));
     this.refresh();
   }
 
   componentWillUnmount() {
     this.cleanUp.run();
+    this.cleanUp.flush();
   }
 
   componentDidUpdate(props) {
@@ -127,12 +130,12 @@ class Slider extends Component {
   lock() { return this.setState({lock:true}); }
   unlock() { return this.setState({lock:false}); }
 
-
   refresh() {
-    const { focus, shifting } = this.state;
+    const { relX, relY } = Slider.valueToBound(this.state.input, this.props);
     const { body } = this.refs;
-    if (focus) { body.focus(); } else { body.blur(); } //sync state with reality
-    if (!shifting) { this.hearShift(); }
+    body.style.left = (relX*100)+"%";
+    body.style.top = (relY*100)+"%";
+    if (this.state.focus) { body.focus(); } else { body.blur(); } //sync state with reality
   }
 
   fetchValue(validator, to, from) {
@@ -166,19 +169,12 @@ class Slider extends Component {
     return now;
   }
 
-  hearShift() {
-    if (this.cleanUp) { this.cleanUp.run(); }
-    this.cleanUp = new jet.RunPool();
-    const bound = Slider.valueToBound(this.state.input, this.props);
-    this.cleanUp.add(jet.event.listenShift(this.refs.body, this.handleShift.bind(this), bound));
-  }
-
-  handleShift(ev, bound, state) {
-    const shifting = state !== "stop";
+  handleShift(ev, bound) {
+    const shifting = bound.state === "start" || bound.state === "move";
     const input = Slider.boundToValue(bound, this.props);
-    const {x, y} = Slider.valueToBound(input, this.props);
-    bound.x = x; bound.y = y;
-    this.setState({shifting, input });
+    const {relX, relY} = Slider.valueToBound(input, this.props);
+    bound.relX = relX; bound.relY = relY;
+    this.setState({ shifting, input });
   }
 
   handleKeyDown(ev) {

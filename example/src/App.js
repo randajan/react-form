@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-import {jet, css, Form, Range, Switch, Control, Button, Field } from '@randajan/react-form';
+import {jet, css, Form, Range, Slider, Switch, Control, Button, Field, useState } from '@randajan/react-form';
 
 import "@randajan/react-form/dist/index.css";
 
@@ -11,12 +11,8 @@ css.define({
   "Switch":"Switcher",
 })
 
-// 
-
 
 function TestForm() {
-
-;
   return (
     <Form
       rawput={{ fullname:"Adam", age:0 }}
@@ -28,7 +24,7 @@ function TestForm() {
       onChange={(...args)=>{console.log("form_change", ...args);}}
     >
     <Field input={"Denis"} name="fullname" maxLength={15}/>
-    <Range vertical inverted input={100} name="age" step={1} to={100}/>
+    <Range input={100} name="age" step={1} to={100}/>
     <Switch name="gender"/>
     <div>
       <Button type="rejectOutput">Clear</Button>

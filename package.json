@@ -1,6 +1,6 @@
 {
   "name": "@randajan/react-form",
-  "version": "3.0.10",
+  "version": "3.1.0",
   "description": "Basic react forms and fields",
   "license": "MIT",
   "repository": "randajan/react-form",
@@ -23,12 +23,14 @@
     "deploy": "gh-pages -d example/build"
   },
   "peerDependencies": {
-    "@randajan/jetpack": "^4.3.3",
-    "@randajan/react-jetpack": "^1.0.3",
+    "@randajan/jetpack": "^4.4.8",
+    "@randajan/react-jetpack": "^1.0.4",
     "react": "^16.0.0"
   },
   "dependencies": {
-
+    "@randajan/jetpack": "^4.4.8",
+    "@randajan/react-jetpack": "^1.0.4",
+    "react": "^16.0.0"
   },
   "devDependencies": {
     "microbundle-crl": "^0.13.10",

@@ -12,10 +12,7 @@ import Range from "./Components/Range/Range";
 import Field from "./Components/Field/Field";
 import Bar from "./Components/Bar/Bar";
 
-import {
-  useChecker,
-  useShift,
-} from "./Hooks";
+import { useChecker } from "./Hooks";
 
 
 export {
@@ -30,6 +27,5 @@ export {
   Range,
   Field,
   Bar,
-  useChecker,
-  useShift
+  useChecker
 }

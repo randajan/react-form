@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 
-import jet from "@randajan/jetpack";
 
 import Checker from "./Helpers/Checker";
 
@@ -13,22 +12,6 @@ function useChecker(check) {
   }, []);
 }
 
-function useShift(initial, onChange, deps) {
-  const [shifting, setShifting] = useState(false);
-  const ref = useRef();
-  initial = jet.get("object", initial);
-  deps = jet.arr.wrap(deps);
-  deps.push(ref.current, initial.x, initial.y)
-    
-  useEffect(_=>jet.event.listenShift(ref.current, (ev, bound, state)=>{
-    if (state !== "shift") {setShifting( state === "start");}     
-    jet.run(onChange, bound, state);
-  }, initial), deps);
-
-  return [ref, shifting];
-}
-
 export {
-  useChecker,
-  useShift
+  useChecker
 }
