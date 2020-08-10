@@ -28,9 +28,7 @@
     "react": "^16.0.0"
   },
   "dependencies": {
-    "@randajan/jetpack": "^4.4.8",
-    "@randajan/react-jetpack": "^1.0.4",
-    "react": "^16.0.0"
+
   },
   "devDependencies": {
     "microbundle-crl": "^0.13.10",
