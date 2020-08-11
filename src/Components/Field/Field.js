@@ -263,19 +263,21 @@ class Field extends Component {
     const { type, children } = this.props;
     return (
       <div {...this.fetchPropsSelf()}>
-        <Label {...this.fetchPropsLabel()}/>
-        <div className={css.get("interface")}>
-          {
-            this.isTextArea() ? 
-            <textarea {...this.fetchPropsOnbox()} {...this.fetchPropsInbox()} /> :
-            [
-              <textarea key={0} {...this.fetchPropsOnbox()}/>,
-              <input key={1} {...this.fetchPropsInbox()} type={type}/> 
-            ]
-          }
-        </div>
-        <div className={css.get("underline")}>
-          <div {...this.fetchPropsMark()}/>
+        <div className={css.get("wrap")}>
+          <Label {...this.fetchPropsLabel()}/>
+          <div className={css.get("interface")}>
+            {
+              this.isTextArea() ? 
+              <textarea {...this.fetchPropsOnbox()} {...this.fetchPropsInbox()} /> :
+              [
+                <textarea key={0} {...this.fetchPropsOnbox()}/>,
+                <input key={1} {...this.fetchPropsInbox()} type={type}/> 
+              ]
+            }
+          </div>
+          <div className={css.get("underline")}>
+            <div {...this.fetchPropsMark()}/>
+          </div>
         </div>
         {jet.react.injectProps(children, ele=>Button.injectParent(this, ele), true, Button)}
       </div>

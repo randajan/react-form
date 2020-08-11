@@ -195,11 +195,13 @@ class Range extends Component {
     const { children } = this.props;
     return (
       <div {...this.fetchSelfProps()}>
-        <Label {...this.fetchPropsLabel()}/>
-        <div {...this.fetchInterfaceProps()}>
-          <div className={css.get("track")}>
-            <Bar {...this.fetchBarProps()}/>
-            <Slider {...this.fetchSliderProps()}/>
+        <div className={css.get("wrap")}>
+          <Label {...this.fetchPropsLabel()}/>
+          <div {...this.fetchInterfaceProps()}>
+            <div className={css.get("track")}>
+              <Bar {...this.fetchBarProps()}/>
+              <Slider {...this.fetchSliderProps()}/>
+            </div>
           </div>
         </div>
         {jet.react.injectProps(children, ele=>Button.injectParent(ele, this), true, Button)}
