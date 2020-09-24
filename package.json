@@ -1,6 +1,6 @@
 {
   "name": "@randajan/react-form",
-  "version": "3.1.3",
+  "version": "3.1.4",
   "description": "Basic react forms and fields",
   "license": "MIT",
   "repository": "randajan/react-form",
@@ -30,9 +30,7 @@
     "@randajan/react-jetpack": "^1.0.4",
     "react-transition-group": "^4.4.1"
   },
-  "dependencies": {
-
-  },
+  "dependencies": {},
   "devDependencies": {
     "babel-eslint": "^10.0.3",
     "cross-env": "^7.0.2",
