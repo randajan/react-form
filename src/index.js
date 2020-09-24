@@ -11,6 +11,7 @@ import Switch from "./Components/Switch/Switch";
 import Range from "./Components/Range/Range";
 import Field from "./Components/Field/Field";
 import Bar from "./Components/Bar/Bar";
+import Table from "./Components/Table/Table";
 
 import { useChecker } from "./Hooks";
 
@@ -27,5 +28,6 @@ export {
   Range,
   Field,
   Bar,
+  Table,
   useChecker
 }

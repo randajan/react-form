@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-import {jet, css, Form, Range, Slider, Switch, Control, Button, Field, useState } from '@randajan/react-form';
+import {jet, css, Form, Range, Slider, Switch, Control, Button, Field, Table, useState } from '@randajan/react-form';
 
 import "@randajan/react-form/dist/index.css";
 
@@ -31,6 +31,7 @@ function TestForm() {
       <Button type="rejectInput">Undo changes</Button>
       <Button type="submitInput">Submit</Button>
     </div>
+    <Table columns={["Baby", "Heyby"]} rows={[[1, "a"], [2, "b"]]}/>
 
     </Form>
   )

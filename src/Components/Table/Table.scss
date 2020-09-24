@@ -1,0 +1,32 @@
+.Table {
+    position:relative;
+    display:flex;
+    flex-direction:column;
+
+    table {
+        border-collapse: collapse;
+        table-layout:fixed;
+        min-width:100%;
+    }
+
+    .columns {
+        display:block;
+        white-space:nowrap;
+        overflow:hidden;
+        flex-shrink:0;
+        flex-grow:0;        
+        * {
+            display:inline-block;
+            text-align:center;
+            font-weight:bold;
+        }
+        
+    }
+    .rows {
+        height:100%;
+        overflow:auto;
+
+        thead tr { visibility:collapse; }
+    }
+    
+}
