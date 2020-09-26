@@ -17,6 +17,11 @@ import Pane from "./Components/Pane/Pane";
 import Trigger from "./Components/Trigger/Trigger";
 import Menu from "./Components/Menu/Menu";
 
+import Flagable from "./Dummy/Flagable";
+import Stateful from "./Dummy/Stateful";
+import Focusable from "./Dummy/Focusable";
+import Valuable from "./Dummy/Valuable";
+
 import { useChecker } from "./Hooks";
 
 
@@ -24,6 +29,10 @@ export {
   jet,
   css,
   Checker,
+  Flagable,
+  Stateful,
+  Focusable,
+  Valuable,
   Form,
   Label,
   Button,
