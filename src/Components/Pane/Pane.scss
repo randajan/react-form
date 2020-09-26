@@ -1,0 +1,9 @@
+.Pane {
+    position:relative;
+    overflow:hidden;
+
+    & > .content {
+        position:relative;
+    }
+
+}

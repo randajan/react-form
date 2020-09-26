@@ -1,23 +1,23 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-import jet from '@randajan/jetpack';
+import Flagable from "../../Dummy/Flagable";
 
-import cssfile from "./bar.scss";
+import cssfile from "./Bar.scss";
 import csslib from "../../css";
 
 const css = csslib.open(cssfile);
 
-class Bar extends Component {
+class Bar extends Flagable {
 
   static propTypes = {
+    ...Flagable.propTypes,
     value: PropTypes.number,
-    flags: PropTypes.object
   }
 
   static defaultProps = {
+    ...Flagable.defaultProps,
     value: 0,
-    flags:{}
   }
 
   static defaultFlags = {
@@ -25,16 +25,7 @@ class Bar extends Component {
     vertical:p=>p.props.vertical
   }
 
-  fetchSelfProps() {
-    const { id, title, className, flags} = this.props;
-    return {
-      id, title,
-      className:css.get("Bar",  className),
-      "data-flag":jet.react.fetchFlags({...Bar.defaultFlags, ...flags}, this)
-    }
-  }
-
-  fetchMarkProps() {
+  fetchPropsMark() {
     const { vertical, inverted, value } = this.props;
     const stickTo = vertical ? (inverted ? "bottom" : "top") : (inverted ? "right" : "left");
     return {
@@ -50,8 +41,8 @@ class Bar extends Component {
   render() {
     const { children } = this.props;
     return (
-      <div {...this.fetchSelfProps()}>
-        <div {...this.fetchMarkProps()}/>
+      <div {...this.fetchPropsSelf(css)}>
+        <div {...this.fetchPropsMark()}/>
         {children ? <div className={css.get("caption")}>{children}</div>: null}
       </div>
     );

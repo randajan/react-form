@@ -23,7 +23,7 @@
         pointer-events:none;
     }
 
-    &:not([data-flag~="vertical"]) {
+    &:not([data-flags~="vertical"]) {
         width:10em;
         height:.5em;
         .path {
@@ -31,7 +31,7 @@
         }
     }
 
-    &[data-flag~="vertical"] {
+    &[data-flags~="vertical"] {
         height:10em;
         width:.5em;
         .path {

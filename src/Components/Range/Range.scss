@@ -9,13 +9,13 @@
         position:relative;
     }
 
-    &[data-flag~="lock"] {
+    &[data-flags~="lock"] {
         .Label {
             color:#999;
         }
     }
 
-    &:not([data-flag~="vertical"]) {
+    &:not([data-flags~="vertical"]) {
         .interface {
             padding: .2em .5em;
         }
@@ -25,7 +25,7 @@
         }
     }
 
-    &[data-flag~="vertical"] {
+    &[data-flags~="vertical"] {
 
         .interface {
             padding: .5em .2em;
@@ -36,7 +36,7 @@
         }
     }
 
-    &:not([data-flag~="lock"]):not([data-flag~="shifting"]) {
+    &:not([data-flags~="lock"]):not([data-flags~="shifting"]) {
         .interface {
             cursor:pointer;
         }

@@ -1,3 +1,4 @@
+import {useState, useRef} from "react";
 import jet from "@randajan/react-jetpack";
 
 import css from "./css";
@@ -12,6 +13,9 @@ import Range from "./Components/Range/Range";
 import Field from "./Components/Field/Field";
 import Bar from "./Components/Bar/Bar";
 import Table from "./Components/Table/Table";
+import Pane from "./Components/Pane/Pane";
+import Trigger from "./Components/Trigger/Trigger";
+import Menu from "./Components/Menu/Menu";
 
 import { useChecker } from "./Hooks";
 
@@ -29,5 +33,8 @@ export {
   Field,
   Bar,
   Table,
+  Pane,
+  Trigger,
+  Menu,
   useChecker
 }

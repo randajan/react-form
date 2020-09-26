@@ -1,14 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import jet from "@randajan/jetpack";
+
+import Stateful from "../../Dummy/Stateful";
 
 import cssfile from "./Pin.scss";
 import csslib from "../../css";
 
 const css = csslib.open(cssfile);
 
-class Pin extends Component {
+class Pin extends Stateful {
 
   static propTypes = {
     x: PropTypes.number,
@@ -40,7 +42,6 @@ class Pin extends Component {
     inverted:p=>p.props.inverted
   }
 
-
   static validateX(x, props) {
     const { xMin, xMax, xStep } = props;
     return xStep ? jet.num.snap(x, xStep, xMin, xMax) : jet.num.frame(x, xMin, xMax);
@@ -58,23 +59,6 @@ class Pin extends Component {
     }
   }
 
-  cleanUp;
-
-  constructor(props) {
-    super(props);
-    this.state = this.fetchState(Pin.fetchPropState(props));
-  }
-
-  fetchState(state) { return state; }
-
-  async setState(state) {
-    const { onChange } = this.props;
-    const to = this.fetchState(state);
-    const changes = jet.obj.compare(this.state, to);
-    if (changes.length) { await super.setState(to); jet.run(onChange, this, changes); }
-    return changes;
-  }
-
   handleShift(ev, bound, state) {
     const { xInverted, yInverted } = this.props;
     const x = Pin.validateX(xInverted ? 1-bound.x : bound.x, this.props);
@@ -84,25 +68,10 @@ class Pin extends Component {
     this.setState({ focus:state !== "stop", x, y });
   }
 
-  componentDidMount() {
-    this.cleanUp = new jet.RunPool();
+  draft() {
     const {x, y, xInverted, yInverted } = this.props;
     const bound = { x:xInverted ? 1-x:x, y:yInverted ? 1-y:y }
     this.cleanUp.add(jet.event.listenShift(this.refs.body, this.handleShift.bind(this), bound))
-  }
-
-  componentWillUnmount() {
-    this.cleanUp.run();
-  }
-
-  componentDidUpdate(props) {
-    const to = Pin.fetchPropState(this.props);
-    const from = Pin.fetchPropState(props);
-    const changes = jet.obj.compare(from, to);
-    if (changes.length) {
-      this.componentWillUnmount();
-      this.componentDidMount();
-    }
   }
 
   fetchSelfProps() {
@@ -110,7 +79,7 @@ class Pin extends Component {
     return {
       id, title, style, ref:"body", 
       className:css.get("Pin", className),
-      "data-flag":jet.react.fetchFlags({...Pin.defaultFlags, ...flags}, this)
+      "data-flags":jet.react.fetchFlags({...Pin.defaultFlags, ...flags}, this)
     }
   }
 

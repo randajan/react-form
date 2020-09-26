@@ -1,30 +1,40 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import jet from "@randajan/react-jetpack";
+
+import Flagable from "../../Dummy/Flagable";
 
 import cssfile from "./Table.scss";
 import csslib from "../../css";
 
 const css = csslib.open(cssfile);
 
-class Table extends Component {
+class Table extends Flagable {
 
-  ths = {};
 
-  componentDidMount() {
-    this.cleanUp = [
-      jet.event.hear(window, "resize", this.refreshSize.bind(this)),
-      jet.event.hear(this.rows, "scroll", this.refreshScroll.bind(this)),
-    ];
-    this.refreshSize();
+  static propTypes = {
+    ...Flagable.propTypes,
+    "rows":PropTypes.array,
+    "columns":PropTypes.oneOfType([PropTypes.object, PropTypes.array])
   }
 
-  componentDidUpdate() {
-    this.refreshSize();
+  static defaultProps = {
+    ...Flagable.defaultProps,
+    "rows":[],
+    "columns":[]
   }
 
-  componentWillUnmount() {
-    jet.run(this.cleanup);
+  
+  headings = {};
+
+  draft() {
+    this.cleanUp.add(jet.event.hear(window, "resize", this.refreshSize.bind(this)));
+    this.cleanUp.add(jet.event.hear(this.rows, "scroll", this.refreshScroll.bind(this)));
+  }
+
+  draw() {
+    this.refreshSize();
   }
 
   refreshScroll() {
@@ -36,13 +46,13 @@ class Table extends Component {
 
   refreshSize() {
     this.refreshScroll();
-    jet.obj.map(this.ths, th=>{
+    jet.obj.map(this.headings, th=>{
       th.real.style.width = jet.web.getBound(th.dummy).width + "px";
     });
   }
 
   thRef(el, col, dummy) {
-    jet.obj.set(this.ths, [col, dummy ? "dummy":"real"], el);
+    jet.obj.set(this.headings, [col, dummy ? "dummy":"real"], el);
   }
 
   heading(dummy) {
@@ -53,22 +63,36 @@ class Table extends Component {
     });
   }
 
+  fetchPropsColumns() {
+    return {
+      ref:el=>this.columns = el,
+      className:css.get("columns"),
+      children:this.heading(false)
+    }
+  }
+
+  fetchPropsRows() {
+    return {
+      ref:el=>this.rows = el,
+      className:css.get("rows")
+    }
+  }
+
+
   render() {
-    const { className, caption, columns, rows, foot } = this.props;
+    const { caption, columns, rows, foot } = this.props;
 
     return (
-      <div className={css.get("Table", className)}>
+      <div {...this.fetchPropsSelf(css)}>
         <table>
           <caption>{caption}</caption>
           <thead>
-            <tr className={css.get("columns")} ref={el=>this.columns = el}>
-            {this.heading(false)}
-            </tr>
+            <tr {...this.fetchPropsColumns()}/>
           </thead>
         </table>
-        <div className={css.get("rows")} ref={el=>this.rows = el}>
+        <div {...this.fetchPropsRows()}>
           <table>
-            <thead ref={el=>this.dummies = el}>
+            <thead>
               <tr>{this.heading(true)}</tr>
             </thead>
             <tbody>

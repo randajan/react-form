@@ -23,14 +23,17 @@
     "deploy": "gh-pages -d example/build"
   },
   "peerDependencies": {
+    "@randajan/jetpack": "^4.4.8",
+    "@randajan/react-jetpack": "^1.1.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-resize-detector": "^5.2.0",
     "react-scripts": "^3.4.3",
-    "@randajan/jetpack": "^4.4.8",
-    "@randajan/react-jetpack": "^1.0.4",
     "react-transition-group": "^4.4.1"
   },
-  "dependencies": {},
+  "dependencies": {
+
+  },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
     "cross-env": "^7.0.2",

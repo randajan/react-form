@@ -71,41 +71,41 @@
         transition: .4s;
     }
 
-    &:not([data-flag~="lock"]) {
+    &:not([data-flags~="lock"]) {
         .underline:before {
             width:100%;
         }
     }
 
-    &[data-flag~="lock"] {
+    &[data-flags~="lock"] {
         .Label, .inbox {
             color:#999;
         }
     }
 
-    &[data-flag~="full"] {
+    &[data-flags~="full"] {
         .inbox {
             color:#666;
         }
     }
 
-    &:not([data-flag~="focus"]) {
+    &:not([data-flags~="focus"]) {
         .underline:before {
             width:0;
         }
     }
 
-    &[data-flag~="focus"], &:not([data-flag~="blank"]) {
+    &[data-flags~="focus"], &:not([data-flags~="blank"]) {
         .Label {
             transform: scale(.8);
         }
     }
 
-    &[data-flag~="blank"]:not([data-flag~="focus"]) {
+    &[data-flags~="blank"]:not([data-flags~="focus"]) {
         .Label {
             transform: translateY(100%);
         }
-        &:not([data-flag~="lock"]) {
+        &:not([data-flags~="lock"]) {
 
             textarea, input {
                 cursor:pointer;

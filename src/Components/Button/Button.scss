@@ -8,13 +8,13 @@
     border:none;
     transition:color .2s, background-color .2s;
 
-    &[data-flag~="lock"] {
+    &[data-flags~="lock"] {
         pointer-events:none;
         background-color: #eee;
         color:#666;
     }
 
-    &:not([data-flag~="lock"]) {
+    &:not([data-flags~="lock"]) {
         cursor:pointer;
         &:hover {
             background-color:#ddd;
