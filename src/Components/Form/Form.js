@@ -126,7 +126,6 @@ class Form extends Flagable {
   }
 
   render() {
-    window.form = this;
     return <form {...this.fetchPropsSelf()}/>
   }
 }
