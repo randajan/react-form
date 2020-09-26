@@ -27,11 +27,12 @@ class Flagable extends Component {
   draw() {}
 
   fetchPropsSelf(css) {
-    const { id, title, style, className, type, flags } = this.props;
+    const { id, title, name, style, className, type, flags } = this.props;
     return {
-      id, title, style, ref:body=>this.body = body,
+      ref:body=>this.body = body,
+      id, name, className:css.get(this.constructor.name, type, className),
       "data-flags":jet.react.fetchFlags({...this.constructor.defaultFlags, ...flags}, this),
-      className:css.get(this.constructor.name, type, className)
+      title, style
     }
   }
 

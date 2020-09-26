@@ -46,7 +46,6 @@ class Pane extends Flagable {
       const vertical = (dir === "top" || dir === "bottom");
       const val = expand ? 0 : vertical ? height : width;
       content.style["margin-"+dir] = -val+"px";
-      body.style[dir] = 0;
       if (!vertical) { body.style.float = dir; }
     });
 
