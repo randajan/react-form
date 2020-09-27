@@ -50,12 +50,12 @@ class Menu extends Focusable {
   }
 
   fetchTriggerProps() {
-    const { transition, placeHolder, noblur } = this.props;
+    const { transition, placeHolder, appear, noblur } = this.props;
     const { focus } = this.state;
 
     return {
       ref:el=>this.placeholder=el,
-      switch:noblur, active:focus, transition, 
+      switch:noblur, active:focus, transition, appear,
       className:css.get("Trigger"),
       children:placeHolder,
       onTap:this.setFocus.bind(this)
@@ -63,11 +63,11 @@ class Menu extends Focusable {
   }
 
   fetchPaneProps() {
-    const { transition, unmountOnExit, position, children} = this.props;
+    const { transition, unmountOnExit, appear, position, children} = this.props;
     const { focus } = this.state;
     return {
       ref:pane=>this.pane = pane,
-      expand:focus, position,transition, unmountOnExit, children,
+      expand:focus, appear, position, transition, unmountOnExit, children,
       className:css.get("Pane"),
     }
   }
