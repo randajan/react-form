@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { CSSTransition } from "react-transition-group";
@@ -12,6 +12,64 @@ import cssfile from "./Pane.scss";
 import csslib from "../../css";
 
 const css = csslib.open(cssfile);
+
+class Driftable extends Component {
+
+  state = {
+    appear:true,
+    width:0,
+    height:0
+  }
+
+  forEachDirection(callback) {
+    const { drift, direction } = this.props;
+    direction.split("-").map(dir=>callback(dir, drift));
+  }
+
+  componentDidUpdate() {
+    const { state, body } = this;
+    const { width, height, appear } = state;
+    this.forEachDirection((dir, drift)=>{
+      const vertical = (dir === "top" || dir === "bottom");
+      const val = (drift || appear) ? vertical ? height : width : null;
+      body.style["margin-"+dir] = -val+"px";
+    });
+    if (appear) { setTimeout(_=>this.setState({appear:false})); }
+  }
+
+  fetchPropsSelf() {
+    const { appear } = this.state;
+    const props = this.props;
+    const pass = {
+      ...props,
+      ref:el=>this.body=el,
+      className:css.get(props.className, appear?"appear":""),
+      style:jet.get("object", props.style),
+    }
+
+    this.forEachDirection(dir=>pass.style["margin"+dir.capitalize()] = "-9999px");
+
+    delete pass.drift;
+    delete pass.direction;
+
+    return pass;
+  }
+
+  fetchPropsResize() {
+    return {
+      targetRef:this.body,
+      onResize:(width, height)=>this.setState({width, height}),
+    }
+  }
+
+  render() {
+    return (
+      <ReactResizeDetector {...this.fetchPropsResize()}>
+        <div {...this.fetchPropsSelf()}/>
+      </ReactResizeDetector>
+    );
+  }
+}
 
 class Pane extends Flagable {
 
@@ -31,26 +89,6 @@ class Pane extends Flagable {
     expand:p=>p.props.expand
   }
 
-  state = {
-    width:0,
-    height:0
-  }
-
-  draw() {
-    const { content, body, state, props } = this;
-    const { position, expand } = props;
-    if (!content || !body ) { return; }
-    
-    const { width, height } = state;
-    position.split("-").map(dir=>{
-      const vertical = (dir === "top" || dir === "bottom");
-      const val = expand ? 0 : vertical ? height : width;
-      content.style["margin-"+dir] = -val+"px";
-      if (!vertical) { body.style.float = dir; }
-    });
-
-  }
-
   fetchPropsTransition() {
     const { expand, transition, appear, unmountOnExit } = this.props;
     return {
@@ -63,23 +101,19 @@ class Pane extends Flagable {
   }
 
   fetchPropsContent() {
-    const { children } = this.props;
-    return { children, className:css.get("content"), ref:el=>this.content = el}
-  }
-
-  fetchPropsResize() {
-    return {
-      targetRef:this.content,
-      onResize:(width, height)=>this.setState({width, height})
+    const { children, position, expand } = this.props;
+    return { 
+      className:css.get("content"),
+      direction:position,
+      drift:!expand,
+      children,
     }
   }
 
   render() {
     const body = (
       <div {...this.fetchPropsSelf(css)}>
-        <ReactResizeDetector {...this.fetchPropsResize()}>
-          <div {...this.fetchPropsContent()}/>
-        </ReactResizeDetector>
+        <Driftable {...this.fetchPropsContent()}/>
       </div>
     );
 

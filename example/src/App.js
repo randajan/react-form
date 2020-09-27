@@ -42,7 +42,7 @@ function App() {
       <Button onSubmit={console.log}>Test</Button>
       <Table columns={["Baby", "Heyby"]} rows={[[1, "a"], [2, "b"]]}/>
 
-      <Menu placeHolder={"Shit"} position={"top-right"}>
+      <Menu placeHolder={"Shit"} position={"top-right"} unmountOnExit transition={600}>
         <div>Cool</div>
         <div>I want it</div>
         <div>Oh my gosh</div>

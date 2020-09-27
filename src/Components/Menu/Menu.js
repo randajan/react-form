@@ -55,7 +55,7 @@ class Menu extends Focusable {
 
     return {
       ref:el=>this.placeholder=el,
-      switch:noblur, active:focus, transition, appear,
+      switch:noblur, active:focus,
       className:css.get("Trigger"),
       children:placeHolder,
       onTap:this.setFocus.bind(this)
