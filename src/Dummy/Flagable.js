@@ -5,6 +5,8 @@ import jet from "@randajan/jetpack";
 
 class Flagable extends Component {
 
+  static className;
+
   static propTypes = {
     flags:PropTypes.object,
   }
@@ -30,7 +32,7 @@ class Flagable extends Component {
     const { id, title, name, style, className, flags } = this.props;
     return {
       ref:body=>this.body = body,
-      id, name, className:css.get(this.constructor.name, className, ...extraClassNames),
+      id, name, className:css.get(this.constructor.className, className, ...extraClassNames),
       "data-flags":jet.react.fetchFlags({...this.constructor.defaultFlags, ...flags}, this),
       title, style
     }

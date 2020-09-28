@@ -15,6 +15,8 @@ const css = csslib.open(cssfile);
 
 class Menu extends Focusable {
 
+  static className = "Menu";
+
   static Context = React.createContext();
 
   static defaultFlags = {

@@ -14,6 +14,8 @@ const css = csslib.open(cssfile);
 
 class Pane extends Stateful {
 
+  static className = "Pane";
+
   static propTypes = {
     ...Stateful.propTypes,
     position:PropTypes.oneOf(["top", "bottom", "left", "right", "top-left", "top-right", "bottom-left", "bottom-right"]),

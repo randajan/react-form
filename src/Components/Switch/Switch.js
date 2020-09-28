@@ -17,6 +17,8 @@ const css = csslib.open(cssfile);
 
 class Switch extends Valuable {
 
+  static className = "Switch";
+
   static propTypes = {
     ...Valuable.propTypes,
     inverted: PropTypes.bool,

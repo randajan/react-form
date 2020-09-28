@@ -12,6 +12,8 @@ const css = csslib.open(cssfile);
 
 class Button extends Focusable {
 
+  static className = "Button";
+
   static propTypes = {
     ...Focusable.propTypes,
     type: PropTypes.oneOf(["button", "submit", "reject", "reset"]),

@@ -16,6 +16,8 @@ import Valuable from '../../Dummy/Valuable';
 const css = csslib.open(cssfile);
 
 class Field extends Valuable {
+
+  static className = "Field";
   
   static propTypes = {
     ...Valuable.propTypes,

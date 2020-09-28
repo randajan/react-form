@@ -19,6 +19,8 @@ const css = csslib.open(cssfile);
 
 class Form extends Flagable {
 
+  static className = "Form";
+
   static childs = [Field, Switch, Range, Button];
   static passEvents = [ "onInput", "onOutput", "onRawput" ];
   static bubblingEvents = [ "onFocus", "onBlur", "onInputDirty", "onOutputDirty" ];

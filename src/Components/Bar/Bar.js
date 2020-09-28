@@ -10,6 +10,8 @@ const css = csslib.open(cssfile);
 
 class Bar extends Flagable {
 
+  static className = "Bar";
+
   static propTypes = {
     ...Flagable.propTypes,
     value: PropTypes.number,

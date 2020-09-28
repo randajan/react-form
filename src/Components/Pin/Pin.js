@@ -12,6 +12,8 @@ const css = csslib.open(cssfile);
 
 class Pin extends Stateful {
 
+  static className = "Pin";
+
   static propTypes = {
     x: PropTypes.number,
     y: PropTypes.number,

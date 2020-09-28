@@ -17,6 +17,8 @@ const css = csslib.open(cssfile);
 
 class Range extends Valuable {
 
+  static className = "Range";
+
   static propTypes = {
     ...Valuable.propTypes,
     from: PropTypes.number,

@@ -12,6 +12,7 @@ const css = csslib.open(cssfile);
 
 class Table extends Flagable {
 
+  static className = "Table";
 
   static propTypes = {
     ...Flagable.propTypes,

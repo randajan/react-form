@@ -12,6 +12,8 @@ const css = csslib.open(cssfile);
 
 class Slider extends Valuable {
 
+  static className = "Slider";
+
   static propTypes = {
     ...Valuable.propTypes,
     min: PropTypes.number,

@@ -13,6 +13,8 @@ const css = csslib.open(cssfile);
 
 class Trigger extends Flagable {
 
+  static className = "Trigger";
+
   static defaultFlags = {
     active:p=>p.props.active,
     lock:p=>p.props.lock,
