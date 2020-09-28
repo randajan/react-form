@@ -162,7 +162,7 @@ class Field extends Valuable {
   render() {
     const { type, children } = this.props;
     return (
-      <div {...this.fetchPropsSelf(css)}>
+      <div {...this.fetchPropsSelf(css, type)}>
         <div className={css.get("wrap")}>
           <Label {...this.fetchPropsLabel()}/>
           <div className={css.get("interface")}>

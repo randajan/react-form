@@ -53,7 +53,7 @@ class Button extends Focusable {
     const { children, tabIndex, type } = this.props;  
     const lock = this.getLock();
     return {
-      ...super.fetchPropsSelf(css),
+      ...super.fetchPropsSelf(css, type),
       children, 
       type:type.startsWith("submit") ? "submit" : type.startsWith("reject") ? "reset" : type,
       disabled:lock, readOnly:lock, tabIndex:lock?-1:tabIndex,

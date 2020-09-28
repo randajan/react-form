@@ -19,3 +19,11 @@ code {
   min-height:100vh;
   overflow:hidden;
 }
+
+
+
+  .Pane.appear .content, .Pane.enter .content, .Pane.exit .content {
+
+          transition: .6s;
+
+  }

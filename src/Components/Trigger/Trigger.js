@@ -24,13 +24,20 @@ class Trigger extends Flagable {
     onTap:PropTypes.func,
   }
 
-  fetchPropsSelf() {
-    const { children, lock, onTap } = this.props;
+  handleClick(ev) {
+    const { lock, active, onTap } = this.props;
     const sw = this.props.switch;
-    const active = jet.to("boolean", this.props.active);
+    if (lock || (!sw && active)) { return; }
+    jet.run(onTap, sw ? !active : true);
+    jet.event.stop(ev);
+  }
+
+  fetchPropsSelf() {
+    const { children} = this.props;
     return {
-      ...super.fetchPropsSelf(css), children,
-      onClick:(lock || (!sw && active))?null:_=>jet.run(onTap, sw ? !active : true)
+      ...super.fetchPropsSelf(css),
+      onClick:this.handleClick.bind(this),
+      children
     };
   }
 

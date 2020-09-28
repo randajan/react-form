@@ -38,11 +38,11 @@ class Menu extends Focusable {
 
   draw() {
     const { noblur } = this.props;
-    const { focus, lock } = this.state;
+    const { focus } = this.state;
     const body = this.body;
     this.cleanUp.run();
-    if (!body || lock || noblur) { return; }
-    this.cleanUp.add(jet.event.hear(focus ? document : body, "mouseup", ev=>{
+    if (!body || !focus || noblur) { return; }
+    this.cleanUp.add(jet.event.hear(document, "mouseup", ev=>{
         const target = ev.target;
         const now = (body && (body === target || body.contains(target)));
         if (!focus !== !now) { this.setFocus(now); }
@@ -50,25 +50,25 @@ class Menu extends Focusable {
   }
 
   fetchTriggerProps() {
-    const { transition, placeHolder, appear, noblur } = this.props;
+    const { transition, trigger, noblur } = this.props;
     const { focus } = this.state;
 
     return {
-      ref:el=>this.placeholder=el,
-      switch:noblur, active:focus,
+      ref:el=>this.trigger=el,
+      switch:noblur, active:focus, transition,
       className:css.get("Trigger"),
-      children:placeHolder,
+      children:trigger,
       onTap:this.setFocus.bind(this)
     }
   }
 
   fetchPaneProps() {
-    const { transition, unmountOnExit, appear, position, children} = this.props;
+    const { transition, position, children} = this.props;
     const { focus } = this.state;
     return {
       ref:pane=>this.pane = pane,
-      expand:focus, appear, position, transition, unmountOnExit, children,
       className:css.get("Pane"),
+      expand:focus, position, transition, children,
     }
   }
 
