@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import jet from "@randajan/jetpack";
+
+import jet from "@randajan/react-jetpack";
 
 import Flagable from "./Flagable";
 

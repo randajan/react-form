@@ -5,7 +5,7 @@ import {jet, css, Form, Range, Slider, Switch, Control, Button, Field, Table, Tr
 
 import "@randajan/react-form/dist/index.css";
 
-window.jet = jet
+//window.jet = jet
 
 css.define({
   "Switch":"Switcher",

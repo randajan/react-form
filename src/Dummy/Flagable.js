@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import jet from "@randajan/jetpack";
+
+import jet from "@randajan/react-jetpack";
 
 
 class Flagable extends Component {
