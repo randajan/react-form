@@ -28,6 +28,7 @@ class Range extends Valuable {
     step: PropTypes.number,
     inverted: PropTypes.bool,
     vertical: PropTypes.bool,
+    autoSubmit: PropTypes.boolean
   }
 
   static defaultProps = {
@@ -75,9 +76,9 @@ class Range extends Valuable {
   }
 
   fetchSliderProps() {
-    const { from, min, max, step, inverted, vertical } = this.props;
+    const { from, min, max, step, inverted, vertical, autoSubmit } = this.props;
     return {
-      ref:el=>this.slider=el, inverted, vertical,
+      ref:el=>this.slider=el, inverted, vertical, autoSubmit,
       ...Range.valuesToRatios(this.props, {step:from+step, min, max}),
       onChange:(slider)=>{
         const { rawput, output, input } = slider.state;

@@ -26,7 +26,7 @@ class Field extends Valuable {
     cols:PropTypes.number,
     maxLength:PropTypes.number,
     onKeyDown: PropTypes.func,
-    onPaste: PropTypes.func,
+    onPaste: PropTypes.func
   }
   static defaultProps = {
     ...Valuable.defaultProps,
