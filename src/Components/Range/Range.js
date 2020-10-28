@@ -28,7 +28,7 @@ class Range extends Valuable {
     step: PropTypes.number,
     inverted: PropTypes.bool,
     vertical: PropTypes.bool,
-    autoSubmit: PropTypes.boolean
+    autoSubmit: PropTypes.bool
   }
 
   static defaultProps = {
@@ -38,6 +38,7 @@ class Range extends Valuable {
     step: 0.01,
     inverted:false,
     vertical:false,
+    autoSubmit:true,
   }
 
   static defaultFlags = {

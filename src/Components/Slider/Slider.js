@@ -21,7 +21,7 @@ class Slider extends Valuable {
     step: PropTypes.number,
     inverted: PropTypes.bool,
     vertical: PropTypes.bool,
-    autoSubmit: PropTypes.boolean
+    autoSubmit: PropTypes.bool
   }
 
   static defaultProps = {
