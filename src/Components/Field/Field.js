@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 
 import jet from "@randajan/jetpack";
 
-import Checker from "../../Helpers/Checker";
-
 import Button from "../Button/Button";
 import Label from "../Label/Label";
 
@@ -61,10 +59,7 @@ class Field extends Valuable {
   }
 
   draft() {
-    const checker = this.checker.bind(this);
     let autoSizeTimeout;
-    Checker.list.add(checker);
-    this.cleanUp.add(_=>Checker.list.rem(checker));
     this.cleanUp.add(jet.event.hear(window, "resize", _=>{
       clearTimeout(autoSizeTimeout);
       autoSizeTimeout = setTimeout(this.autoSize.bind(this), 50);
@@ -110,10 +105,6 @@ class Field extends Valuable {
     jet.event.stop(ev);
   }
 
-  checker() {
-    const { focus, output } = this.state;
-    if (!focus) { this.inbox.value = output; }
-  }
 
   validateValue(to, from, kind) {
     const { type } = this.props;

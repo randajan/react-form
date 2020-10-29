@@ -1,7 +1,6 @@
 import jet from "@randajan/react-jetpack";
 
 import css from "./css";
-import Checker from "./Helpers/Checker";
 
 import Form from "./Components/Form/Form";
 import Label from "./Components/Label/Label";
@@ -23,13 +22,11 @@ import Focusable from "./Dummy/Focusable";
 import Valuable from "./Dummy/Valuable";
 
 
-import { useChecker } from "./Hooks";
 
 
 export {
   jet,
   css,
-  Checker,
   Flagable,
   Stateful,
   Focusable,
@@ -46,6 +43,5 @@ export {
   Table,
   Pane,
   Trigger,
-  Menu,
-  useChecker
+  Menu
 }
