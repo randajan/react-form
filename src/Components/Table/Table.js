@@ -46,7 +46,7 @@ class Table extends Flagable {
   refreshSize() {
     this.refreshScroll();
     jet.obj.map(this.headings, th=>{
-      th.real.style.width = jet.web.getBound(th.dummy).width + "px";
+      th.real.style.width = th.dummy.offsetWidth + "px";
     });
   }
 
