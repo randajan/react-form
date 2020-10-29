@@ -19,8 +19,8 @@ class Focusable extends Stateful {
     focus:p=>p.getFocus(),
   }
 
-  static fetchPropState(props, self) {
-    const { lock, focus} = props;
+  fetchPropState(props) {
+    const { lock, focus } = (props || this.props);
     return {
       lock:jet.to("boolean", lock),
       focus:jet.to("boolean", focus)
@@ -39,10 +39,6 @@ class Focusable extends Stateful {
   blur() { return this.setState({focus:false}); }
   lock() { return this.setState({lock:true}); }
   unlock() { return this.setState({lock:false}); }
-
-  focusValidator() {
-
-  }
 
   validateState(to, from) {
     to = super.validateState(to, from);

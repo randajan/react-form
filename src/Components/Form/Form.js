@@ -14,11 +14,9 @@ import Range from "../Range/Range";
 import cssfile from "./Form.scss";
 import csslib from "../../css";
 
-const css = csslib.open(cssfile);
-
-
 class Form extends Flagable {
 
+  static css = csslib.open(cssfile);
   static className = "Form";
 
   static childs = [Field, Switch, Range, Button];
@@ -117,10 +115,10 @@ class Form extends Flagable {
     })
   }
 
-  fetchPropsSelf() {
+  fetchPropsSelf(...classNames) {
     const { children } = this.props;
     return {
-      ...super.fetchPropsSelf(css),
+      ...super.fetchPropsSelf(...classNames),
       onReset:ev=>{ this.reset(); jet.event.stop(ev); },
       onSubmit:ev=>{ this.submit(); jet.event.stop(ev); },
       children:jet.react.injectProps(React.Children.toArray(children), this.injectProps.bind(this), true, Form.childs)

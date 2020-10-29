@@ -11,10 +11,9 @@ import Pane from "../Pane/Pane";
 import cssfile from "./Menu.scss";
 import csslib from "../../css";
 
-const css = csslib.open(cssfile);
-
 class Menu extends Focusable {
 
+  static css = csslib.open(cssfile);
   static className = "Menu";
 
   static Context = React.createContext();
@@ -58,7 +57,7 @@ class Menu extends Focusable {
     return {
       ref:el=>this.trigger=el,
       switch:noblur, active:focus, transition,
-      className:css.get("Trigger"),
+      className:Menu.css.get("Trigger"),
       children:trigger,
       onTap:this.setFocus.bind(this)
     }
@@ -69,7 +68,7 @@ class Menu extends Focusable {
     const { focus } = this.state;
     return {
       ref:pane=>this.pane = pane,
-      className:css.get("Pane"),
+      className:Menu.css.get("Pane"),
       expand:focus, position, transition, children,
     }
   }
@@ -78,7 +77,7 @@ class Menu extends Focusable {
     const { children, flat } = this.props;
     return (
       <Menu.Context.Provider value={this}>
-      <div {...this.fetchPropsSelf(css)}>
+      <div {...this.fetchPropsSelf()}>
         {
           flat?children:
           <React.Fragment>

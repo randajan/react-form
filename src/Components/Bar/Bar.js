@@ -6,10 +6,9 @@ import Flagable from "../../Dummy/Flagable";
 import cssfile from "./Bar.scss";
 import csslib from "../../css";
 
-const css = csslib.open(cssfile);
-
 class Bar extends Flagable {
 
+  static css = csslib.open(cssfile);
   static className = "Bar";
 
   static propTypes = {
@@ -31,10 +30,11 @@ class Bar extends Flagable {
     const { vertical, inverted, value } = this.props;
     const stickTo = vertical ? (inverted ? "bottom" : "top") : (inverted ? "right" : "left");
     return {
-      className:css.get("mark"),
+      className:Bar.css.get("mark"),
       style:{
         width:(vertical?1:value)*100+"%",
         height:(vertical?value:1)*100+"%",
+        pointerEvents:"none",
         [stickTo]:0
       }
     }
@@ -43,9 +43,9 @@ class Bar extends Flagable {
   render() {
     const { children } = this.props;
     return (
-      <div {...this.fetchPropsSelf(css)}>
+      <div {...this.fetchPropsSelf()}>
         <div {...this.fetchPropsMark()}/>
-        {children ? <div className={css.get("caption")}>{children}</div>: null}
+        {children ? <div className={Bar.css.get("caption")}>{children}</div>: null}
       </div>
     );
   }

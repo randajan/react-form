@@ -5,13 +5,14 @@ import jet from "@randajan/jetpack";
 
 import Valuable from '../../Dummy/Valuable';
 
+import Bar from "../Bar/Bar";
+
 import cssfile from "./Slider.scss";
 import csslib from "../../css";
 
-const css = csslib.open(cssfile);
-
 class Slider extends Valuable {
 
+  static css = csslib.open(cssfile);
   static className = "Slider";
 
   static propTypes = {
@@ -26,8 +27,8 @@ class Slider extends Valuable {
 
   static defaultProps = {
     ...Valuable.defaultProps,
-    min: 0,
-    max: 1,
+    from: 0,
+    to: 1,
     step: 0.01,
     inverted:false,
     vertical:false,
@@ -40,35 +41,49 @@ class Slider extends Valuable {
     inverted:p=>p.props.inverted,
     shifting:p=>p.state.shifting,
   }
-  
-  static validateValue(props, value) {
-    const { min, max, step } = props;
-    const val = jet.num.to(value);
-    return step ? jet.num.snap(val, step, min, max) : jet.num.frame(val, min, max);
+
+  boundToRatio(bound) {
+    const { vertical, inverted } = this.props;
+    const ratio = vertical ? bound.relY : bound.relX;
+    return inverted ? 1-ratio : ratio;
   }
 
-  static boundToValue(bound, props) {
-    const value = props.vertical ? bound.relY : bound.relX;
-    return Slider.validateValue(props, props.inverted ? 1-value : value);
+  ratioToBound(ratio) {
+    const { vertical, inverted } = this.props;
+    const bound = inverted ? 1-ratio : ratio;
+    return { relX:vertical?.5:bound, relY:vertical?bound:.5 }
   }
 
-  static valueToBound(value, props) {
-    const bound = props.inverted ? 1-value : value;
-    return { relX:props.vertical?.5:bound, relY:props.vertical?bound:.5 }
+  valueToRatio(value) {
+    const props = this.props;
+    return jet.num.toRatio(this.validateValue(value), props.from, props.to);
+  }
+  ratioToValue(ratio) {
+    const props = this.props;
+    return this.validateValue(jet.num.fromRatio(ratio, props.from, props.to));
   }
 
+  valueToBound(value) { return this.ratioToBound(this.valueToRatio(value)); }
+  boundToValue(bound) { return this.ratioToValue(this.boundToRatio(bound)); }
 
   draft() {
-    const bound = Slider.valueToBound(this.state.input, this.props);
-    this.cleanUp.add(jet.event.listenShift(this.body, this.handleShift.bind(this), bound.relX, bound.relY));
+    const { relX, relY } = this.valueToBound(this.state.input);
+    this.cleanUp.add(jet.event.listenShift(this.pin, this.handleShift.bind(this), relX, relY));
   }
 
   draw() {
-    const { relX, relY } = Slider.valueToBound(this.state.input, this.props);
-    const body = this.body;
-    body.style.left = (relX*100)+"%";
-    body.style.top = (relY*100)+"%";
-    if (this.state.focus) { body.focus(); } else { body.blur(); } //sync state with reality
+    const { relX, relY } = this.valueToBound(this.state.input);
+    this.pin.style.left = (relX*100)+"%";
+    this.pin.style.top = (relY*100)+"%";
+    if (this.state.focus) { this.pin.focus(); } else { this.pin.blur(); } //sync state with reality
+  }
+
+  validateValue(value) {
+    const { from, to, min, max, step } = this.props;
+    const n = jet.get("number", min, Math.min(from, to), 0);
+    const m = jet.get("number", max, Math.max(from, to), 100);
+    value = jet.get("number", value, from);
+    return step ? jet.num.snap(value, step, n, m) : jet.num.frame(value, n, m);
   }
 
   validateState(to, from) {
@@ -82,20 +97,24 @@ class Slider extends Valuable {
 
   handleShift(ev, bound) {
     const shifting = bound.state === "start" || bound.state === "move";
-    const input = Slider.boundToValue(bound, this.props);
-    const {relX, relY} = Slider.valueToBound(input, this.props);
+    const input = this.boundToValue(bound);
+    const {relX, relY} = this.valueToBound(input);
     bound.relX = relX; bound.relY = relY;
     this.setState({ shifting, input });
   }
 
+  handleMouseDown(ev) {
+
+  }
+
   handleKeyDown(ev) {
-    const { onKeyDown, step, inverted, vertical, lock } = this.props;
-    const k = ev.keyCode, inv = ((inverted !== vertical)*2-1);
+    const { onKeyDown, step, inverted, vertical, lock, from, to } = this.props;
+    const k = ev.keyCode, inv = (((inverted !== from > to) !== vertical)*2-1);
     if (lock) { return jet.event.stop(ev); }
     if (onKeyDown && onKeyDown(this, ev) === false) { return; }
     else if (ev.isDefaultPrevented()) { return; }
 
-    if (k === 27) { if (this.getInput() === this.getOutput()) { this.blur() } else { this.reject(); } } //escape 
+    if (k === 27) { if (this.getInput() === this.getOutput()) { this.blur() } else { this.undo(); } } //escape 
     else if (k === 13) { this.blur(); } //not enter
     else if (k === 37 || k === 40) { this.setInput(this.getInput()+(inv*step)); }
     else if (k === 39 || k === 38) { this.setInput(this.getInput()-(inv*step)); }
@@ -104,21 +123,27 @@ class Slider extends Valuable {
     jet.event.stop(ev);
   }
 
-  fetchPropsSelf() {
-    const { children, focus, tabIndex } = this.props;
+  fetchPropsPin() {
+    const { focus, tabIndex, flags } = this.props;
     const { lock } = this.state;
     return {
-      ...super.fetchPropsSelf(css),
-      children, autoFocus:focus, type:"button",
+      className:Slider.css.get("pin"), autoFocus:focus, type:"button",
       readOnly:lock, disabled:lock, tabIndex:lock?-1:tabIndex,
       onFocus: this.focus.bind(this),
       onBlur: this.blur.bind(this),
       onKeyDown: this.handleKeyDown.bind(this),
+      "data-flags":jet.react.fetchFlags({...this.constructor.defaultFlags, ...flags}, this),
+      ref:pin=>this.pin=pin
     }
   }
 
   render() {
-    return <button {...this.fetchPropsSelf()}/>
+    const { children } = this.props;
+    return (
+      <div {...this.fetchPropsSelf()}>
+        <button {...this.fetchPropsPin()}>{children}</button>
+      </div>
+    );
   }
 }
 

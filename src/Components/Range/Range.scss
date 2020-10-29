@@ -1,6 +1,7 @@
 .Range {
     display:inline-block;
 
+
     .interface {
         box-sizing:border-box;
     }
@@ -44,5 +45,4 @@
             transition: width .2s, height .2s;
         }
     }
-
 }

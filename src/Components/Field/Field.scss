@@ -6,6 +6,7 @@
         overflow:auto;
         max-width:100%;
         max-height:100%;
+        transition:opacity .4s;
     }
 
     .Label, .inbox, .onbox {
@@ -97,14 +98,19 @@
 
     &[data-flags~="focus"], &:not([data-flags~="blank"]) {
         .Label {
-            transform: scale(.8);
+            transform: translateY(20%) scale(.7);
         }
     }
 
     &[data-flags~="blank"]:not([data-flags~="focus"]) {
+        .interface {
+            opacity:0;
+        }
+
         .Label {
             transform: translateY(100%);
         }
+
         &:not([data-flags~="lock"]) {
 
             textarea, input {

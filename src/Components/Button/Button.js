@@ -8,10 +8,9 @@ import Focusable from "../../Dummy/Focusable";
 import cssfile from "./Button.scss";
 import csslib from "../../css";
 
-const css = csslib.open(cssfile);
-
 class Button extends Focusable {
 
+  static css = csslib.open(cssfile);
   static className = "Button";
 
   static propTypes = {
@@ -55,7 +54,7 @@ class Button extends Focusable {
     const { children, tabIndex, type } = this.props;  
     const lock = this.getLock();
     return {
-      ...super.fetchPropsSelf(css, type),
+      ...super.fetchPropsSelf(type),
       children, 
       type:type.startsWith("submit") ? "submit" : type.startsWith("reject") ? "reset" : type,
       disabled:lock, readOnly:lock, tabIndex:lock?-1:tabIndex,

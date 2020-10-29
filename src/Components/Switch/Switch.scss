@@ -1,24 +1,5 @@
 .Switch {
-    display:inline-block;
-
-    .interface {
-        box-sizing:border-box;
-    }
-
-    .track {
-        position:relative;
-    }
-
-    &[data-flags~="lock"] {
-        .Label {
-            color:#999;
-        }
-    }
-
     &:not([data-flags~="vertical"]) {
-        .interface {
-            padding: .2em .5em;
-        }
         .track {
             height:.5em;
             width:1em;
@@ -26,22 +7,9 @@
     }
 
     &[data-flags~="vertical"] {
-
-        .interface {
-            padding: .5em .2em;
-        }
         .track {
             height:1em;
             width:.5em;
-        }
-    }
-
-    &:not([data-flags~="lock"]):not([data-flags~="shifting"]) {
-        .interface {
-            cursor:pointer;
-        }
-        .Bar > * {
-            transition: width .2s, height .2s;
         }
     }
 

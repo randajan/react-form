@@ -8,10 +8,9 @@ import Flagable from "../../Dummy/Flagable";
 import cssfile from "./Table.scss";
 import csslib from "../../css";
 
-const css = csslib.open(cssfile);
-
 class Table extends Flagable {
 
+  static css = csslib.open(cssfile);
   static className = "Table";
 
   static propTypes = {
@@ -25,7 +24,6 @@ class Table extends Flagable {
     "rows":[],
     "columns":[]
   }
-
   
   headings = {};
 
@@ -67,7 +65,7 @@ class Table extends Flagable {
   fetchPropsColumns() {
     return {
       ref:el=>this.columns = el,
-      className:css.get("columns"),
+      className:Table.css.get("columns"),
       children:this.heading(false)
     }
   }
@@ -75,7 +73,7 @@ class Table extends Flagable {
   fetchPropsRows() {
     return {
       ref:el=>this.rows = el,
-      className:css.get("rows")
+      className:Table.css.get("rows")
     }
   }
 
@@ -84,7 +82,7 @@ class Table extends Flagable {
     const { caption, columns, rows, foot } = this.props;
 
     return (
-      <div {...this.fetchPropsSelf(css)}>
+      <div {...this.fetchPropsSelf()}>
         <table>
           <caption>{caption}</caption>
           <thead>
@@ -103,7 +101,7 @@ class Table extends Flagable {
             </tbody>
           </table>
         </div>
-        <div className={css.get("foot")}>
+        <div className={Table.css.get("foot")}>
           {foot}
         </div>
       </div>

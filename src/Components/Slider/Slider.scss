@@ -1,20 +1,16 @@
 .Slider {
+    position:relative;
+}
+
+.pin {
     display:block;
     position:absolute;
+    width:1em;
+    height:1em;
     padding:0;
     transform:translate(-50%, -50%);
     border-radius:.5em;
     transition:transform .2s, background-color .2s;
-
-    &[data-flags~="vertical"] {
-        width:.8em;
-        height:1em;
-    }
-
-    &:not([data-flags~="vertical"]) {
-        width:1em;
-        height:.8em;
-    }
 
     &[data-flags~="lock"] {
         background-color:#eee;

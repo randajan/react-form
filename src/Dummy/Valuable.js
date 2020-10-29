@@ -5,10 +5,10 @@ import jet from "@randajan/react-jetpack";
 
 import Focusable from './Focusable';
 
-function validator(self, his, fit, on, to, from) {
+function validator(his, fit, on, to, from) {
   if (fit) { to = fit(to, from); }
-  to = self.validateValue(his.props, to);
-  if (on && self.isValueDirty(to, from)) { jet.run(on, his, to, from); }
+  to = his.validateValue(to);
+  if (on && his.isValueDirty(to, from)) { jet.run(on, his, to, from); }
   return to;
 }
 
@@ -29,21 +29,14 @@ class Valuable extends Focusable {
     dirtyIn:p=>p.isInputDirty(),
   }
 
-  static isValueDirty(to, from) {
-    return to !== from;
-  }
-
-  static validateValue(props, value) {
-    return value;
-  }
-
-  static fetchPropState(props, self) {
+  fetchPropState(props) {
+    props = props || this.props;
     const { rawput, output, input} = props;
     return {
-      ...Focusable.fetchPropState(props, self),
-      rawput:self.validateValue(props, rawput), 
-      output:self.validateValue(props, jet.get("full", output, rawput)),
-      input:self.validateValue(props, jet.get("full", input, output, rawput))
+      ...super.fetchPropState(props),
+      rawput:this.validateValue(rawput, undefined, "rawput"), 
+      output:this.validateValue(jet.get("full", output, rawput), undefined, "output"),
+      input:this.validateValue(jet.get("full", input, output, rawput), undefined, "input")
     };
   }
 
@@ -60,21 +53,36 @@ class Valuable extends Focusable {
 
   submit() { return this.setRawput(this.state.output); }
   reject() { return this.setOutput(this.state.rawput); }
+  undo() { return this.setInput(this.state.output); }
 
   blur() { return this.setState({focus:false, output:this.getInput()}); }
+
+  isValueDirty(to, from) {
+    return to !== from;
+  }
+
+  validateValue(to, from, kind) {
+    return to;
+  }
+
+  fitValue(to, from, fit, eye, kind) {
+    to = this.validateValue(fit ? fit(to, from) : to, from, kind);
+    if (eye && this.isValueDirty(to, from)) { setTimeout(_=>jet.run(eye, this, to, from)); }
+    return to;
+  }
 
   validateState(to, from) {
     to = super.validateState(to, from);
     const { fitInput, fitOutput, fitRawput, onInput, onOutput, onRawput, onInputDirty, onOutputDirty } = this.props;
     const self = this.constructor;
 
-    to.rawput = validator(self, this, fitRawput, onRawput, to.rawput, from.rawput);
-    to.output = validator(self, this, fitOutput, onOutput, to.output, from.output);
+    to.rawput = this.fitValue(to.rawput, from.rawput, fitRawput, onRawput, "rawput");
+    to.output = this.fitValue(to.output, from.output, fitOutput, onOutput, "output");
     if (self.syncValueOnBlur && !to.focus) { to.input = to.output; }
-    else { to.input = validator(self, this, fitInput, onInput, to.input, from.input); }
+    to.input = this.fitValue(to.input, from.input, fitInput, onInput, "input");
 
-    to.outputDirty = self.isValueDirty(to.rawput, to.output);
-    to.inputDirty = self.isValueDirty(to.output, to.input);
+    to.outputDirty = this.isValueDirty(to.rawput, to.output);
+    to.inputDirty = this.isValueDirty(to.output, to.input);
 
     if (onOutputDirty && to.outputDirty !== from.outputDirty) { jet.run(onInputDirty, this, to.outputDirty); }
     if (onInputDirty && to.inputDirty !== from.inputDirty) { jet.run(onInputDirty, this, to.inputDirty); }

@@ -7,18 +7,14 @@ import Flagable from "./Flagable";
 
 class Stateful extends Flagable {
 
-  static fetchPropState(props, self) {
-    return {};
-  }
-
   state;
 
   constructor(props) {
     super(props);
-    const self = this.constructor;
-    const propstate = self.fetchPropState(props, self);
-    this.state = this.validateState(propstate, {});
+    this.state = this.validateState(this.fetchPropState(), {});
   }
+
+  fetchPropState(props) { return {}; }
 
   async setState(state) {
     const { onChange } = this.props;
@@ -32,8 +28,7 @@ class Stateful extends Flagable {
   }
 
   reset() {
-    const self = this.constructor;
-    return this.setState(self.fetchPropState(this.props, self));
+    return this.setState(this.fetchPropState());
   }
 
   validateState(to, from) { return jet.obj.merge(from, to); }

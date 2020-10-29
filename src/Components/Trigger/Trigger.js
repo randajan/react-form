@@ -9,10 +9,9 @@ import Flagable from "../../Dummy/Flagable";
 import cssfile from "./Trigger.scss";
 import csslib from "../../css";
 
-const css = csslib.open(cssfile);
-
 class Trigger extends Flagable {
 
+  static css = csslib.open(cssfile);
   static className = "Trigger";
 
   static defaultFlags = {
@@ -34,10 +33,10 @@ class Trigger extends Flagable {
     jet.event.stop(ev);
   }
 
-  fetchPropsSelf() {
+  fetchPropsSelf(...classNames) {
     const { children} = this.props;
     return {
-      ...super.fetchPropsSelf(css),
+      ...super.fetchPropsSelf(...classNames),
       onClick:this.handleClick.bind(this),
       children
     };
@@ -45,7 +44,7 @@ class Trigger extends Flagable {
 
   fetchTransitionProps() {
     const { transition, appear, active } = this.props;
-    return { in:active, timeout:transition, appear, classNames:css.transitions()}
+    return { in:active, timeout:transition, appear, classNames:Trigger.css.transitions()}
   }
 
   render() {

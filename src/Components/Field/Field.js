@@ -13,10 +13,9 @@ import csslib from "../../css";
 
 import Valuable from '../../Dummy/Valuable';
 
-const css = csslib.open(cssfile);
-
 class Field extends Valuable {
 
+  static css = csslib.open(cssfile);
   static className = "Field";
   
   static propTypes = {
@@ -37,12 +36,10 @@ class Field extends Valuable {
 
   static defaultFlags = {
     ...Valuable.defaultFlags,
-    blank:p=>!p.getInput(),
+    blank:p=>jet.isEmpty(p.getInput()),
     full:p=>p.state.mark===1,
     autosize:p=>p.props.autoSize,
   }
-
-  static validateValue(props, value) { return jet.str.to(value).slice(0, props.maxLength); }
 
   box = {}
 
@@ -76,10 +73,10 @@ class Field extends Valuable {
 
   draw() {
     const { inbox, onbox, state } = this;
-    const { focus, input, output } = state;
+    const { focus, input } = state;
 
-    if (onbox && onbox.value !== input) { onbox.value = input; }
-    if (inbox.value !== input) { inbox.value = input; }
+    if (onbox && onbox.value !== input) { onbox.value = jet.str.to(input); }
+    if (inbox.value !== input) { inbox.value = jet.str.to(input); }
     if (focus) { inbox.focus(); } else { inbox.blur(); } //sync state with reality
     this.autoSize();
   }
@@ -106,7 +103,7 @@ class Field extends Valuable {
     if (onKeyDown && onKeyDown(this, ev) === false) { return; }
     else if (ev.isDefaultPrevented()) { return; }
 
-    if (k === 27) { if (this.getInput() === this.getOutput()) { this.blur() } else { this.reject(); } } //escape 
+    if (k === 27) { if (this.getInput() === this.getOutput()) { this.blur() } else { this.undo(); } } //escape 
     else if (k === 13 && (ev.ctrlKey === this.isTextArea())) { this.blur(); } //not enter
     else { return }
 
@@ -116,6 +113,15 @@ class Field extends Valuable {
   checker() {
     const { focus, output } = this.state;
     if (!focus) { this.inbox.value = output; }
+  }
+
+  validateValue(to, from, kind) {
+    const { type } = this.props;
+    to = jet.str.to(to);
+    if (kind !== "input") {
+      if (type === "number") { return jet.num.to(to); }
+    }
+    return to.slice(0, this.props.maxLength);
   }
 
   validateState(now, from) {
@@ -129,7 +135,7 @@ class Field extends Valuable {
     const {tabIndex, name, autoCorrect, autoCapitalize, spellCheck, autoComplete, onPaste, maxLength } = this.props;
     const { focus, lock } = this.state;
     return {
-      ref:el=>this.inbox = el, className:css.get("inbox"),
+      ref:el=>this.inbox = el, className:Field.css.get("inbox"),
       name, autoFocus:focus, autoCorrect, autoCapitalize, spellCheck, autoComplete, maxLength, 
       readOnly:lock, disabled:lock, tabIndex:lock?-1:tabIndex,
       onFocus: _=> this.focus(),
@@ -142,13 +148,13 @@ class Field extends Valuable {
 
   fetchPropsOnbox() {
     const { rows, cols } = this.props;
-    return { ref:el=>this.onbox = el, className:css.get("onbox"), rows, cols };
+    return { ref:el=>this.onbox = el, className:Field.css.get("onbox"), rows, cols };
   }
 
   fetchPropsMark() {
     const { mark } = this.state;
     return {
-      ref:el=>this.mark, className:css.get("mark"),
+      ref:el=>this.mark, className:Field.css.get("mark"),
       style:{width:(mark*100)+"%"}
     }
   }
@@ -156,7 +162,7 @@ class Field extends Valuable {
   fetchPropsLabel() {
     const { name, label } = this.props;
     return {
-      className:css.get("Label"), name,
+      className:Field.css.get("Label"), name,
       children:label
     }
   }
@@ -164,10 +170,10 @@ class Field extends Valuable {
   render() {
     const { type, children } = this.props;
     return (
-      <div {...this.fetchPropsSelf(css, type)}>
-        <div className={css.get("wrap")}>
+      <div {...this.fetchPropsSelf(type)}>
+        <div className={Field.css.get("wrap")}>
           <Label {...this.fetchPropsLabel()}/>
-          <div className={css.get("interface")}>
+          <div className={Field.css.get("interface")}>
             {
               this.isTextArea() ? 
               <textarea {...this.fetchPropsOnbox()} {...this.fetchPropsInbox()} /> :
@@ -177,7 +183,7 @@ class Field extends Valuable {
               ]
             }
           </div>
-          <div className={css.get("underline")}>
+          <div className={Field.css.get("underline")}>
             <div {...this.fetchPropsMark()}/>
           </div>
         </div>

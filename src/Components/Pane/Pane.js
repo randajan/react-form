@@ -10,10 +10,9 @@ import Stateful from "../../Dummy/Stateful";
 import cssfile from "./Pane.scss";
 import csslib from "../../css";
 
-const css = csslib.open(cssfile);
-
 class Pane extends Stateful {
 
+  static css = csslib.open(cssfile);
   static className = "Pane";
 
   static propTypes = {
@@ -80,7 +79,7 @@ class Pane extends Stateful {
       timeout:transition,
       unmountOnExit:true,
       appear:true,
-      classNames:css.transitions(),
+      classNames:Pane.css.transitions(),
       children:this.renderBody()
     }
   }
@@ -98,7 +97,7 @@ class Pane extends Stateful {
 
     return {
       ref:el=>this.content=el,
-      className:css.get("content"),
+      className:Pane.css.get("content"),
       style,
       children
     }
@@ -108,7 +107,7 @@ class Pane extends Stateful {
     const { transition, expand } = this.props;
     if (!transition && !expand) { return null; }
     return (
-      <div {...this.fetchPropsSelf(css)}>
+      <div {...this.fetchPropsSelf()}>
         <div {...this.fetchPropsContent()}/>
       </div>
     )
