@@ -105,12 +105,13 @@ class Form extends Flagable {
     const eye = props[type];
 
     clearTimeout(timers[type]); 
-    timers[type] = setTimeout(_=>{
-      console.log(type, bubble, ...a)
-      if (!this.mounted) { return; }
-      if (bubble) { this.setState({}); }
-      if (eye) { jet.run(eye, this); }
-    }, props.sync);
+    timers[type] = setTimeout(_=>this.mounted ? jet.run(eye, this) : null, props.sync);
+
+    if (!bubble) { return; }
+    
+    clearTimeout(timers.redraw);
+    timers.redraw = setTimeout(_=>this.mounted ? this.setState({}) : null, props.sync);
+
   }
 
   injectProps(ele, key, level) {

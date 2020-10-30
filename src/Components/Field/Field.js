@@ -106,13 +106,8 @@ class Field extends Valuable {
   }
 
 
-  validateValue(to, from, kind) {
-    const { type } = this.props;
-    to = jet.str.to(to);
-    if (kind !== "input") {
-      if (type === "number") { return jet.num.to(to); }
-    }
-    return to.slice(0, this.props.maxLength);
+  validateValue(to, from) {
+    return jet.str.to(to).slice(0, this.props.maxLength);
   }
 
   validateState(now, from) {

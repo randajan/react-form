@@ -20,11 +20,12 @@ class Range extends Slider {
 
   }
 
-  fetchPropsInterface() { return { className:Range.css.get("interface") }}
+  fetchPropsInterface() { return {
+    className:Range.css.get("interface"),
+    onMouseDown:this.handleMouseDown.bind(this)
+  }}
 
-  fetchPropsTrack() {
-    return { className:Range.css.get("track"), onMouseDown:this.handleMouseDown.bind(this) }
-  }
+  fetchPropsTrack() { return { className:Range.css.get("track") }}
 
   fetchPropsBar() {
     const { from, to, min, max, vertical, inverted } = this.props;

@@ -101,6 +101,7 @@ class Slider extends Valuable {
     const {relX, relY} = this.valueToBound(input);
     bound.relX = relX; bound.relY = relY;
     this.setState({ shifting, input });
+    jet.event.stop(ev);
   }
 
   handleMouseDown(ev) {

@@ -48,7 +48,7 @@ class Focusable extends Stateful {
     else if (fitFocus) { to.focus = jet.to("boolean", fit(to.focus, from.focus)); }
 
     const watcher = to.focus ? onFocus : onBlur;
-    if (watcher && to.focus !== from.focus) { jet.run(watcher, this, to.focus); }
+    if (watcher && to.focus !== from.focus) { this.effect.add(_=>jet.run(watcher, this, to.focus)); }
 
     return to;
   }

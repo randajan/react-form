@@ -51,8 +51,8 @@ function TestForm() {
       onChange={(...args)=>{console.log("form_change", ...args);}}
     >
       <Field input={"Denis"} name="fullname" maxLength={15} onInput={console.log}/>
-      <Field input={100} name="age" type="number" onInput={console.log}/>
-      {/* <Range input={100} name="age" step={1} from={110} to={10}/> */}
+      {/* <Field input={100} name="age" type="number" onInput={console.log}/> */}
+      <Range input={100} name="age" step={1} from={0} to={100}/>
       <Switch name="gender" onOutput={(s,v)=>console.log("output", v)} onInput={(s,v)=>console.log("input", v)}/>
       <div>
         <Button type="reset">To Default</Button>

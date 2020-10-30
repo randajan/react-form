@@ -38,9 +38,8 @@ class Switch extends Range {
     jet.event.stop(ev, true)
   }
 
-  validateValue(to, from, kind) {
-    if (kind !== "input") { return jet.to("boolean", to); }
-    return jet.num.frame(+to, 0, 1);
+  validateValue(to, from) {
+    return jet.num.frame(jet.num.to(to), 0, 1);
   }
 
   fetchPropsTrack() {
