@@ -28,7 +28,7 @@ class Pane extends Stateful {
   static defaultFlags = {
     ...Stateful.defaultFlags,
     position:p=>p.props.position,
-    expand:p=>p.props.expand
+    expand:p=>p.props.expand,
   }
 
   static prebound = {
@@ -73,11 +73,11 @@ class Pane extends Stateful {
   }
 
   fetchPropsTransition() {
-    const { expand, transition } = this.props;
+    const { expand, transition, unmountOnExit } = this.props;
     return {
       in:expand,
       timeout:transition,
-      unmountOnExit:true,
+      unmountOnExit,
       appear:true,
       classNames:Pane.css.transitions(),
       children:this.renderBody()

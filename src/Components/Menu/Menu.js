@@ -69,7 +69,7 @@ class Menu extends Focusable {
     return {
       ref:pane=>this.pane = pane,
       className:Menu.css.get("Pane"),
-      expand:focus, position, transition, children,
+      unmountOnExit:true, expand:focus, position, transition, children,
     }
   }
 
