@@ -20,21 +20,23 @@ class Form extends Flagable {
   static className = "Form";
 
   static childs = [Field, Switch, Range, Button];
-  static passEvents = [ "onInput", "onOutput", "onRawput" ];
-  static bubblingEvents = [ "onFocus", "onBlur", "onInputDirty", "onOutputDirty" ];
+  static eventsPass = [ "onInput", "onOutput", "onRawput" ];
+  static eventsBubble = [ "onFocus", "onBlur", "onInputDirty", "onOutputDirty" ];
 
   static propTypes = {
     ...Flagable.propTypes,
     rawput:PropTypes.object,
     output:PropTypes.object,
-    input:PropTypes.object
+    input:PropTypes.object,
+    sync:PropTypes.number
   }
 
   static defaultProps = {
     ...Flagable.defaultProps,
     rawput:{},
     output:{},
-    input:{}
+    input:{},
+    sync:50
   }
 
   static fetchName(name, key, level) {
@@ -47,24 +49,18 @@ class Form extends Flagable {
   }
 
   fields = {};
+  timers = {};
 
-  constructor(props) {
-    super(props);
-    let rendermod = true;
-    this.rerender = mod=>{
-      if (mod !== undefined) { rendermod = mod; }
-      if (rendermod) { setTimeout(_=>this.setState({})); }
-    };
+  draft() {
+    this.mounted = true;
+    this.cleanUp.add(_=>this.mounted = false);
   }
 
   mapFields(callback, custommap) {
-    this.rerender(false);
-    const res = jet.obj.map(custommap||this.fields, (val, k)=>{
+    return jet.obj.map(custommap||this.fields, (val, k)=>{
       const field = this.fields[k];
       return field ? callback(field, val) : undefined;
     });
-    this.rerender(true);
-    return res;
   }
 
   findField(callback, def) {
@@ -95,11 +91,25 @@ class Form extends Flagable {
   reject() { return this.mapFields(field=>field.reject()); }
   reset() { return this.mapFields(field=>field.reset()); }
 
-  withEvents(ele, inject) {
-    const props = this.props;
-    Form.passEvents.map(e=>inject[e] = [props[e], ele.props[e]]);
-    Form.bubblingEvents.map(e=>inject[e] = [this.rerender, props[e], ele.props[e]]);
+  injectEvents(ele, inject) {
+    let bubble;
+    const ject = type=>inject[type] = [_=>this.eventHandle({type, bubble}), ele.props[type]];
+    bubble = false; Form.eventsPass.map(ject);
+    bubble = true; Form.eventsBubble.map(ject);
     return inject;
+  }
+
+  eventHandle(ev) {
+    const { props, timers } = this
+    const {type, bubble} = ev;
+    const eye = props[type];
+
+    clearTimeout(timers[type]); 
+    timers[type] = setTimeout(_=>{
+      if (!this.mounted) { return; }
+      if (bubble) { this.setState({}); }
+      if (eye) { jet.run(eye, this); }
+    }, props.sync);
   }
 
   injectProps(ele, key, level) {
@@ -107,12 +117,12 @@ class Form extends Flagable {
     const { labels, titles, rawput, output, input } = this.props;
     const { label, title } = ele.props;
     const name = Form.fetchName(ele.props.name, key, level);
-    return {
+    return this.injectEvents(ele, {
       name, ref:el=>this.fields[name] = el, parent:this,
       rawput: rawput[name], output: output[name], input:input[name],
       label: Form.fetchValue(labels, name, label),
       title: Form.fetchValue(titles, name, title)
-    }
+    })
   }
 
   fetchPropsSelf(...classNames) {

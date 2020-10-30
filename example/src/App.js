@@ -42,6 +42,7 @@ function TestForm2() {
 function TestForm() {
   return (
     <Form
+      flags={{focus:p=>p.getFocus()}}
       rawput={{ fullname:"Adam", age:0 }}
       output={{ fullname:"Boris", age:30 }}
       labels={{fullname:"Name", age:"Age", gender:"Gender"}}
