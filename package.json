@@ -1,6 +1,6 @@
 {
   "name": "@randajan/react-form",
-  "version": "3.2.12-0",
+  "version": "3.2.12",
   "description": "Basic react forms and fields",
   "license": "MIT",
   "repository": "randajan/react-form",
