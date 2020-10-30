@@ -83,9 +83,9 @@ class Form extends Flagable {
   getOutput() { return this.mapFields(field=>field.getOutput()); }
   getInput() { return this.mapFields(field=>field.getInput()); }
 
-  async setRawput(rawput) { this.mapFields((field, val)=>field.setRawput(val), rawput); }
-  async setOutput(output) { this.mapFields((field, val)=>field.setOutput(val), output); }
-  async setInput(input) { this.mapFields((field, val)=>field.setInput(val), input); }
+  setRawput(rawput) { return this.mapFields((field, val)=>field.setRawput(val), rawput); }
+  setOutput(output) { return this.mapFields((field, val)=>field.setOutput(val), output); }
+  setInput(input) { return this.mapFields((field, val)=>field.setInput(val), input); }
 
   submit() { return this.mapFields(field=>field.submit()); }
   reject() { return this.mapFields(field=>field.reject()); }
@@ -108,7 +108,7 @@ class Form extends Flagable {
     timers[type] = setTimeout(_=>this.mounted ? jet.run(eye, this) : null, props.sync);
 
     if (!bubble) { return; }
-    
+
     clearTimeout(timers.redraw);
     timers.redraw = setTimeout(_=>this.mounted ? this.setState({}) : null, props.sync);
 

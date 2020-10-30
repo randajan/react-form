@@ -28,8 +28,8 @@ class Switch extends Range {
     off:p=>!p.state.input
   }
 
-  async tap() {
-    await this.setState({focus:true, input:!this.state.input});
+  tap() {
+    this.setState({focus:true, input:!this.state.input});
     return this.getInput();
   }
 
