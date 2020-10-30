@@ -107,12 +107,12 @@ class Form extends Flagable {
     const { labels, titles, rawput, output, input } = this.props;
     const { label, title } = ele.props;
     const name = Form.fetchName(ele.props.name, key, level);
-    return this.withEvents(ele, {
+    return {
       name, ref:el=>this.fields[name] = el, parent:this,
       rawput: rawput[name], output: output[name], input:input[name],
       label: Form.fetchValue(labels, name, label),
       title: Form.fetchValue(titles, name, title)
-    })
+    }
   }
 
   fetchPropsSelf(...classNames) {

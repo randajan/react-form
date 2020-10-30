@@ -27,3 +27,10 @@ code {
           transition: .6s;
 
   }
+  .App {
+    transition:1s;
+  }
+
+  .App.close {
+    transform: translateY(50%);
+  }
