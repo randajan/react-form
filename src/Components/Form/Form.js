@@ -93,19 +93,20 @@ class Form extends Flagable {
 
   injectEvents(ele, inject) {
     let bubble;
-    const ject = type=>inject[type] = [_=>this.eventHandle({type, bubble}), ele.props[type]];
+    const ject = type=>inject[type] = [(...a)=>this.eventHandle({type, bubble}, ...a), ele.props[type]];
     bubble = false; Form.eventsPass.map(ject);
     bubble = true; Form.eventsBubble.map(ject);
     return inject;
   }
 
-  eventHandle(ev) {
+  eventHandle(ev, ...a) {
     const { props, timers } = this
     const {type, bubble} = ev;
     const eye = props[type];
 
     clearTimeout(timers[type]); 
     timers[type] = setTimeout(_=>{
+      console.log(type, bubble, ...a)
       if (!this.mounted) { return; }
       if (bubble) { this.setState({}); }
       if (eye) { jet.run(eye, this); }
