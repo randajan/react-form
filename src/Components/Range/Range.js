@@ -17,7 +17,7 @@ class Range extends Slider {
   static className = "Range";
 
   handleMouseDown(ev) {
-    console.log(ev.target);
+
   }
 
   fetchPropsInterface() { return { className:Range.css.get("interface") }}
