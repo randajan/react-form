@@ -22,15 +22,10 @@ code {
 
 
 
+
+
   .Pane.appear .content, .Pane.enter .content, .Pane.exit .content {
 
           transition: .6s;
 
-  }
-  .App {
-    transition:1s;
-  }
-
-  .App.close {
-    transform: translateY(50%);
   }

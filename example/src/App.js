@@ -1,40 +1,41 @@
 import React from 'react'
 
 
-import {jet, css, Form, Range, Slider, Switch, Control, Button, Field, Table, Trigger, Pane, Menu, useState } from '@randajan/react-form';
+import {css, Form, Range, Slider, Switch, Control, Button, Field, Table, Trigger, Pane, Menu, jet, useRef, useForceRender } from '@randajan/react-form';
+
+
 
 import "@randajan/react-form/dist/index.css";
 
+
 window.jet = jet
+
 
 css.define({
   "Switch":"Switcher",
 })
 
 function TestForm2() {
+  const onInput = useForceRender();
+  const ref = useRef();
+  const form = ref.current;
+  const input = form ? jet.obj.map(form.getInput(), jet.num.to) : {};
+
   return (
-    <Form>
-    <div className="flex scope">
-      <h3>Rozsah vašeho IT systému</h3>
-      <Field name="c_user" type="number"/>
-      <Field name="c_pc" type="number"/>
-      <Field name="c_netgear" type="number"/>
-      <Field name="c_gear" type="number"/>
-      <Field name="c_server" type="number"/>
-      <Field name="c_service" type="number"/>
-      <Field name="c_services_user" type="number"/>
-    </div>
-    <div className="flex range">
-      <h3>Kdy nás potřebujete?</h3>
-      <Range name="r_workday" from={0} to={2} step={1}>8:00 - 17:00</Range>
-      <Range name="r_weekend" from={0} to={3} step={1}/>
-    </div>
-    <div className="flex speed">
-      <h3>Rychlost naší reakce</h3>
-      <Range name="g_repair" from={48} to={12} step={6}/>
-      <Range name="g_urgent" from={8} to={2} step={2}/>
-    </div>
-  </Form>
+    <Form { ...{ref, onInput }}>
+      <div className="flex scope">
+        <h3>Rozsah vašeho IT systému</h3>
+        <Switch name="is_detailed"/>
+        <Field name="c_user" type="number"/>
+        <Field name="c_server" type="number"/>
+        <Pane key={10} expand={!!input.is_detailed} transition={20000}>
+          <Field name="c_pc" type="number"/>
+          <Field name="c_netgear" type="number"/>
+          <Field name="c_gear" type="number"/>
+        </Pane>
+
+      </div>
+    </Form>
   )
 }
 
@@ -67,13 +68,11 @@ function TestForm() {
 }
 
 function App() {
-  const [ state, setState ] = useState(false);
 
   return (
-    <div className={jet.str.to(["App", state?"open":"close"], " ")}>
+    <div className="App">
       <TestForm/>
-      <div onClick={_=>setState(true)}>CLICK ME</div>
-      {state ? <TestForm2/> : null}
+      <TestForm2/>
       <Button onSubmit={console.log}>Test</Button>
       <Table columns={["Baby", "Heyby"]} rows={[[1, "a"], [2, "b"]]}/>
       <Slider from={10} to={0} step={1} onInput={console.log}/>
