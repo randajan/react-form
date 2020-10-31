@@ -19,12 +19,13 @@ class Switch extends Range {
 
   static defaultProps = {
     ...Range.defaultProps,
-    step:1
+    step:1,
+    skipInput:true
   }
 
   static defaultFlags = {
     ...Range.defaultFlags,
-    on:p=>p.state.input,
+    on:p=>!!p.state.input,
     off:p=>!p.state.input
   }
 
@@ -39,7 +40,7 @@ class Switch extends Range {
   }
 
   validateValue(to, from) {
-    return jet.num.frame(jet.num.to(to), 0, 1);
+    return jet.num.round(jet.num.frame(jet.num.to(to), 0, 1));
   }
 
   fetchPropsTrack() {

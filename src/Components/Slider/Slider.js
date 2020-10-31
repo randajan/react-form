@@ -22,7 +22,7 @@ class Slider extends Valuable {
     step: PropTypes.number,
     inverted: PropTypes.bool,
     vertical: PropTypes.bool,
-    autoSubmit: PropTypes.bool
+    shiftSubmit: PropTypes.bool
   }
 
   static defaultProps = {
@@ -32,7 +32,7 @@ class Slider extends Valuable {
     step: 0.01,
     inverted:false,
     vertical:false,
-    autoSubmit:true
+    shiftSubmit:true
   }
 
   static defaultFlags = {
@@ -87,11 +87,11 @@ class Slider extends Valuable {
   }
 
   validateState(to, from) {
-    const { autoSubmit, onShift } = this.props;
+    const { shiftSubmit, onShift } = this.props;
     if (to.shifting) { to.focus = true; }
-    if (autoSubmit && to.shifting === false) { to.output = jet.get("number", to.input, from.input); }
+    if (shiftSubmit && to.shifting === false) { to.output = jet.get("number", to.input, from.input); }
     to = super.validateState(to, from);
-    if (to.shifting != from.shifting) { jet.run(onShift, to.shifting); }
+    if (to.shifting != from.shifting) { this.effect.run(_=>jet.run(onShift, to.shifting)); }
     return to;
   }
 

@@ -25,8 +25,9 @@ class Stateful extends Flagable {
     const changes = jet.obj.compare(from, to);
     if (changes.length) {
       super.setState(to);
-      this.effect.add(_=>jet.run(onChange, this, changes));
-      setTimeout(_=>this.effect.run());
+      jet.run(onChange, this, changes);
+      this.effect.run();
+      this.effect.flush();
     }
     return changes;
   }

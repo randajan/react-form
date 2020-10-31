@@ -19,6 +19,7 @@ class Valuable extends Focusable {
     fitRawput: PropTypes.func,
     fitOutput: PropTypes.func,
     fitInput: PropTypes.func,
+    skipInput: PropTypes.bool
   }
 
   static defaultFlags = {
@@ -65,19 +66,19 @@ class Valuable extends Focusable {
 
   fitValue(to, from, fit, eye) {
     to = this.validateValue(fit ? fit(to, from) : to, from);
-
-    
     if (eye && this.isValueDirty(to, from)) { this.effect.add(_=>jet.run(eye, this, to, from)); }
     return to;
   }
 
   validateState(to, from) {
     to = super.validateState(to, from);
-    const { fitInput, fitOutput, fitRawput, onInput, onOutput, onRawput, onInputDirty, onOutputDirty } = this.props;
+    const { fitInput, fitOutput, fitRawput, onInput, onOutput, onRawput, onInputDirty, onOutputDirty, skipInput } = this.props;
     to.rawput = this.fitValue(to.rawput, from.rawput, fitRawput, onRawput);
+    
+    if (skipInput) { to.output = to.input; }
     to.output = this.fitValue(to.output, from.output, fitOutput, onOutput);
     if (!to.focus) { to.input = to.output; }
-    else { to.input = this.fitValue(to.input, from.input, fitInput, onInput); }
+    to.input = this.fitValue(to.input, from.input, fitInput, onInput);
 
     to.outputDirty = this.isValueDirty(to.rawput, to.output);
     to.inputDirty = this.isValueDirty(to.output, to.input);
