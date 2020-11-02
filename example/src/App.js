@@ -46,7 +46,7 @@ function TestForm() {
       flags={{focus:p=>p.getFocus()}}
       rawput={{ fullname:"Adam", age:0 }}
       output={{ fullname:"Boris", age:30 }}
-      labels={{fullname:"Name", age:"Age", gender:"Gender"}}
+      labels={{fullname:"Name", age:"Age", gender:"Gender", bio:"Bio"}}
       onOutputDirty={(...args)=>{console.log("form_output", ...args)}}
       onInputDirty={(...args)=>{console.log("form_input", ...args)}}
       onChange={(...args)=>{console.log("form_change", ...args);}}
@@ -55,6 +55,7 @@ function TestForm() {
       {/* <Field input={100} name="age" type="number" onInput={console.log}/> */}
       <Range input={100} name="age" step={1} from={0} to={100}/>
       <Switch name="gender" onOutput={(s,v)=>console.log("output", v)} onInput={(s,v)=>console.log("input", v)}/>
+      <Field name="bio" maxLength={255} type="textarea" autoSize/>
       <div>
         <Button type="reset">To Default</Button>
         <Button type="reject">Undo changes</Button>
