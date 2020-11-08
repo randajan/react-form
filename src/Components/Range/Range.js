@@ -21,15 +21,7 @@ class Range extends Slider {
     marker:p=>!!p.props.marker
   }
 
-  handleClick(ev) {
-    console.log(ev);
-
-  }
-
-  fetchPropsInterface() { return {
-    className:this.css.get("interface"),
-    onClick:this.handleClick.bind(this)
-  }}
+  fetchPropsInterface() { return { className:this.css.get("interface") }}
 
   fetchPropsTrack() { return { className:this.css.get("track") }}
 
