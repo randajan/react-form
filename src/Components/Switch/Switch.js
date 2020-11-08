@@ -32,6 +32,8 @@ class Switch extends Range {
     return this.getInput();
   }
 
+  draft() {}
+
   handleClick(ev) {
     this.tap();
     jet.event.stop(ev, true);
@@ -41,16 +43,16 @@ class Switch extends Range {
     return jet.num.round(jet.num.frame(jet.num.to(to), 0, 1));
   }
 
-  fetchPropsInterface() {
+  fetchPropsTrack() {
     return {
-      ...super.fetchPropsInterface(),
+      ...super.fetchPropsTrack(),
       onClick:this.handleClick.bind(this),
     }
   }
 
-  fetchPropsTrack() {
+  fetchPropsPin() {
     return {
-      ...super.fetchPropsTrack(),
+      ...super.fetchPropsPin(),
       style:{pointerEvents:"none"}
     }
   }

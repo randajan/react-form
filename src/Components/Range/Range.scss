@@ -1,13 +1,13 @@
 .Range {
     display:inline-block;
 
-
     .interface {
         box-sizing:border-box;
     }
 
     .track {
         position:relative;
+        display:inline-block;
     }
 
     &[data-flags~="lock"] {
@@ -17,7 +17,7 @@
     }
 
     &:not([data-flags~="lock"]):not([data-flags~="shifting"]) {
-        .interface {
+        .track {
             cursor:pointer;
         }
         .Bar > * {
