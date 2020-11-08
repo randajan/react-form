@@ -19,6 +19,12 @@ class Flagable extends Component {
   }
 
   cleanUp = new jet.RunPool();
+
+  constructor(props) {
+    super(props);
+    this.self = this.constructor;
+    this.css = this.constructor.css;
+  }
   
   componentDidMount() { this.draft(); this.draw(this.props, {}); }
   componentDidUpdate(props) { this.draw(this.props, props); }
@@ -28,12 +34,11 @@ class Flagable extends Component {
   draw(to, from) {}
 
   fetchPropsSelf(...classNames) {
-    const self = this.constructor;
     const { id, title, name, style, className, flags } = this.props;
     return {
       ref:body=>this.body = body,
-      id, name, className:self.css.get(self.className, className, ...classNames),
-      "data-flags":jet.react.fetchFlags({...self.defaultFlags, ...flags}, this),
+      id, name, className:this.css.get(this.self.className, className, ...classNames),
+      "data-flags":jet.react.fetchFlags({...this.self.defaultFlags, ...flags}, this),
       title, style
     }
   }

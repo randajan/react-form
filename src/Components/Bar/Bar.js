@@ -23,29 +23,32 @@ class Bar extends Flagable {
 
   static defaultFlags = {
     inverted:p=>p.props.inverted,
-    vertical:p=>p.props.vertical
+    vertical:p=>p.props.vertical,
+    marker:p=>!!p.props.marker
   }
 
   fetchPropsMark() {
-    const { vertical, inverted, value } = this.props;
+    const { vertical, inverted, value, marker } = this.props;
     const stickTo = vertical ? (inverted ? "bottom" : "top") : (inverted ? "right" : "left");
     return {
-      className:Bar.css.get("mark"),
+      className:this.css.get("mark"),
+      children:marker,
       style:{
         width:(vertical?1:value)*100+"%",
         height:(vertical?value:1)*100+"%",
         pointerEvents:"none",
-        [stickTo]:0
+        [stickTo]:0,
       }
     }
   }
 
   render() {
-    const { children } = this.props;
+    const { children, marker } = this.props;
     return (
       <div {...this.fetchPropsSelf()}>
+        <div className={this.css.get("unmark")}>{marker || null}</div>
         <div {...this.fetchPropsMark()}/>
-        {children ? <div className={Bar.css.get("caption")}>{children}</div>: null}
+        {children ? <div className={this.css.get("caption")}>{children}</div>: null}
       </div>
     );
   }

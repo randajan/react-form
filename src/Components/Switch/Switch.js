@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 
 import jet from "@randajan/jetpack";
 
-import Label from "../Label/Label";
-import Button from "../Button/Button";
-import Bar from "../Bar/Bar";
+
 import Range from "../Range/Range";
 
 import cssfile from "./Switch.scss";
@@ -34,25 +32,25 @@ class Switch extends Range {
     return this.getInput();
   }
 
-  handleMouseDown(ev) {
+  handleClick(ev) {
     this.tap();
-    jet.event.stop(ev, true)
+    jet.event.stop(ev, true);
   }
 
   validateValue(to, from) {
     return jet.num.round(jet.num.frame(jet.num.to(to), 0, 1));
   }
 
-  fetchPropsTrack() {
+  fetchPropsInterface() {
     return {
-      ...super.fetchPropsTrack(),
-      className:Switch.css.get("track", Range.css.get("track"))
+      ...super.fetchPropsInterface(),
+      onClick:this.handleClick.bind(this),
     }
   }
 
-  fetchPropsPin() {
+  fetchPropsTrack() {
     return {
-      ...super.fetchPropsPin(),
+      ...super.fetchPropsTrack(),
       style:{pointerEvents:"none"}
     }
   }

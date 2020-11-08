@@ -65,7 +65,7 @@ class Table extends Flagable {
   fetchPropsColumns() {
     return {
       ref:el=>this.columns = el,
-      className:Table.css.get("columns"),
+      className:this.css.get("columns"),
       children:this.heading(false)
     }
   }
@@ -73,7 +73,7 @@ class Table extends Flagable {
   fetchPropsRows() {
     return {
       ref:el=>this.rows = el,
-      className:Table.css.get("rows")
+      className:this.css.get("rows")
     }
   }
 
@@ -101,7 +101,7 @@ class Table extends Flagable {
             </tbody>
           </table>
         </div>
-        <div className={Table.css.get("foot")}>
+        <div className={this.css.get("foot")}>
           {foot}
         </div>
       </div>

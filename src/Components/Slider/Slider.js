@@ -68,7 +68,7 @@ class Slider extends Valuable {
 
   draft() {
     const { relX, relY } = this.valueToBound(this.state.input);
-    this.cleanUp.add(jet.event.listenShift(this.pin, this.handleShift.bind(this), relX, relY));
+    this.cleanUp.add(jet.event.listenShift(this.pin, this.handleShift.bind(this), true, relX, relY));
   }
 
   draw() {
@@ -104,10 +104,6 @@ class Slider extends Valuable {
     jet.event.stop(ev);
   }
 
-  handleMouseDown(ev) {
-
-  }
-
   handleKeyDown(ev) {
     const { onKeyDown, step, inverted, vertical, lock, from, to } = this.props;
     const k = ev.keyCode, inv = (((inverted !== from > to) !== vertical)*2-1);
@@ -128,7 +124,7 @@ class Slider extends Valuable {
     const { focus, tabIndex, flags } = this.props;
     const { lock } = this.state;
     return {
-      className:Slider.css.get("pin"), autoFocus:focus, type:"button",
+      className:this.css.get("pin"), autoFocus:focus, type:"button",
       readOnly:lock, disabled:lock, tabIndex:lock?-1:tabIndex,
       onFocus: this.focus.bind(this),
       onBlur: this.blur.bind(this),

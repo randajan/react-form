@@ -75,12 +75,12 @@ class Pane extends Stateful {
   fetchPropsTransition() {
     const { expand, transition, unmountOnExit } = this.props;
     return {
-      ref:csst=>this.csst=csst,
+      ref:transition=>this.transition=transition,
       in:expand,
       timeout:transition,
       unmountOnExit,
       appear:true,
-      classNames:Pane.css.transitions(),
+      classNames:this.css.transitions(),
       children:this.renderBody()
     }
   }
@@ -98,7 +98,7 @@ class Pane extends Stateful {
 
     return {
       ref:el=>this.content=el,
-      className:Pane.css.get("content"),
+      className:this.css.get("content"),
       style,
       children
     }
@@ -108,7 +108,7 @@ class Pane extends Stateful {
     const { transition, expand } = this.props;
     if (!transition && !expand) { return null; }
     return (
-      <div {...this.fetchPropsSelf(this.csst ? jet.obj.melt(this.csst.appliedClasses, ",").split(",") : null)}>
+      <div {...this.fetchPropsSelf(this.transition ? jet.obj.melt(this.transition.appliedClasses, ",").split(",") : null)}>
         <div {...this.fetchPropsContent()}/>
       </div>
     )

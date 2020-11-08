@@ -44,7 +44,7 @@ class Trigger extends Flagable {
 
   fetchTransitionProps() {
     const { transition, appear, active } = this.props;
-    return { in:active, timeout:transition, appear, classNames:Trigger.css.transitions()}
+    return { in:active, timeout:transition, appear, classNames:this.css.transitions()}
   }
 
   render() {

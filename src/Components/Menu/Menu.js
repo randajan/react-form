@@ -57,7 +57,7 @@ class Menu extends Focusable {
     return {
       ref:el=>this.trigger=el,
       switch:noblur, active:focus, transition,
-      className:Menu.css.get("Trigger"),
+      className:this.css.get("Trigger"),
       children:trigger,
       onTap:this.setFocus.bind(this)
     }
@@ -68,7 +68,7 @@ class Menu extends Focusable {
     const { focus } = this.state;
     return {
       ref:pane=>this.pane = pane,
-      className:Menu.css.get("Pane"),
+      className:this.css.get("Pane"),
       unmountOnExit:true, expand:focus, position, transition, children,
     }
   }

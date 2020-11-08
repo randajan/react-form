@@ -29,3 +29,7 @@ code {
           transition: .6s;
 
   }
+
+  .FiveStar { display:flex; }
+
+  img { width:2em; height:2em;}

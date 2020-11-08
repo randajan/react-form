@@ -121,7 +121,7 @@ class Field extends Valuable {
     const {tabIndex, name, autoCorrect, autoCapitalize, spellCheck, autoComplete, onPaste, maxLength } = this.props;
     const { focus, lock } = this.state;
     return {
-      ref:el=>this.inbox = el, className:Field.css.get("inbox"),
+      ref:el=>this.inbox = el, className:this.css.get("inbox"),
       name, autoFocus:focus, autoCorrect, autoCapitalize, spellCheck, autoComplete, maxLength, 
       readOnly:lock, disabled:lock, tabIndex:lock?-1:tabIndex,
       onFocus: _=> this.focus(),
@@ -134,13 +134,13 @@ class Field extends Valuable {
 
   fetchPropsOnbox() {
     const { rows, cols } = this.props;
-    return { ref:el=>this.onbox = el, className:Field.css.get("onbox"), rows, cols };
+    return { ref:el=>this.onbox = el, className:this.css.get("onbox"), rows, cols };
   }
 
   fetchPropsMark() {
     const { mark } = this.state;
     return {
-      ref:el=>this.mark, className:Field.css.get("mark"),
+      ref:el=>this.mark, className:this.css.get("mark"),
       style:{width:(mark*100)+"%"}
     }
   }
@@ -148,7 +148,7 @@ class Field extends Valuable {
   fetchPropsLabel() {
     const { name, label } = this.props;
     return {
-      className:Field.css.get("Label"), name,
+      className:this.css.get("Label"), name,
       children:label
     }
   }
@@ -157,9 +157,9 @@ class Field extends Valuable {
     const { type, children } = this.props;
     return (
       <div {...this.fetchPropsSelf(type)}>
-        <div className={Field.css.get("wrap")}>
+        <div className={this.css.get("wrap")}>
           <Label {...this.fetchPropsLabel()}/>
-          <div className={Field.css.get("interface")}>
+          <div className={this.css.get("interface")}>
             {
               this.isTextArea() ? 
               <textarea {...this.fetchPropsOnbox()} {...this.fetchPropsInbox()} /> :
@@ -169,7 +169,7 @@ class Field extends Valuable {
               ]
             }
           </div>
-          <div className={Field.css.get("underline")}>
+          <div className={this.css.get("underline")}>
             <div {...this.fetchPropsMark()}/>
           </div>
         </div>

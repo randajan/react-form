@@ -13,38 +13,44 @@ import csslib from "../../css";
 
 class Range extends Slider {
 
-  static css = csslib.open(cssfile);
+  static css = csslib.open(cssfile, Slider.css);
   static className = "Range";
 
-  handleMouseDown(ev) {
+  static defaultFlags = {
+    ...Slider.defaultFlags,
+    marker:p=>!!p.props.marker
+  }
+
+  handleClick(ev) {
+    console.log(ev);
 
   }
 
   fetchPropsInterface() { return {
-    className:Range.css.get("interface"),
-    onMouseDown:this.handleMouseDown.bind(this)
+    className:this.css.get("interface"),
+    onClick:this.handleClick.bind(this)
   }}
 
-  fetchPropsTrack() { return { className:Range.css.get("track") }}
+  fetchPropsTrack() { return { className:this.css.get("track") }}
 
   fetchPropsBar() {
-    const { from, to, min, max, vertical, inverted } = this.props;
+    const { from, to, min, max, vertical, inverted, marker } = this.props;
     return {
-      from, to, min, max, vertical, inverted, 
-      value:this.valueToRatio(this.getInput()), className:Range.css.get("Bar")
+      from, to, min, max, vertical, inverted, marker,
+      value:this.valueToRatio(this.getInput()), className:this.css.get("Bar")
     }
   }
 
   fetchPropsLabel() {
     const { name, label } = this.props;
-    return { className:Range.css.get("Label"), name, children:label }
+    return { className:this.css.get("Label"), name, children:label }
   }
 
   render() {
     const { children } = this.props;
     return (
       <div {...this.fetchPropsSelf()}>
-        <div className={Range.css.get("wrap")}>
+        <div className={this.css.get("wrap")}>
           <Label {...this.fetchPropsLabel()}/>
           <div {...this.fetchPropsInterface()}>
             <div {...this.fetchPropsTrack()}>

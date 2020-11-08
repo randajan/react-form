@@ -1,15 +1,18 @@
 .Switch {
-    &:not([data-flags~="vertical"]) {
-        .track {
-            height:.5em;
-            width:1em;
-        }
-    }
 
-    &[data-flags~="vertical"] {
-        .track {
-            height:1em;
-            width:.5em;
+    &:not([data-flags~="marker"]) {
+        &:not([data-flags~="vertical"]) {
+            .track {
+                height:.5em;
+                width:1em;
+            }
+        }
+    
+        &[data-flags~="vertical"] {
+            .track {
+                height:1em;
+                width:.5em;
+            }
         }
     }
 

@@ -16,27 +16,6 @@
         }
     }
 
-    &:not([data-flags~="vertical"]) {
-        .interface {
-            padding: .2em .5em;
-        }
-        .track {
-            height:.5em;
-            width:5em;
-        }
-    }
-
-    &[data-flags~="vertical"] {
-
-        .interface {
-            padding: .5em .2em;
-        }
-        .track {
-            height:5em;
-            width:.5em;
-        }
-    }
-
     &:not([data-flags~="lock"]):not([data-flags~="shifting"]) {
         .interface {
             cursor:pointer;
@@ -44,5 +23,36 @@
         .Bar > * {
             transition: width .2s, height .2s;
         }
+    }
+
+    &[data-flags~="marker"] {
+        .pin { opacity:0; }
+    }
+
+    &:not([data-flags~="marker"]) {
+       
+        &:not([data-flags~="vertical"]) {
+            .interface {
+                padding: .2em .5em;
+            }
+    
+            .track {
+                height:.5em;
+                width:5em;
+            }
+        }
+    
+        &[data-flags~="vertical"] {
+    
+            .interface {
+                padding: .5em .2em;
+            }
+    
+            .track {
+                height:5em;
+                width:.5em;
+            }
+        }
+
     }
 }
