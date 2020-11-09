@@ -117,13 +117,15 @@ class Form extends Flagable {
   injectProps(ele, key, level) {
     if (ele.type === Button) { return Button.injectParent(this, ele, key, level); }
     const { labels, titles, rawput, output, input } = this.props;
-    const { label, title } = ele.props;
-    const name = Form.fetchName(ele.props.name, key, level);
+    const ep = ele.props;
+    const name = Form.fetchName(ep.name, key, level);
     return this.injectEvents(ele, {
       name, ref:el=>this.fields[name] = el, parent:this,
-      rawput: rawput[name], output: output[name], input:input[name],
-      label: Form.fetchValue(labels, name, label),
-      title: Form.fetchValue(titles, name, title)
+      rawput: Form.fetchValue(rawput, name, ep.rawput),
+      output: Form.fetchValue(output, name, ep.output),
+      input: Form.fetchValue(input, name, ep.input),
+      label: Form.fetchValue(labels, name, ep.label),
+      title: Form.fetchValue(titles, name, ep.title)
     })
   }
 

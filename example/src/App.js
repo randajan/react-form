@@ -59,7 +59,7 @@ function TestForm() {
       onInputDirty={(...args)=>{console.log("form_input", ...args)}}
       onChange={(...args)=>{console.log("form_change", ...args);}}
     >
-      <Field input={"Denis"} name="fullname" maxLength={15} onInput={console.log}/>
+      <Field input={"Denis"} name="fullname" maxLength={15} onInput={console.log} focus/>
       {/* <Field input={100} name="age" type="number" onInput={console.log}/> */}
       <Range input={100} name="age" step={5} from={0} to={100} marker={<FiveStar/>}/>
       <Switch name="gender" onOutput={(s,v)=>console.log("output", v)} onInput={(s,v)=>console.log("input", v)}/>
