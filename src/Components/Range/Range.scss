@@ -2,12 +2,12 @@
     display:inline-block;
 
     .interface {
+        display:flex;
         box-sizing:border-box;
     }
 
     .track {
         position:relative;
-        display:inline-block;
     }
 
     &[data-flags~="lock"] {
