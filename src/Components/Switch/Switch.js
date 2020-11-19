@@ -35,7 +35,7 @@ class Switch extends Range {
   draft() {}
 
   handleClick(ev) {
-    this.tap();
+    if (!this.getLock()) { this.tap(); }
     jet.event.stop(ev, true);
   }
 
