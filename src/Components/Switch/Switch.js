@@ -17,6 +17,8 @@ class Switch extends Range {
 
   static defaultProps = {
     ...Range.defaultProps,
+    from:0,
+    to:1,
     step:1,
     skipInput:true
   }
