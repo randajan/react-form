@@ -19,6 +19,8 @@ class Bar extends Flagable {
   static defaultProps = {
     ...Flagable.defaultProps,
     value: 0,
+    from: 0,
+    to: 100,
   }
 
   static defaultFlags = {
@@ -27,15 +29,31 @@ class Bar extends Flagable {
     marker:p=>!!p.props.marker
   }
 
+  valueToRatio(value) {
+    const props = this.props;
+    return jet.num.toRatio(this.validateValue(value), props.from, props.to);
+  }
+
+  validateValue(value) {
+    const { from, to, min, max, step } = this.props;
+    const n = jet.get("number", min, Math.min(from, to), 0);
+    const m = jet.get("number", max, Math.max(from, to), 100);
+    value = jet.isFull(value) ? jet.num.to(value) : from;
+    return step ? jet.num.snap(value, step, n, m) : jet.num.frame(value, n, m);
+  }
+
   fetchPropsMark() {
-    const { vertical, inverted, value, marker } = this.props;
+    const { vertical, inverted, marker, value, to, from, min, max } = this.props;
     const stickTo = vertical ? (inverted ? "bottom" : "top") : (inverted ? "right" : "left");
+    
+    const ratio = this.valueToRatio(value);
+    console.log({to, from, min, max, value, valid:this.validateValue(value), ratio});
     return {
       className:this.css.get("mark"),
       children:marker,
       style:{
-        width:(vertical?1:value)*100+"%",
-        height:(vertical?value:1)*100+"%",
+        width:(vertical?1:ratio)*100+"%",
+        height:(vertical?ratio:1)*100+"%",
         pointerEvents:"none",
         [stickTo]:0,
       }

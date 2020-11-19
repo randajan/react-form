@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-import {css, Form, Range, Slider, Switch, Control, Button, Field, Table, Trigger, Pane, Menu, jet, useRef, useForceRender } from '@randajan/react-form';
+import {css, Bar, Form, Range, Slider, Switch, Control, Button, Field, Table, Trigger, Pane, Menu, jet, useRef, useForceRender } from '@randajan/react-form';
 
 
 
@@ -81,10 +81,9 @@ function App() {
   return (
     <div className="App">
       <TestForm/>
-      <TestForm2/>
       <Button onSubmit={console.log}>Test</Button>
       <Table columns={["Baby", "Heyby"]} rows={[[1, "a"], [2, "b"]]}/>
-      <Slider from={10} to={0} step={1} onInput={console.log}/>
+      <Slider onInput={console.log}/>
 
       <Menu trigger={"Menu"} noblur transition={600}>
         <div>Cool</div>

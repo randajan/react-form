@@ -29,7 +29,7 @@ class Range extends Slider {
     const { from, to, min, max, vertical, inverted, marker } = this.props;
     return {
       from, to, min, max, vertical, inverted, marker,
-      value:this.valueToRatio(this.getInput()), className:this.css.get("Bar")
+      value:this.getInput(), className:this.css.get("Bar")
     }
   }
 

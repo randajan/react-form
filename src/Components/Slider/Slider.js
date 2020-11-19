@@ -27,9 +27,9 @@ class Slider extends Valuable {
 
   static defaultProps = {
     ...Valuable.defaultProps,
+    step: 1,
     from: 0,
-    to: 1,
-    step: 0.01,
+    to: 100,
     inverted:false,
     vertical:false,
     shiftSubmit:true
@@ -82,7 +82,7 @@ class Slider extends Valuable {
     const { from, to, min, max, step } = this.props;
     const n = jet.get("number", min, Math.min(from, to), 0);
     const m = jet.get("number", max, Math.max(from, to), 100);
-    value = jet.get("number", value, from);
+    value = jet.isFull(value) ? jet.num.to(value) : from;
     return step ? jet.num.snap(value, step, n, m) : jet.num.frame(value, n, m);
   }
 
