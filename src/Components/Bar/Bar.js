@@ -47,7 +47,7 @@ class Bar extends Flagable {
     const stickTo = vertical ? (inverted ? "bottom" : "top") : (inverted ? "right" : "left");
     
     const ratio = this.valueToRatio(value);
-    console.log({to, from, min, max, value, valid:this.validateValue(value), ratio});
+
     return {
       className:this.css.get("mark"),
       children:marker,
