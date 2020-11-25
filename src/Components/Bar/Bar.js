@@ -11,11 +11,6 @@ class Bar extends Flagable {
   static css = csslib.open(cssfile);
   static className = "Bar";
 
-  static propTypes = {
-    ...Flagable.propTypes,
-    value: PropTypes.number,
-  }
-
   static defaultProps = {
     ...Flagable.defaultProps,
     value: 0,
