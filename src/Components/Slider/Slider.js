@@ -68,7 +68,7 @@ class Slider extends Valuable {
 
   draft() {
     const { relX, relY } = this.valueToBound(this.state.input);
-    this.cleanUp.add(jet.event.listenShift(this.pin, this.handleShift.bind(this), true, relX, relY));
+    this.cleanUp.add(jet.ele.listen.drag(this.pin, this.handleShift.bind(this), {autoPick:true, initX:relX, initY:relY,}));
   }
 
   draw() {
@@ -80,18 +80,18 @@ class Slider extends Valuable {
 
   validateValue(value) {
     const { from, to, min, max, step } = this.props;
-    const n = jet.get("number", min, Math.min(from, to), 0);
-    const m = jet.get("number", max, Math.max(from, to), 100);
-    value = jet.isFull(value) ? jet.num.to(value) : from;
+    const n = jet.num.tap(min, Math.min(from, to), 0);
+    const m = jet.num.tap(max, Math.max(from, to), 100);
+    value = jet.type.is.full(value) ? jet.num.to(value) : from;
     return step ? jet.num.snap(value, step, n, m) : jet.num.frame(value, n, m);
   }
 
   validateState(to, from) {
     const { shiftSubmit, onShift } = this.props;
     if (to.shifting) { to.focus = true; }
-    if (shiftSubmit && to.shifting === false) { to.output = jet.get("number", to.input, from.input); }
+    if (shiftSubmit && to.shifting === false) { to.output = jet.num.tap(to.input, from.input); }
     to = super.validateState(to, from);
-    if (to.shifting != from.shifting) { this.effect.run(_=>jet.run(onShift, to.shifting)); }
+    if (to.shifting != from.shifting) { this.effect.run(_=>jet.fce.run(onShift, to.shifting)); }
     return to;
   }
 
@@ -101,13 +101,13 @@ class Slider extends Valuable {
     const {relX, relY} = this.valueToBound(input);
     bound.relX = relX; bound.relY = relY;
     this.setState({ shifting, input });
-    jet.event.stop(ev);
+    jet.ele.listen.cut(ev);
   }
 
   handleKeyDown(ev) {
     const { onKeyDown, step, inverted, vertical, lock, from, to } = this.props;
     const k = ev.keyCode, inv = (((inverted !== from > to) !== vertical)*2-1);
-    if (lock) { return jet.event.stop(ev); }
+    if (lock) { return jet.ele.listen.cut(ev); }
     if (onKeyDown && onKeyDown(this, ev) === false) { return; }
     else if (ev.isDefaultPrevented()) { return; }
 
@@ -117,7 +117,7 @@ class Slider extends Valuable {
     else if (k === 39 || k === 38) { this.setInput(this.getInput()-(inv*step)); }
     else { return; }
 
-    jet.event.stop(ev);
+    jet.ele.listen.cut(ev);
   }
 
   fetchPropsPin() {
@@ -129,7 +129,7 @@ class Slider extends Valuable {
       onFocus: this.focus.bind(this),
       onBlur: this.blur.bind(this),
       onKeyDown: this.handleKeyDown.bind(this),
-      "data-flags":jet.react.fetchFlags({...this.constructor.defaultFlags, ...flags}, this),
+      "data-flags":jet.rele.flags({...this.constructor.defaultFlags, ...flags}, this),
       ref:pin=>this.pin=pin
     }
   }

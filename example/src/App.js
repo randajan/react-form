@@ -1,14 +1,12 @@
-import React from 'react'
+import React, { Component, useRef } from 'react'
 
 
-import {css, Bar, Form, Range, Slider, Switch, Control, Button, Field, Table, Trigger, Pane, Menu, jet, useRef, useForceRender } from '@randajan/react-form';
+import {css, Bar, Form, Range, Slider, Switch, Control, Button, Field, Table, Trigger, Pane, Menu, jet, useForceRender } from '@randajan/react-form';
 
 
 
 import "@randajan/react-form/dist/index.css";
 
-
-window.jet = jet
 
 
 css.define({
@@ -19,7 +17,7 @@ function TestForm2() {
   const onInput = useForceRender();
   const ref = useRef();
   const form = ref.current;
-  const input = form ? jet.obj.map(form.getInput(), jet.num.to) : {};
+  const input = form ? jet.map.of(form.getInput(), jet.num.to) : {};
 
   return (
     <Form { ...{ref, onInput }}>
@@ -84,7 +82,6 @@ function App() {
       <Button onSubmit={console.log}>Test</Button>
       <Table columns={["Baby", "Heyby"]} rows={[[1, "a"], [2, "b"]]}/>
       <Slider onInput={console.log}/>
-
       <Menu trigger={"Menu"} noblur transition={600}>
         <div>Cool</div>
         <div>I want it</div>

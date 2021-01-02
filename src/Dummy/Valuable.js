@@ -8,7 +8,7 @@ import Focusable from './Focusable';
 function validator(his, fit, on, to, from) {
   if (fit) { to = fit(to, from); }
   to = his.validateValue(to);
-  if (on && his.isValueDirty(to, from)) { jet.run(on, his, to, from); }
+  if (on && his.isValueDirty(to, from)) { jet.fce.run(on, his, to, from); }
   return to;
 }
 
@@ -30,13 +30,10 @@ class Valuable extends Focusable {
 
   fetchPropState(props) {
     props = props || this.props;
-    const { rawput, output, input} = props;
-    return {
-      ...super.fetchPropState(props),
-      rawput, 
-      output:jet.get("full", output, rawput),
-      input:jet.get("full", input, output, rawput)
-    };
+    let { rawput, output, input} = props;
+    output = jet.type.is.full(output) ? output : rawput;
+    input = jet.type.is.full(input) ? input : output;
+    return { ...super.fetchPropState(props), rawput, output, input };
   }
 
   isOutputDirty() { return this.state.outputDirty || false; }
@@ -66,7 +63,7 @@ class Valuable extends Focusable {
 
   fitValue(to, from, fit, eye) {
     to = this.validateValue(fit ? fit(to, from) : to, from);
-    if (eye && this.isValueDirty(to, from)) { this.effect.add(_=>jet.run(eye, this, to, from)); }
+    if (eye && this.isValueDirty(to, from)) { this.effect.add(_=>jet.fce.run(eye, this, to, from)); }
     return to;
   }
 
@@ -84,10 +81,10 @@ class Valuable extends Focusable {
     to.inputDirty = this.isValueDirty(to.output, to.input);
 
     if (onOutputDirty && to.outputDirty !== from.outputDirty) {
-      this.effect.add(_=>jet.run(onInputDirty, this, to.outputDirty));
+      this.effect.add(_=>jet.fce.run(onInputDirty, this, to.outputDirty));
     }
     if (onInputDirty && to.inputDirty !== from.inputDirty) {
-      this.effect.add(_=>jet.run(onInputDirty, this, to.inputDirty));
+      this.effect.add(_=>jet.fce.run(onInputDirty, this, to.inputDirty));
     }
 
     return to;

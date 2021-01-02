@@ -28,8 +28,8 @@ class Table extends Flagable {
   headings = {};
 
   draft() {
-    this.cleanUp.add(jet.event.hear(window, "resize", this.refreshSize.bind(this)));
-    this.cleanUp.add(jet.event.hear(this.rows, "scroll", this.refreshScroll.bind(this)));
+    this.cleanUp.add(jet.ele.listen(window, "resize", this.refreshSize.bind(this)));
+    this.cleanUp.add(jet.ele.listen(this.rows, "scroll", this.refreshScroll.bind(this)));
   }
 
   draw() {
@@ -45,13 +45,13 @@ class Table extends Flagable {
 
   refreshSize() {
     this.refreshScroll();
-    jet.obj.map(this.headings, th=>{
+    jet.map.it(this.headings, th=>{
       th.real.style.width = th.dummy.offsetWidth + "px";
     });
   }
 
   thRef(el, col, dummy) {
-    jet.obj.set(this.headings, [col, dummy ? "dummy":"real"], el);
+    jet.map.put(this.headings, [col, dummy ? "dummy":"real"], el);
   }
 
   heading(dummy) {
@@ -95,7 +95,7 @@ class Table extends Flagable {
               <tr>{this.heading(true)}</tr>
             </thead>
             <tbody>
-              {jet.arr.wrap(rows).map((row, k)=>
+              {rows.map((row, k)=>
                 <tr key={k}>{Object.keys(columns||row).map(col=><td key={col}>{row[col]}</td>)}</tr>
               )}
             </tbody>

@@ -8,7 +8,7 @@ import Flagable from "./Flagable";
 class Stateful extends Flagable {
 
   state;
-  effect = new jet.RunPool();
+  effect = jet.rupl();
 
   constructor(props) {
     super(props);
@@ -20,12 +20,12 @@ class Stateful extends Flagable {
   setState(state) {
     this.effect.flush();
     const { onChange } = this.props;
-    const from = jet.get("object", this.state);
+    const from = jet.obj.tap(this.state);
     const to = this.validateState(state, from);
-    const changes = jet.obj.compare(from, to);
+    const changes = jet.map.compare(from, to);
     if (changes.length) {
       super.setState(to);
-      jet.run(onChange, this, changes);
+      jet.fce.run(onChange, this, changes);
       this.effect.run();
       this.effect.flush();
     }
@@ -36,7 +36,7 @@ class Stateful extends Flagable {
     return this.setState(this.fetchPropState());
   }
 
-  validateState(to, from) { return jet.obj.merge(from, to); }
+  validateState(to, from) { return jet.map.merge(from, to); }
 
 }
 

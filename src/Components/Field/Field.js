@@ -34,7 +34,7 @@ class Field extends Valuable {
 
   static defaultFlags = {
     ...Valuable.defaultFlags,
-    blank:p=>jet.isEmpty(p.getInput()),
+    blank:p=>!jet.type.is.full(p.getInput()),
     full:p=>p.state.mark===1,
     autosize:p=>p.props.autoSize,
   }
@@ -60,7 +60,7 @@ class Field extends Valuable {
 
   draft() {
     let autoSizeTimeout;
-    this.cleanUp.add(jet.event.hear(window, "resize", _=>{
+    this.cleanUp.add(jet.ele.listen(window, "resize", _=>{
       clearTimeout(autoSizeTimeout);
       autoSizeTimeout = setTimeout(this.autoSize.bind(this), 50);
     }));
@@ -94,7 +94,7 @@ class Field extends Valuable {
   handleKeyDown(ev) {
     const onKeyDown = this.props.onKeyDown;
     const k = ev.keyCode;
-    if (this.state.lock) { return jet.event.stop(ev); }
+    if (this.state.lock) { return jet.ele.listen.cut(ev); }
     if (onKeyDown && onKeyDown(this, ev) === false) { return; }
     else if (ev.isDefaultPrevented()) { return; }
 
@@ -102,7 +102,7 @@ class Field extends Valuable {
     else if (k === 13 && (ev.ctrlKey === this.isTextArea())) { this.blur(); } //not enter
     else { return }
 
-    jet.event.stop(ev);
+    jet.ele.listen.cut(ev);
   }
 
 
@@ -173,7 +173,7 @@ class Field extends Valuable {
             <div {...this.fetchPropsMark()}/>
           </div>
         </div>
-        {jet.react.injectProps(children, ele=>Button.injectParent(this, ele), true, Button)}
+        {jet.rele.inject(children, ele=>Button.injectParent(this, ele), true, [Button])}
       </div>
     );
 

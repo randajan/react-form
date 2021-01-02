@@ -18,7 +18,7 @@ class Flagable extends Component {
 
   }
 
-  cleanUp = new jet.RunPool();
+  cleanUp = jet.rupl();
 
   constructor(props) {
     super(props);
@@ -38,7 +38,7 @@ class Flagable extends Component {
     return {
       ref:body=>this.body = body,
       id, className:this.css.get(this.self.className, className, ...classNames),
-      "data-flags":jet.react.fetchFlags({...this.self.defaultFlags, ...flags}, this),
+      "data-flags":jet.rele.flags({...this.self.defaultFlags, ...flags}, this),
       title, style
     }
   }

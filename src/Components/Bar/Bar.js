@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import jet from "@randajan/react-jetpack";
+
 import Flagable from "../../Dummy/Flagable";
 
 import cssfile from "./Bar.scss";
@@ -31,9 +33,9 @@ class Bar extends Flagable {
 
   validateValue(value) {
     const { from, to, min, max, step } = this.props;
-    const n = jet.get("number", min, Math.min(from, to), 0);
-    const m = jet.get("number", max, Math.max(from, to), 100);
-    value = jet.isFull(value) ? jet.num.to(value) : from;
+    const n = jet.num.tap(min, Math.min(from, to), 0);
+    const m = jet.num.tap( max, Math.max(from, to), 100);
+    value = jet.type.is.full(value) ? jet.num.to(value) : from;
     return step ? jet.num.snap(value, step, n, m) : jet.num.frame(value, n, m);
   }
 

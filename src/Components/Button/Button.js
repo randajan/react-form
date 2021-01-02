@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import jet from "@randajan/jetpack";
+import jet from "@randajan/react-jetpack";
 
 import Focusable from "../../Dummy/Focusable";
 
@@ -28,7 +28,7 @@ class Button extends Focusable {
     const { type, onSubmit } = ele.props;
     return {
       parent,
-      onSubmit: jet.filter("full", onSubmit, parent[type] ? parent[type].bind(parent) : null),
+      onSubmit: jet.type.is.full(onSubmit) ? onSubmit : parent[type] ? parent[type].bind(parent) : null,
     }
   }
 
@@ -37,14 +37,14 @@ class Button extends Focusable {
     if (parent && (type === "submit" || type === "reject") && !parent.isOutputDirty()) {
       return true;
     }
-    
+
     return this.state.lock;
   }
 
   submit(ev) {
     const { onSubmit } = this.props;
     if (onSubmit && onSubmit(this, ev) !== false) {
-      jet.event.stop(ev);
+      jet.ele.listen.cut(ev);
       return true;
     }
     return false
@@ -66,7 +66,7 @@ class Button extends Focusable {
   }
 
   handleKeyUp(ev) {
-    if (this.getLock()) { return jet.event.stop(ev); }
+    if (this.getLock()) { return jet.ele.listen.cut(ev); }
     if (ev.keyCode === 13) { this.submit(ev); }
   }
 

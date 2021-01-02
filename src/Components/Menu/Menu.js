@@ -43,7 +43,7 @@ class Menu extends Focusable {
     const body = this.body;
     this.cleanUp.run();
     if (!body || !focus || noblur) { return; }
-    this.cleanUp.add(jet.event.hear(document, "mouseup", ev=>{
+    this.cleanUp.add(jet.ele.listen(document, "mouseup", ev=>{
         const target = ev.target;
         const now = (body && (body === target || body.contains(target)));
         if (!focus !== !now) { this.setFocus(now); }

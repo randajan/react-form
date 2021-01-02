@@ -29,8 +29,8 @@ class Trigger extends Flagable {
     const { lock, active, onTap } = this.props;
     const sw = this.props.switch;
     if (lock || (!sw && active)) { return; }
-    jet.run(onTap, sw ? !active : true);
-    jet.event.stop(ev);
+    jet.fce.run(onTap, sw ? !active : true);
+    jet.ele.listen.cut(ev);
   }
 
   fetchPropsSelf(...classNames) {

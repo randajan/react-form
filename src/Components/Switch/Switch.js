@@ -38,7 +38,7 @@ class Switch extends Range {
 
   handleClick(ev) {
     if (!this.getLock()) { this.tap(); }
-    jet.event.stop(ev, true);
+    jet.ele.listen.cut(ev, true);
   }
 
   validateValue(to, from) {

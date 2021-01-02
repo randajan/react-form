@@ -39,7 +39,7 @@ class Pane extends Stateful {
   prebound = null;
 
   getBound() {
-    const { width, height } = jet.web.getBound(this.content);
+    const { width, height } = jet.ele.bound(this.content);
     return {
       width:-width+"px",
       height:-height+"px"
@@ -92,7 +92,7 @@ class Pane extends Stateful {
     if (expand) {
       const bound = (this.prebound || Pane.prebound);
       this.forEachPosition((pos, axis)=>
-        style["margin"+pos.capitalize()] = bound[axis]
+        style["margin"+jet.str.capitalize(pos)] = bound[axis]
       );
     }
 
@@ -108,7 +108,7 @@ class Pane extends Stateful {
     const { transition, expand } = this.props;
     if (!transition && !expand) { return null; }
     return (
-      <div {...this.fetchPropsSelf(this.transition ? jet.obj.melt(this.transition.appliedClasses, ",").split(",") : null)}>
+      <div {...this.fetchPropsSelf(this.transition ? jet.map.melt(this.transition.appliedClasses, ",").split(",") : null)}>
         <div {...this.fetchPropsContent()}/>
       </div>
     )

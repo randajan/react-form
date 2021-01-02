@@ -40,11 +40,11 @@ class Form extends Flagable {
   }
 
   static fetchName(name, key, level) {
-    return jet.get("string", name, jet.num.toLetter(level)+key);
+    return jet.str.tap(name, jet.num.toLetter(level)+key);
   }
 
   static fetchValue(val, key, def) {
-    val = (jet.is("object", val) ? val[key] : jet.is("function", val) ? val(key) : val);
+    val = (jet.obj.is(val) ? val[key] : jet.fce.is(val) ? val(key) : val);
     return val !== undefined ? val : def;
   }
 
@@ -52,12 +52,13 @@ class Form extends Flagable {
   timers = {};
 
   draft() {
+    window.Form = this;
     this.mounted = true;
     this.cleanUp.add(_=>this.mounted = false);
   }
 
   mapFields(callback, custommap) {
-    return jet.obj.map(custommap||this.fields, (val, k)=>{
+    return jet.map.of(custommap||this.fields, (val, k)=>{
       const field = this.fields[k];
       return field ? callback(field, val) : undefined;
     });
@@ -90,6 +91,7 @@ class Form extends Flagable {
   submit() { return this.mapFields(field=>field.submit()); }
   reject() { return this.mapFields(field=>field.reject()); }
   reset() { return this.mapFields(field=>field.reset()); }
+  undo() { return this.mapFields(field=>field.undo()); }
 
   injectEvents(ele, inject) {
     let bubble;
@@ -105,7 +107,7 @@ class Form extends Flagable {
     const eye = props[type];
 
     clearTimeout(timers[type]); 
-    timers[type] = setTimeout(_=>this.mounted ? jet.run(eye, this) : null, props.sync);
+    timers[type] = setTimeout(_=>this.mounted ? jet.fce.run(eye, this) : null, props.sync);
 
     if (!bubble) { return; }
 
@@ -125,17 +127,19 @@ class Form extends Flagable {
       output: Form.fetchValue(output, name, ep.output),
       input: Form.fetchValue(input, name, ep.input),
       label: Form.fetchValue(labels, name, ep.label),
-      title: Form.fetchValue(titles, name, ep.title)
+      title: Form.fetchValue(titles, name, ep.title),
     })
   }
 
   fetchPropsSelf(...classNames) {
     const { children } = this.props;
+
     return {
       ...super.fetchPropsSelf(...classNames),
-      onReset:ev=>{ this.reset(); jet.event.stop(ev); },
-      onSubmit:ev=>{ this.submit(); jet.event.stop(ev); },
-      children:jet.react.injectProps(React.Children.toArray(children), this.injectProps.bind(this), true, Form.childs)
+      onReset:ev=>{ this.reset(); jet.ele.listen.cut(ev); },
+      onSubmit:ev=>{ this.submit(); jet.ele.listen.cut(ev); },
+
+      children:jet.rele.inject(children, this.injectProps.bind(this), true, Form.childs)
     };
   }
 

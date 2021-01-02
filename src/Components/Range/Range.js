@@ -51,7 +51,7 @@ class Range extends Slider {
             </div>
           </div>
         </div>
-        {jet.react.injectProps(children, ele=>Button.injectParent(ele, this), true, Button)}
+        {jet.rele.inject(children, ele=>Button.injectParent(ele, this), true, [Button])}
       </div>
     );
   }
