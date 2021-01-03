@@ -56,7 +56,7 @@ class Table extends Flagable {
 
   heading(dummy) {
     const { columns } = this.props;
-    return Object.entries(columns).map(([key, children])=>{
+    return jet.map.it(columns, (children, key)=>{
       const prop = { key, children, ref:el=>this.thRef(el, key, dummy) };
       return <th {...prop}/>;
     });
@@ -96,7 +96,7 @@ class Table extends Flagable {
             </thead>
             <tbody>
               {rows.map((row, k)=>
-                <tr key={k}>{Object.keys(columns||row).map(col=><td key={col}>{row[col]}</td>)}</tr>
+                <tr key={k}>{jet.map.it(columns||row, (v, col)=><td key={col}>{row[col]}</td>)}</tr>
               )}
             </tbody>
           </table>

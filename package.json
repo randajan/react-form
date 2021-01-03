@@ -24,13 +24,15 @@
   },
   "peerDependencies": {
     "react": "^16.0.0",
-    "@randajan/jetpack": "^5.0.6",
+    "@randajan/jetpack": "^5.0.12",
     "@randajan/react-jetpack": "^2.0.1",
     "prop-types": "^15.7.2",
     "react-resize-detector": "^5.2.0",
     "react-transition-group": "^4.4.1"
   },
-  "dependencies": {},
+  "dependencies": {
+
+  },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
     "cross-env": "^7.0.3",
