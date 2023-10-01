@@ -1,16 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-import jet from "@randajan/react-jetpack";
+import jet from "@randajan/jet-react";
 
 import Flagable from "../../Dummy/Flagable";
 
-import cssfile from "./Bar.scss";
-import csslib from "../../css";
+import "./Bar.scss";
+import { cn } from '../../consts';
 
 class Bar extends Flagable {
 
-  static css = csslib.open(cssfile);
   static className = "Bar";
 
   static defaultProps = {
@@ -28,15 +26,15 @@ class Bar extends Flagable {
 
   valueToRatio(value) {
     const props = this.props;
-    return jet.num.toRatio(this.validateValue(value), props.from, props.to);
+    return Number.jet.toRatio(this.validateValue(value), props.from, props.to);
   }
 
   validateValue(value) {
     const { from, to, min, max, step } = this.props;
-    const n = jet.num.tap(min, Math.min(from, to), 0);
-    const m = jet.num.tap( max, Math.max(from, to), 100);
-    value = jet.type.is.full(value) ? jet.num.to(value) : from;
-    return step ? jet.num.snap(value, step, n, m) : jet.num.frame(value, n, m);
+    const n = Number.jet.tap(min, Math.min(from, to), 0);
+    const m = Number.jet.tap( max, Math.max(from, to), 100);
+    value = jet.isFull(value) ? Number.jet.to(value) : from;
+    return step ? Number.jet.snap(value, step, n, m) : Number.jet.frame(value, n, m);
   }
 
   fetchPropsMark() {
@@ -46,7 +44,7 @@ class Bar extends Flagable {
     const ratio = this.valueToRatio(value);
 
     return {
-      className:this.css.get("mark"),
+      className:cn("mark"),
       children:marker,
       style:{
         width:(vertical?1:ratio)*100+"%",
@@ -61,9 +59,9 @@ class Bar extends Flagable {
     const { children, marker } = this.props;
     return (
       <div {...this.fetchPropsSelf()}>
-        <div className={this.css.get("unmark")}>{marker || null}</div>
+        <div className={cn("unmark")}>{marker || null}</div>
         <div {...this.fetchPropsMark()}/>
-        {children ? <div className={this.css.get("caption")}>{children}</div>: null}
+        {children ? <div className={cn("caption")}>{children}</div>: null}
       </div>
     );
   }

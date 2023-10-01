@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import jet from "@randajan/jetpack";
+import jet from "@randajan/jet-react";
 
 import Flagable from '../../Dummy/Flagable';
 
@@ -11,12 +11,10 @@ import Field from "../Field/Field";
 import Switch from "../Switch/Switch";
 import Range from "../Range/Range";
 
-import cssfile from "./Form.scss";
-import csslib from "../../css";
+import "./Form.scss";
 
 class Form extends Flagable {
 
-  static css = csslib.open(cssfile);
   static className = "Form";
 
   static childs = [Field, Switch, Range, Button];
@@ -40,11 +38,11 @@ class Form extends Flagable {
   }
 
   static fetchName(name, key, level) {
-    return jet.str.tap(name, jet.num.toLetter(level)+key);
+    return String.jet.tap(name, Number.jet.toLetter(level)+key);
   }
 
   static fetchValue(val, key, def) {
-    val = (jet.obj.is(val) ? val[key] : jet.fce.is(val) ? val(key) : val);
+    val = (Object.jet.is(val) ? val[key] : jet.isRunnable(val) ? val(key) : val);
     return val !== undefined ? val : def;
   }
 
@@ -58,7 +56,7 @@ class Form extends Flagable {
   }
 
   mapFields(callback, custommap) {
-    return jet.map.of(custommap||this.fields, (val, k)=>{
+    return jet.forEach(custommap||this.fields, (val, k)=>{
       const field = this.fields[k];
       return field ? callback(field, val) : undefined;
     });
@@ -107,7 +105,7 @@ class Form extends Flagable {
     const eye = props[type];
 
     clearTimeout(timers[type]); 
-    timers[type] = setTimeout(_=>this.mounted ? jet.fce.run(eye, this) : null, props.sync);
+    timers[type] = setTimeout(_=>this.mounted ? jet.run(eye, this) : null, props.sync);
 
     if (!bubble) { return; }
 
@@ -136,10 +134,10 @@ class Form extends Flagable {
 
     return {
       ...super.fetchPropsSelf(...classNames),
-      onReset:ev=>{ this.reset(); jet.ele.listen.cut(ev); },
-      onSubmit:ev=>{ this.submit(); jet.ele.listen.cut(ev); },
+      onReset:ev=>{ this.reset(); ev.preventDefault(); },
+      onSubmit:ev=>{ this.submit(); ev.preventDefault(); },
 
-      children:jet.rele.inject(children, this.injectProps.bind(this), true, Form.childs)
+      children:Component.jet.inject(children, this.injectProps.bind(this), true, Form.childs)
     };
   }
 

@@ -1,19 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import jet from "@randajan/jetpack";
+import jet from "@randajan/jet-react";
 
 
 import Range from "../Range/Range";
 
-import cssfile from "./Switch.scss";
-import csslib from "../../css";
+import "./Switch.scss";
 
 
 class Switch extends Range {
 
-  static css = csslib.open(cssfile, Range.css);
-  static className = ["Switch", Range.className];
+  static className = "Switch " + Range.className;
 
   static defaultProps = {
     ...Range.defaultProps,
@@ -38,11 +36,12 @@ class Switch extends Range {
 
   handleClick(ev) {
     if (!this.getLock()) { this.tap(); }
-    jet.ele.listen.cut(ev, true);
+    ev.preventDefault();
+    ev.stopPropagation();
   }
 
   validateValue(to, from) {
-    return jet.num.round(jet.num.frame(jet.num.to(to), 0, 1));
+    return Number.jet.round(Number.jet.frame(Number.jet.to(to), 0, 1));
   }
 
   fetchPropsTrack() {

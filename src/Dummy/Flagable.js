@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import jet from "@randajan/react-jetpack";
+import jet from "@randajan/jet-react";
+import { RunPool } from "@randajan/jet-core";
 
+import { cns } from "../consts";
 
 class Flagable extends Component {
 
@@ -18,12 +20,12 @@ class Flagable extends Component {
 
   }
 
-  cleanUp = jet.rupl();
+  cleanUp = new RunPool();
 
   constructor(props) {
     super(props);
     this.self = this.constructor;
-    this.css = this.constructor.css;
+    
   }
   
   componentDidMount() { this.draft(); this.draw(this.props, {}); }
@@ -37,10 +39,11 @@ class Flagable extends Component {
     const { id, title, style, className, flags } = this.props;
     return {
       ref:body=>this.body = body,
-      id, className:this.css.get(this.self.className, className, ...classNames),
-      "data-flags":jet.rele.flags({...this.self.defaultFlags, ...flags}, this),
+      id, className:cns(this.self.className, className, ...classNames),
+      "data-flags":Component.jet.flags({...this.self.defaultFlags, ...flags}, this),
       title, style
     }
+  
   }
 
 }

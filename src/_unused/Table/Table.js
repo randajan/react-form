@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import jet from "@randajan/react-jetpack";
+import jet from "@randajan/jet-react";
 
 import Flagable from "../../Dummy/Flagable";
 
@@ -28,8 +28,8 @@ class Table extends Flagable {
   headings = {};
 
   draft() {
-    this.cleanUp.add(jet.ele.listen(window, "resize", this.refreshSize.bind(this)));
-    this.cleanUp.add(jet.ele.listen(this.rows, "scroll", this.refreshScroll.bind(this)));
+    this.cleanUp.add(Element.jet.listen(window, "resize", this.refreshSize.bind(this)));
+    this.cleanUp.add(Element.jet.listen(this.rows, "scroll", this.refreshScroll.bind(this)));
   }
 
   draw() {

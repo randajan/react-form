@@ -21,12 +21,20 @@
             "command": "npm version ${input:npmVersion}",
             "dependsOn": [
                 "GIT commit"
-            ],
+            ]
         },
         {
             "label": "GIT commit",
             "type": "shell",
-            "command": "git add .; git commit -m '${input:commit}'; git push -u origin master"
+            "command": "git add .; git commit -m '${input:commit}'; git push -u origin main",
+            "dependsOn": [
+                "yarn build"
+            ]
+        },
+        {
+            "label": "yarn build",
+            "type": "shell",
+            "command": "yarn build",
         }
     ],
     "inputs": [

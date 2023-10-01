@@ -1,19 +1,18 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import jet from "@randajan/jetpack";
+import jet from "@randajan/jet-react";
 
 import Label from "../Label/Label";
 import Button from "../Button/Button";
 import Bar from "../Bar/Bar";
 import Slider from "../Slider/Slider";
 
-import cssfile from "./Range.scss";
-import csslib from "../../css";
+import "./Range.scss";
+import { cn } from '../../consts';
 
 class Range extends Slider {
 
-  static css = csslib.open(cssfile, Slider.css);
   static className = "Range";
 
   static defaultFlags = {
@@ -21,28 +20,28 @@ class Range extends Slider {
     marker:p=>!!p.props.marker
   }
 
-  fetchPropsInterface() { return { className:this.css.get("interface") }}
+  fetchPropsInterface() { return { className:cn("interface") }}
 
-  fetchPropsTrack() { return { className:this.css.get("track") }}
+  fetchPropsTrack() { return { className:cn("track") }}
 
   fetchPropsBar() {
     const { from, to, min, max, vertical, inverted, marker } = this.props;
     return {
       from, to, min, max, vertical, inverted, marker,
-      value:this.getInput(), className:this.css.get("Bar")
+      value:this.getInput()
     }
   }
 
   fetchPropsLabel() {
     const { name, label } = this.props;
-    return { className:this.css.get("Label"), name, children:label }
+    return { name, children:label }
   }
 
   render() {
     const { children } = this.props;
     return (
       <div {...this.fetchPropsSelf()}>
-        <div className={this.css.get("wrap")}>
+        <div className={cn("wrap")}>
           <Label {...this.fetchPropsLabel()}/>
           <div {...this.fetchPropsInterface()}>
             <div {...this.fetchPropsTrack()}>
@@ -51,7 +50,7 @@ class Range extends Slider {
             </div>
           </div>
         </div>
-        {jet.rele.inject(children, ele=>Button.injectParent(ele, this), true, [Button])}
+        {Component.jet.inject(children, ele=>Button.injectParent(ele, this), true, [Button])}
       </div>
     );
   }

@@ -2,12 +2,12 @@ import React from 'react';
 import { CSSTransition } from "react-transition-group";
 import PropTypes from 'prop-types';
 
-import jet from "@randajan/react-jetpack";
+import jet from "@randajan/jet-react";
 
 import Flagable from "../../Dummy/Flagable";
 
 import cssfile from "./Trigger.scss";
-import csslib from "../../css";
+import csslib from "../../../_old/src/css";
 
 class Trigger extends Flagable {
 
@@ -29,7 +29,7 @@ class Trigger extends Flagable {
     const { lock, active, onTap } = this.props;
     const sw = this.props.switch;
     if (lock || (!sw && active)) { return; }
-    jet.fce.run(onTap, sw ? !active : true);
+    jet.run(onTap, sw ? !active : true);
     jet.ele.listen.cut(ev);
   }
 

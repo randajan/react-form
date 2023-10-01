@@ -1,19 +1,17 @@
 import React, { useContext } from 'react';
 import PropTypes from "prop-types";
 
-import jet from "@randajan/react-jetpack";
+import jet from "@randajan/jet-react";
 
 import Focusable from "../../Dummy/Focusable";
 
-import Trigger from "../Trigger/Trigger";
+import Trigger from "../../Components/Trigger/Trigger";
 import Pane from "../Pane/Pane";
 
-import cssfile from "./Menu.scss";
-import csslib from "../../css";
+import "./Menu.scss";
 
 class Menu extends Focusable {
 
-  static css = csslib.open(cssfile);
   static className = "Menu";
 
   static Context = React.createContext();
@@ -43,7 +41,7 @@ class Menu extends Focusable {
     const body = this.body;
     this.cleanUp.run();
     if (!body || !focus || noblur) { return; }
-    this.cleanUp.add(jet.ele.listen(document, "mouseup", ev=>{
+    this.cleanUp.add(Element.jet.listen(document, "mouseup", ev=>{
         const target = ev.target;
         const now = (body && (body === target || body.contains(target)));
         if (!focus !== !now) { this.setFocus(now); }
@@ -57,7 +55,6 @@ class Menu extends Focusable {
     return {
       ref:el=>this.trigger=el,
       switch:noblur, active:focus, transition,
-      className:this.css.get("Trigger"),
       children:trigger,
       onTap:this.setFocus.bind(this)
     }
@@ -68,7 +65,6 @@ class Menu extends Focusable {
     const { focus } = this.state;
     return {
       ref:pane=>this.pane = pane,
-      className:this.css.get("Pane"),
       unmountOnExit:true, expand:focus, position, transition, children,
     }
   }

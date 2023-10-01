@@ -1,19 +1,18 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import jet from "@randajan/jetpack";
+import jet from "@randajan/jet-react";
 
 import Button from "../Button/Button";
 import Label from "../Label/Label";
 
-import cssfile from "./Field.scss";
-import csslib from "../../css";
+import "./Field.scss";
 
 import Valuable from '../../Dummy/Valuable';
+import { cn } from '../../consts';
 
 class Field extends Valuable {
 
-  static css = csslib.open(cssfile);
   static className = "Field";
   
   static propTypes = {
@@ -34,7 +33,7 @@ class Field extends Valuable {
 
   static defaultFlags = {
     ...Valuable.defaultFlags,
-    blank:p=>!jet.type.is.full(p.getInput()),
+    blank:p=>!jet.isFull(p.getInput()),
     full:p=>p.state.mark===1,
     autosize:p=>p.props.autoSize,
   }
@@ -60,7 +59,7 @@ class Field extends Valuable {
 
   draft() {
     let autoSizeTimeout;
-    this.cleanUp.add(jet.ele.listen(window, "resize", _=>{
+    this.cleanUp.add(Element.jet.listen(window, "resize", _=>{
       clearTimeout(autoSizeTimeout);
       autoSizeTimeout = setTimeout(this.autoSize.bind(this), 50);
     }));
@@ -70,8 +69,8 @@ class Field extends Valuable {
     const { inbox, onbox, state } = this;
     const { focus, input } = state;
 
-    if (onbox && onbox.value !== input) { onbox.value = jet.str.to(input); }
-    if (inbox.value !== input) { inbox.value = jet.str.to(input); }
+    if (onbox && onbox.value !== input) { onbox.value = String.jet.to(input); }
+    if (inbox.value !== input) { inbox.value = String.jet.to(input); }
     if (focus) { inbox.focus(); } else { inbox.blur(); } //sync state with reality
     this.autoSize();
   }
@@ -94,7 +93,7 @@ class Field extends Valuable {
   handleKeyDown(ev) {
     const onKeyDown = this.props.onKeyDown;
     const k = ev.keyCode;
-    if (this.state.lock) { return jet.ele.listen.cut(ev); }
+    if (this.state.lock) { return ev.preventDefault(); }
     if (onKeyDown && onKeyDown(this, ev) === false) { return; }
     else if (ev.isDefaultPrevented()) { return; }
 
@@ -102,12 +101,12 @@ class Field extends Valuable {
     else if (k === 13 && (ev.ctrlKey === this.isTextArea())) { this.blur(); } //not enter
     else { return }
 
-    jet.ele.listen.cut(ev);
+    ev.preventDefault();
   }
 
 
   validateValue(to, from) {
-    return jet.str.to(to).slice(0, this.props.maxLength);
+    return String.jet.to(to).slice(0, this.props.maxLength);
   }
 
   validateState(now, from) {
@@ -121,7 +120,7 @@ class Field extends Valuable {
     const {tabIndex, name, autoCorrect, autoCapitalize, spellCheck, autoComplete, onPaste, maxLength } = this.props;
     const { focus, lock } = this.state;
     return {
-      ref:el=>this.inbox = el, className:this.css.get("inbox"),
+      ref:el=>this.inbox = el, className:cn("inbox"),
       name, autoFocus:focus, autoCorrect, autoCapitalize, spellCheck, autoComplete, maxLength, 
       readOnly:lock, disabled:lock, tabIndex:lock?-1:tabIndex,
       onFocus: _=> this.focus(),
@@ -134,32 +133,29 @@ class Field extends Valuable {
 
   fetchPropsOnbox() {
     const { rows, cols } = this.props;
-    return { ref:el=>this.onbox = el, className:this.css.get("onbox"), rows, cols };
+    return { ref:el=>this.onbox = el, className:cn("onbox"), rows, cols };
   }
 
   fetchPropsMark() {
     const { mark } = this.state;
     return {
-      ref:el=>this.mark, className:this.css.get("mark"),
+      ref:el=>this.mark, className:cn("mark"),
       style:{width:(mark*100)+"%"}
     }
   }
 
   fetchPropsLabel() {
     const { name, label } = this.props;
-    return {
-      className:this.css.get("Label"), name,
-      children:label
-    }
+    return { name, children:label }
   }
 
   render() {
     const { type, children } = this.props;
     return (
       <div {...this.fetchPropsSelf(type)}>
-        <div className={this.css.get("wrap")}>
+        <div className={cn("wrap")}>
           <Label {...this.fetchPropsLabel()}/>
-          <div className={this.css.get("interface")}>
+          <div className={cn("interface")}>
             {
               this.isTextArea() ? 
               <textarea {...this.fetchPropsOnbox()} {...this.fetchPropsInbox()} /> :
@@ -169,11 +165,11 @@ class Field extends Valuable {
               ]
             }
           </div>
-          <div className={this.css.get("underline")}>
+          <div className={cn("underline")}>
             <div {...this.fetchPropsMark()}/>
           </div>
         </div>
-        {jet.rele.inject(children, ele=>Button.injectParent(this, ele), true, [Button])}
+        {Component.jet.inject(children, ele=>Button.injectParent(this, ele), true, [Button])}
       </div>
     );
 

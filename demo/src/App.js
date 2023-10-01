@@ -1,36 +1,30 @@
 import React, { Component, useRef } from 'react'
 
-
-import {css, Bar, Form, Range, Slider, Switch, Control, Button, Field, Table, Trigger, Pane, Menu, jet, useForceRender } from '@randajan/react-form';
-
-
-
-import "@randajan/react-form/dist/index.css";
+import jet from "@randajan/jet-core";
+import {Bar, Form, Range, Slider, Switch, Button, Field, } from "../../dist/index.js";
+import "../../dist/index.css";
+import starPng from "./star.png";
 
 
-
-css.define({
-  "Switch":"Switcher",
-})
 
 function TestForm2() {
-  const onInput = useForceRender();
+  //const onInput = useForceRender();
   const ref = useRef();
   const form = ref.current;
   const input = form ? jet.map.of(form.getInput(), jet.num.to) : {};
 
   return (
-    <Form { ...{ref, onInput }}>
+    <Form { ...{ref }}>
       <div className="flex scope">
         <h3>Rozsah vašeho IT systému</h3>
         <Switch name="is_detailed"/>
         <Field name="c_user" type="number"/>
         <Field name="c_server" type="number"/>
-        <Pane key={10} expand={!!input.is_detailed} transition={20000}>
+        {/* <Pane key={10} expand={!!input.is_detailed} transition={20000}>
           <Field name="c_pc" type="number"/>
           <Field name="c_netgear" type="number"/>
           <Field name="c_gear" type="number"/>
-        </Pane>
+        </Pane> */}
 
       </div>
     </Form>
@@ -39,7 +33,7 @@ function TestForm2() {
 
 
 function Star() {
-  return <img src={require("./star.png")}/>;
+  return <img src={starPng}/>;
 }
 
 function FiveStar() {
@@ -80,9 +74,9 @@ function App() {
     <div className="App">
       <TestForm/>
       <Button onSubmit={console.log}>Test</Button>
-      <Table columns={["Baby", "Heyby"]} rows={[[1, "a"], [2, "b"]]}/>
+      {/* <Table columns={["Baby", "Heyby"]} rows={[[1, "a"], [2, "b"]]}/> */}
       <Slider onInput={console.log}/>
-      <Menu trigger={"Menu"} noblur transition={600}>
+      {/* <Menu trigger={"Menu"} noblur transition={600}>
         <div>Cool</div>
         <div>I want it</div>
         <Menu trigger={"SubMenu"} noblur transition={600}>
@@ -93,7 +87,7 @@ function App() {
         </Menu>
         <div>Oh my gosh</div>
         <div>I will pay you money</div>
-      </Menu>
+      </Menu> */}
     </div>
   );
 }

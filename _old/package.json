@@ -1,0 +1,79 @@
+{
+  "name": "@randajan/react-form",
+  "version": "4.0.0",
+  "description": "Basic react forms and fields",
+  "license": "MIT",
+  "repository": "randajan/react-form",
+  "main": "dist/index.js",
+  "module": "dist/index.modern.js",
+  "source": "src/index.js",
+  "engines": {
+    "node": ">=10"
+  },
+  "scripts": {
+    "build": "microbundle-crl --no-compress --format modern,cjs",
+    "start": "microbundle-crl watch --no-compress --format modern,cjs",
+    "prepublish": "run-s build",
+    "test": "run-s test:unit test:lint test:build",
+    "test:build": "run-s build",
+    "test:lint": "eslint .",
+    "test:unit": "cross-env CI=1 react-scripts test --env=jsdom",
+    "test:watch": "react-scripts test --env=jsdom",
+    "predeploy": "cd example && npm install && npm run build",
+    "deploy": "gh-pages -d example/build"
+  },
+  "peerDependencies": {
+    "react": "^16.0.0",
+    "@randajan/jetpack": "^5.0.12",
+    "@randajan/react-jetpack": "^2.0.1",
+    "prop-types": "^15.7.2",
+    "react-resize-detector": "^5.2.0",
+    "react-transition-group": "^4.4.1"
+  },
+  "dependencies": {
+
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.3",
+    "cross-env": "^7.0.3",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-config-standard-react": "^9.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-prettier": "^3.3.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.22.0",
+    "eslint-plugin-standard": "^4.1.0",
+    "gh-pages": "^2.2.0",
+    "microbundle-crl": "^0.13.11",
+    "node-sass": "^4.14.1",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.2.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.14.0",
+    "react-scripts": "^3.4.4"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "keywords": [
+    "react",
+    "js",
+    "javascript",
+    "randajan",
+    "forms",
+    "fields"
+  ],
+  "homepage": "https://github.com/randajan/react-form",
+  "bugs": {
+    "url": "https://github.com/randajan/react-form/issues"
+  },
+  "author": {
+    "name": "Jan Randa",
+    "email": "jnranda@gmail.com",
+    "url": "https://www.linkedin.com/in/randajan/"
+  }
+}

@@ -3,16 +3,14 @@ import PropTypes from 'prop-types';
 
 import { CSSTransition } from "react-transition-group";
 
-import jet from "@randajan/react-jetpack";
+import jet from "@randajan/jet-react";
 
 import Stateful from "../../Dummy/Stateful";
 
-import cssfile from "./Pane.scss";
-import csslib from "../../css";
+import "./Pane.scss";
 
 class Pane extends Stateful {
 
-  static css = csslib.open(cssfile);
   static className = "Pane";
 
   static propTypes = {

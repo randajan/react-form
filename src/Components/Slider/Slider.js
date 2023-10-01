@@ -1,18 +1,17 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import jet from "@randajan/jetpack";
+import jet from "@randajan/jet-react";
 
 import Valuable from '../../Dummy/Valuable';
 
-import Bar from "../Bar/Bar";
+import "./Slider.scss";
+import { cn } from '../../consts';
 
-import cssfile from "./Slider.scss";
-import csslib from "../../css";
+
 
 class Slider extends Valuable {
 
-  static css = csslib.open(cssfile);
   static className = "Slider";
 
   static propTypes = {
@@ -56,11 +55,11 @@ class Slider extends Valuable {
 
   valueToRatio(value) {
     const props = this.props;
-    return jet.num.toRatio(this.validateValue(value), props.from, props.to);
+    return Number.jet.toRatio(this.validateValue(value), props.from, props.to);
   }
   ratioToValue(ratio) {
     const props = this.props;
-    return this.validateValue(jet.num.fromRatio(ratio, props.from, props.to));
+    return this.validateValue(Number.jet.fromRatio(ratio, props.from, props.to));
   }
 
   valueToBound(value) { return this.ratioToBound(this.valueToRatio(value)); }
@@ -68,7 +67,7 @@ class Slider extends Valuable {
 
   draft() {
     const { relX, relY } = this.valueToBound(this.state.input);
-    this.cleanUp.add(jet.ele.listen.drag(this.pin, this.handleShift.bind(this), {autoPick:true, initX:relX, initY:relY,}));
+    this.cleanUp.add(Element.jet.drag(this.pin, this.handleShift.bind(this), {autoPick:true, initX:relX, initY:relY,}));
   }
 
   draw() {
@@ -80,18 +79,18 @@ class Slider extends Valuable {
 
   validateValue(value) {
     const { from, to, min, max, step } = this.props;
-    const n = jet.num.tap(min, Math.min(from, to), 0);
-    const m = jet.num.tap(max, Math.max(from, to), 100);
-    value = jet.type.is.full(value) ? jet.num.to(value) : from;
-    return step ? jet.num.snap(value, step, n, m) : jet.num.frame(value, n, m);
+    const n = Number.jet.tap(min, Math.min(from, to), 0);
+    const m = Number.jet.tap(max, Math.max(from, to), 100);
+    value = jet.isFull(value) ? Number.jet.to(value) : from;
+    return step ? Number.jet.snap(value, step, n, m) : Number.jet.frame(value, n, m);
   }
 
   validateState(to, from) {
     const { shiftSubmit, onShift } = this.props;
     if (to.shifting) { to.focus = true; }
-    if (shiftSubmit && to.shifting === false) { to.output = jet.num.tap(to.input, from.input); }
+    if (shiftSubmit && to.shifting === false) { to.output = Number.jet.tap(to.input, from.input); }
     to = super.validateState(to, from);
-    if (to.shifting != from.shifting) { this.effect.run(_=>jet.fce.run(onShift, to.shifting)); }
+    if (to.shifting != from.shifting) { this.effect.run(_=>jet.run(onShift, to.shifting)); }
     return to;
   }
 
@@ -101,13 +100,13 @@ class Slider extends Valuable {
     const {relX, relY} = this.valueToBound(input);
     bound.relX = relX; bound.relY = relY;
     this.setState({ shifting, input });
-    jet.ele.listen.cut(ev);
+    //Event.jet.cut(ev);
   }
 
   handleKeyDown(ev) {
     const { onKeyDown, step, inverted, vertical, lock, from, to } = this.props;
     const k = ev.keyCode, inv = (((inverted !== from > to) !== vertical)*2-1);
-    if (lock) { return jet.ele.listen.cut(ev); }
+    if (lock) { return ev.preventDefault(); }
     if (onKeyDown && onKeyDown(this, ev) === false) { return; }
     else if (ev.isDefaultPrevented()) { return; }
 
@@ -117,19 +116,19 @@ class Slider extends Valuable {
     else if (k === 39 || k === 38) { this.setInput(this.getInput()-(inv*step)); }
     else { return; }
 
-    jet.ele.listen.cut(ev);
+    ev.preventDefault();
   }
 
   fetchPropsPin() {
     const { focus, tabIndex, flags } = this.props;
     const { lock } = this.state;
     return {
-      className:this.css.get("pin"), autoFocus:focus, type:"button",
+      className:cn("pin"), autoFocus:focus, type:"button",
       readOnly:lock, disabled:lock, tabIndex:lock?-1:tabIndex,
       onFocus: this.focus.bind(this),
       onBlur: this.blur.bind(this),
       onKeyDown: this.handleKeyDown.bind(this),
-      "data-flags":jet.rele.flags({...this.constructor.defaultFlags, ...flags}, this),
+      "data-flags":Component.jet.flags({...this.constructor.defaultFlags, ...flags}, this),
       ref:pin=>this.pin=pin
     }
   }

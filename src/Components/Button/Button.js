@@ -1,16 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import jet from "@randajan/react-jetpack";
+import jet from "@randajan/jet-react";
 
 import Focusable from "../../Dummy/Focusable";
 
-import cssfile from "./Button.scss";
-import csslib from "../../css";
+import "./Button.scss";
+
 
 class Button extends Focusable {
 
-  static css = csslib.open(cssfile);
   static className = "Button";
 
   static propTypes = {
@@ -28,7 +27,7 @@ class Button extends Focusable {
     const { type, onSubmit } = ele.props;
     return {
       parent,
-      onSubmit: jet.type.is.full(onSubmit) ? onSubmit : parent[type] ? parent[type].bind(parent) : null,
+      onSubmit: jet.isFull(onSubmit) ? onSubmit : parent[type] ? parent[type].bind(parent) : null,
     }
   }
 
@@ -44,7 +43,7 @@ class Button extends Focusable {
   submit(ev) {
     const { onSubmit } = this.props;
     if (onSubmit && onSubmit(this, ev) !== false) {
-      jet.ele.listen.cut(ev);
+      ev.preventDefault();
       return true;
     }
     return false
@@ -66,7 +65,7 @@ class Button extends Focusable {
   }
 
   handleKeyUp(ev) {
-    if (this.getLock()) { return jet.ele.listen.cut(ev); }
+    if (this.getLock()) { return ev.preventDefault(); }
     if (ev.keyCode === 13) { this.submit(ev); }
   }
 

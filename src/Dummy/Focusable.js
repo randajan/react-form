@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import jet from "@randajan/react-jetpack";
+import jet from "@randajan/jet-react";
 
 import Stateful from "./Stateful";
 
@@ -22,8 +22,8 @@ class Focusable extends Stateful {
   fetchPropState(props) {
     const { lock, focus } = (props || this.props);
     return {
-      lock:jet.bol.to(lock),
-      focus:jet.bol.to(focus)
+      lock:Boolean.jet.to(lock),
+      focus:Boolean.jet.to(focus)
     };
   }
 
@@ -45,10 +45,10 @@ class Focusable extends Stateful {
     const { onFocus, onBlur, fitFocus } = this.props;
     
     if (to.lock) { to.focus = false; }
-    else if (fitFocus) { to.focus = jet.bol.to(fit(to.focus, from.focus)); }
+    else if (fitFocus) { to.focus = Boolean.jet.to(fit(to.focus, from.focus)); }
 
     const watcher = to.focus ? onFocus : onBlur;
-    if (watcher && to.focus !== from.focus) { this.effect.add(_=>jet.fce.run(watcher, this, to.focus)); }
+    if (watcher && to.focus !== from.focus) { this.effect.add(_=>jet.run(watcher, this, to.focus)); }
 
     return to;
   }

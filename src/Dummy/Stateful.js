@@ -1,14 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-import jet from "@randajan/react-jetpack";
+import jet from "@randajan/jet-react";
+import { RunPool } from "@randajan/jet-core";
 
 import Flagable from "./Flagable";
 
 class Stateful extends Flagable {
 
-  state;
-  effect = jet.rupl();
+  effect = new RunPool();
 
   constructor(props) {
     super(props);
@@ -20,12 +19,12 @@ class Stateful extends Flagable {
   setState(state) {
     this.effect.flush();
     const { onChange } = this.props;
-    const from = jet.obj.tap(this.state);
+    const from = Object.jet.tap(this.state);
     const to = this.validateState(state, from);
-    const changes = jet.map.compare(from, to);
+    const changes = jet.compare(from, to, true);
     if (changes.length) {
       super.setState(to);
-      jet.fce.run(onChange, this, changes);
+      jet.run(onChange, this, changes);
       this.effect.run();
       this.effect.flush();
     }
@@ -36,7 +35,7 @@ class Stateful extends Flagable {
     return this.setState(this.fetchPropState());
   }
 
-  validateState(to, from) { return jet.map.merge(from, to); }
+  validateState(to, from) { return jet.merge(from, to); }
 
 }
 
