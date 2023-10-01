@@ -1,7 +1,7 @@
 {
   "name": "@randajan/react-form",
   "version": "4.0.0",
-  "description": "Basic react forms and fields",
+  "description": "Basic react forms and fields :)",
   "repository": "randajan/react-form",
   "type": "module",
   "main": "dist/index.js",
