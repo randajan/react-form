@@ -5,7 +5,7 @@ import jet from "@randajan/jet-react";
 import Flagable from "../../Dummy/Flagable";
 
 import "./Bar.scss";
-import { cn } from '../../consts';
+import { cn } from '../../css';
 
 class Bar extends Flagable {
 

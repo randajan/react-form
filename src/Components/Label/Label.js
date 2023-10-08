@@ -1,16 +1,18 @@
 import React from 'react';
 
 import "./Label.scss";
-import { cns } from '../../consts';
+import { cn } from '../../css';
 
 
 //LABEL
 
 function Label(props) {
   const { className, children, name } = props;
+
+  if (!children) { return null; }
   
-  return !children ? null : (
-    <label className={cns("Label", className)} htmlFor={name}>
+  return (
+    <label className={cn("Label", className)} htmlFor={name}>
       {children}
     </label>
   )

@@ -9,7 +9,7 @@ import Label from "../Label/Label";
 import "./Field.scss";
 
 import Valuable from '../../Dummy/Valuable';
-import { cn } from '../../consts';
+import { cn } from '../../css';
 
 class Field extends Valuable {
 

@@ -6,7 +6,7 @@ import jet from "@randajan/jet-react";
 import Valuable from '../../Dummy/Valuable';
 
 import "./Slider.scss";
-import { cn } from '../../consts';
+import { cn } from '../../css';
 
 
 

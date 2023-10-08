@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import jet from "@randajan/jet-react";
 import { RunPool } from "@randajan/jet-core";
 
-import { cns } from "../consts";
+import { cn } from "../css";
 
 class Flagable extends Component {
 
@@ -39,7 +39,7 @@ class Flagable extends Component {
     const { id, title, style, className, flags } = this.props;
     return {
       ref:body=>this.body = body,
-      id, className:cns(this.self.className, className, ...classNames),
+      id, className:cn(this.self.className, className, ...classNames),
       "data-flags":Component.jet.flags({...this.self.defaultFlags, ...flags}, this),
       title, style
     }

@@ -9,7 +9,7 @@ import Bar from "../Bar/Bar";
 import Slider from "../Slider/Slider";
 
 import "./Range.scss";
-import { cn } from '../../consts';
+import { cn } from '../../css';
 
 class Range extends Slider {
 

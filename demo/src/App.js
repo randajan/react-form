@@ -1,10 +1,15 @@
 import React, { Component, useRef } from 'react'
 
 import jet from "@randajan/jet-core";
-import {Bar, Form, Range, Slider, Switch, Button, Field, } from "../../dist/index.js";
+import ModalProvider, { PopUp, Bar, Form, Range, Slider, Switch, Button, Field, cssTranslate } from "../../dist/index.js";
 import "../../dist/index.css";
 import starPng from "./star.png";
 
+
+cssTranslate(cn=>{
+  console.log(cn);
+  return cn;
+});
 
 
 function TestForm2() {
@@ -71,7 +76,7 @@ function TestForm() {
 function App() {
 
   return (
-    <div className="App">
+    <ModalProvider className="App">
       <TestForm/>
       <Button onSubmit={console.log}>Test</Button>
       {/* <Table columns={["Baby", "Heyby"]} rows={[[1, "a"], [2, "b"]]}/> */}
@@ -88,7 +93,7 @@ function App() {
         <div>Oh my gosh</div>
         <div>I will pay you money</div>
       </Menu> */}
-    </div>
+    </ModalProvider>
   );
 }
 
