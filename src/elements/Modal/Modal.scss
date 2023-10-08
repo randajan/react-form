@@ -6,37 +6,7 @@
         opacity:0;
     }
 
-    .Pop {
-        display:flex;
-        justify-content:center;
-        flex-direction:column;
-        box-sizing:border-box;
-        max-width:100%;
-        max-height:100%;
-        overflow:hidden;
 
-        .nav, .content {
-            padding: .5vh 1vw;
-        }
-       
-        .nav {
-            display:flex; 
-            flex-direction:row-reverse;
-
-            .close {
-                transition: opacity .8s;
-            }
-        }
-    
-        &[data-flags~="lock"] > .nav > .close {
-            opacity:0;
-            pointer-events:none;
-        }
-    
-        &:not([data-flags~="lock"]) > .nav > .close {
-            cursor:pointer;
-        }
-    }
 
     .mist {
         position:absolute;

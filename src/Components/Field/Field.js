@@ -24,6 +24,7 @@ class Field extends Valuable {
     onKeyDown: PropTypes.func,
     onPaste: PropTypes.func
   }
+  
   static defaultProps = {
     ...Valuable.defaultProps,
     type:"text",

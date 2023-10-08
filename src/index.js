@@ -1,10 +1,9 @@
 import jet from "@randajan/jet-react";
 
-import { ModalProvider } from "./elements/ModalProvider/ModalProvider";
+import { Modal } from "./elements/Modal/Modal";
 import { PopUp } from "./elements/PopUp/PopUp";
 
 import { usePop } from "./hooks/usePop";
-import { useModal } from "./hooks/useModal";
 
 // REVISION \/ \/
 
@@ -31,13 +30,12 @@ import Valuable from "./Dummy/Valuable";
 
 // REVISION /\ /\
 
-export default ModalProvider;
+export default Modal;
 
 export {
     cssTranslate,
-    ModalProvider,
+    Modal,
     PopUp,
-    useModal,
     usePop,
 
 // REVISION \/ \/

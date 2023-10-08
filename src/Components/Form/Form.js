@@ -50,7 +50,6 @@ class Form extends Flagable {
   timers = {};
 
   draft() {
-    window.Form = this;
     this.mounted = true;
     this.cleanUp.add(_=>this.mounted = false);
   }

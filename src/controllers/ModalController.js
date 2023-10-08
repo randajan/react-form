@@ -2,11 +2,11 @@
 import jet from "@randajan/jet-react";
 
 import { Pool, RunPool } from '@randajan/jet-core';
-import { Pop } from "./Pop";
+import { PopController } from "./PopController";
 
 const { solid } = jet.prop;
 
-export class Modal {
+export class ModalController {
 
     constructor() {
 
@@ -15,8 +15,8 @@ export class Modal {
             onUp: new RunPool().with(this),
             onDown: new RunPool().with(this),
             pops: solid.all({}, {
-                all: new Pool().autoFilter(v=>v instanceof Pop),
-                up: new Pool().autoFilter(v=>v instanceof Pop)
+                all: new Pool().autoFilter(v=>v instanceof PopController),
+                up: new Pool().autoFilter(v=>v instanceof PopController)
             })
         });
 
@@ -27,7 +27,7 @@ export class Modal {
 
     addPop(props) {
         const { all } = this.pops;
-        const pop = new Pop(this, all.length, props);
+        const pop = new PopController(this, all.length, props);
         all.add(pop);
         return pop;
     }

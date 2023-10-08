@@ -7,7 +7,7 @@ const { solid, safe, virtual } = jet.prop;
 
 const fetchState = (currentState, newState)=>({...currentState, ...fetchProps(newState)})
 
-export class Pop {
+export class PopController {
 
   constructor(modal, key, props) {
     let state = props = fetchProps(props);

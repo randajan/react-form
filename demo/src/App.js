@@ -56,6 +56,7 @@ function TestForm() {
       onInputDirty={(...args)=>{console.log("form_input", ...args)}}
       onChange={(...args)=>{console.log("form_change", ...args);}}
     >
+      <PopUp>Hello</PopUp>
       <Field input={"Denis"} name="fullname" maxLength={15} onInput={console.log} focus/>
       {/* <Field input={100} name="age" type="number" onInput={console.log}/> */}
       <Range input={100} name="age" step={5} from={0} to={100} marker={<FiveStar/>}/>
