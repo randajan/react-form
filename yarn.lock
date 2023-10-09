@@ -193,10 +193,10 @@
   resolved "https://registry.yarnpkg.com/@randajan/jet-core/-/jet-core-3.2.14.tgz#410cfc682a9823ce63ab613ad1c68bb1514fbe2b"
   integrity sha512-ZdBawLskWAFuA7uK1ikByMecOHI/YGUh3FgPghCv+BPv5eIUDTz0lql0jz9PVbqWGq4wgrvQmE/O2cItjwew+g==
 
-"@randajan/jet-react@^1.2.14":
-  version "1.2.14"
-  resolved "https://registry.yarnpkg.com/@randajan/jet-react/-/jet-react-1.2.14.tgz#d481338b13629bec65f0d1ab076569fab7f1d671"
-  integrity sha512-HrLL9qvqm8+QtMfa/r64LRmWA+L8qf87n7ke1IcwFslP1aFyit4JqOiL2FYIS15golrkUu2GehQuA91atcLvaw==
+"@randajan/jet-react@^1.2.15":
+  version "1.2.15"
+  resolved "https://registry.yarnpkg.com/@randajan/jet-react/-/jet-react-1.2.15.tgz#f00c8eeac30b9007cbf28e7c19ce32825f2d31e9"
+  integrity sha512-SCPFGQFJyR1fVlXDnZ8yMUVGQIzDaGcUpewjpa44ZVT2/TQD7EFvP7Lh+r+LieyrxFKwl1uOdKGluUuhBQ2zew==
 
 "@randajan/simple-lib@^2.1.4":
   version "2.1.4"

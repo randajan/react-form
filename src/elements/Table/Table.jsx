@@ -3,15 +3,25 @@ import PropTypes from 'prop-types';
 
 import jet from "@randajan/jet-react";
 
-import Flagable from "../../Dummy/Flagable";
+import { Flagable } from "../../components/Flagable";
+import { cn } from '../../css';
 
-import cssfile from "./Table.scss";
-import csslib from "../../css";
+import "./Table.scss";
 
-class Table extends Flagable {
 
-  static css = csslib.open(cssfile);
+export class Table extends Flagable {
+
   static className = "Table";
+
+  static bindMethods = [
+    ...Flagable.bindMethods,
+    "refreshSize", "refreshScroll"
+  ];
+
+  static customProps = [
+    ...Flagable.customProps,
+    "rows", "columns", "caption", "foot"
+  ];
 
   static propTypes = {
     ...Flagable.propTypes,
@@ -27,12 +37,12 @@ class Table extends Flagable {
   
   headings = {};
 
-  draft() {
-    this.cleanUp.add(Element.jet.listen(window, "resize", this.refreshSize.bind(this)));
-    this.cleanUp.add(Element.jet.listen(this.rows, "scroll", this.refreshScroll.bind(this)));
+  afterMount() {
+    this.cleanUp.add(Element.jet.listen(window, "resize", this.refreshSize));
+    this.cleanUp.add(Element.jet.listen(this.rows, "scroll", this.refreshScroll));
   }
 
-  draw() {
+  afterUpdate() {
     this.refreshSize();
   }
 
@@ -45,19 +55,19 @@ class Table extends Flagable {
 
   refreshSize() {
     this.refreshScroll();
-    jet.map.it(this.headings, th=>{
-      th.real.style.width = th.dummy.offsetWidth + "px";
-    });
+    console.log("refresh");
+    jet.forEach(this.headings, th=>th.real.style.width = th.dummy.offsetWidth + "px");
   }
 
-  thRef(el, col, dummy) {
-    jet.map.put(this.headings, [col, dummy ? "dummy":"real"], el);
+  thRef(el, col, real) {
+    const th = this.headings[col] || ( this.headings[col] = {} );
+    th[real ? "real":"dummy"] = el;
   }
 
-  heading(dummy) {
+  heading(real=false) {
     const { columns } = this.props;
-    return jet.map.it(columns, (children, key)=>{
-      const prop = { key, children, ref:el=>this.thRef(el, key, dummy) };
+    return jet.forEach(columns, (children, key)=>{
+      const prop = { key, children, ref:el=>this.thRef(el, key, real) };
       return <th {...prop}/>;
     });
   }
@@ -65,15 +75,15 @@ class Table extends Flagable {
   fetchPropsColumns() {
     return {
       ref:el=>this.columns = el,
-      className:this.css.get("columns"),
-      children:this.heading(false)
+      className:cn("columns"),
+      children:this.heading(true)
     }
   }
 
   fetchPropsRows() {
     return {
       ref:el=>this.rows = el,
-      className:this.css.get("rows")
+      className:cn("rows")
     }
   }
 
@@ -82,7 +92,7 @@ class Table extends Flagable {
     const { caption, columns, rows, foot } = this.props;
 
     return (
-      <div {...this.fetchPropsSelf()}>
+      <div {...this.fetchProps()}>
         <table>
           <caption>{caption}</caption>
           <thead>
@@ -92,21 +102,19 @@ class Table extends Flagable {
         <div {...this.fetchPropsRows()}>
           <table>
             <thead>
-              <tr>{this.heading(true)}</tr>
+              <tr>{this.heading(false)}</tr>
             </thead>
             <tbody>
               {rows.map((row, k)=>
-                <tr key={k}>{jet.map.it(columns||row, (v, col)=><td key={col}>{row[col]}</td>)}</tr>
+                <tr key={k}>{jet.forEach(columns||row, (v, col)=><td key={col}>{row[col]}</td>)}</tr>
               )}
             </tbody>
           </table>
         </div>
-        <div className={this.css.get("foot")}>
+        <div className={cn("foot")}>
           {foot}
         </div>
       </div>
     )
   };
 }
-
-export default Table;

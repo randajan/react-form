@@ -3,10 +3,20 @@ import PropTypes from 'prop-types';
 
 import jet from "@randajan/jet-react";
 
-import Stateful from "./Stateful";
+import { Stateful } from "./Stateful";
 
 
-class Focusable extends Stateful {
+export class Focusable extends Stateful {
+
+  static bindMethods = [
+    ...Focusable.bindMethods,
+    "focus", "blur"
+  ];
+
+  static customProps = [
+    ...Stateful.customProps,
+    "parent", "lock", "focus", "onFocus", "onBlur", "fitFocus"
+  ];
 
   static propTypes = {
     ...Stateful.propTypes,
@@ -45,7 +55,7 @@ class Focusable extends Stateful {
     const { onFocus, onBlur, fitFocus } = this.props;
     
     if (to.lock) { to.focus = false; }
-    else if (fitFocus) { to.focus = Boolean.jet.to(fit(to.focus, from.focus)); }
+    else if (fitFocus) { to.focus = Boolean.jet.to(fitFocus(to.focus, from.focus)); }
 
     const watcher = to.focus ? onFocus : onBlur;
     if (watcher && to.focus !== from.focus) { this.effect.add(_=>jet.run(watcher, this, to.focus)); }
@@ -54,5 +64,3 @@ class Focusable extends Stateful {
   }
 
 }
-
-export default Focusable;

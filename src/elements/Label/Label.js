@@ -6,7 +6,7 @@ import { cn } from '../../css';
 
 //LABEL
 
-function Label(props) {
+export const Label = props=>{
   const { className, children, name } = props;
 
   if (!children) { return null; }
@@ -17,5 +17,3 @@ function Label(props) {
     </label>
   )
 }
-
-export default Label;

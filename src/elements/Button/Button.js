@@ -3,14 +3,24 @@ import PropTypes from 'prop-types';
 
 import jet from "@randajan/jet-react";
 
-import Focusable from "../../Dummy/Focusable";
+import { Focusable } from "../../components/Focusable";
 
 import "./Button.scss";
 
 
-class Button extends Focusable {
+export class Button extends Focusable {
 
   static className = "Button";
+
+  static bindMethods = [
+    ...Focusable.bindMethods,
+    "submit", "handleKeyUp"
+  ];
+
+  static customProps = [
+    ...Focusable.customProps,
+    "type", "onSubmit",
+  ];
 
   static propTypes = {
     ...Focusable.propTypes,
@@ -49,18 +59,20 @@ class Button extends Focusable {
     return false
   }
 
-  fetchPropsSelf() {
-    const { children, tabIndex, type } = this.props;  
+  fetchProps() {
+    const { focus, blur, submit, handleKeyUp, props: { tabIndex, type } } = this;
     const lock = this.getLock();
+
     return {
-      ...super.fetchPropsSelf(type),
-      children, 
+      ...super.fetchProps(type),
       type:type.startsWith("submit") ? "submit" : type.startsWith("reject") ? "reset" : type,
-      disabled:lock, readOnly:lock, tabIndex:lock?-1:tabIndex,
-      onFocus: _=>this.focus(),
-      onBlur: _=>this.blur(),
-      onClick:lock?null:this.submit.bind(this),
-      onKeyUp:this.handleKeyUp.bind(this)
+      disabled:lock,
+      readOnly:lock,
+      tabIndex:lock?-1:tabIndex,
+      onFocus: focus,
+      onBlur: blur,
+      onClick:lock?null:submit,
+      onKeyUp:handleKeyUp
     }
   }
 
@@ -70,9 +82,7 @@ class Button extends Focusable {
   }
 
   render() {
-    return <button {...this.fetchPropsSelf()}/>
+    return <button {...this.fetchProps()}/>
   }
 }
-
-export default Button;
 

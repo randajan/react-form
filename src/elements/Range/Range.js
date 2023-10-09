@@ -3,17 +3,22 @@ import PropTypes from 'prop-types';
 
 import jet from "@randajan/jet-react";
 
-import Label from "../Label/Label";
-import Button from "../Button/Button";
-import Bar from "../Bar/Bar";
-import Slider from "../Slider/Slider";
+import { Label } from "../Label/Label";
+import { Button } from "../Button/Button";
+import { Bar } from "../Bar/Bar";
+import { Slider } from "../Slider/Slider";
 
 import "./Range.scss";
 import { cn } from '../../css';
 
-class Range extends Slider {
+export class Range extends Slider {
 
   static className = "Range";
+
+  static customProps = [
+    ...Slider.customProps,
+    "marker", "label",
+  ];
 
   static defaultFlags = {
     ...Slider.defaultFlags,
@@ -40,7 +45,7 @@ class Range extends Slider {
   render() {
     const { children } = this.props;
     return (
-      <div {...this.fetchPropsSelf()}>
+      <div {...this.fetchProps()}>
         <div className={cn("wrap")}>
           <Label {...this.fetchPropsLabel()}/>
           <div {...this.fetchPropsInterface()}>
@@ -55,5 +60,3 @@ class Range extends Slider {
     );
   }
 }
-
-export default Range;

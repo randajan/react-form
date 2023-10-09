@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import jet from "@randajan/jet-react";
 
-import Focusable from './Focusable';
+import { Focusable } from './Focusable';
 
 function validator(his, fit, on, to, from) {
   if (fit) { to = fit(to, from); }
@@ -12,7 +12,12 @@ function validator(his, fit, on, to, from) {
   return to;
 }
 
-class Valuable extends Focusable {
+export class Valuable extends Focusable {
+
+  static customProps = [
+    ...Focusable.customProps,
+    "fitRawput", "fitOutput", "fitInput", "skipInput", "onInput", "onOutput", "onRawput", "onInputDirty", "onOutputDirty",
+  ];
   
   static propTypes = {
     ...Focusable.propTypes,
@@ -91,5 +96,3 @@ class Valuable extends Focusable {
   }
 
 }
-
-export default Valuable;

@@ -3,9 +3,14 @@ import React from 'react';
 import jet from "@randajan/jet-react";
 import { RunPool } from "@randajan/jet-core";
 
-import Flagable from "./Flagable";
+import { Flagable } from "./Flagable";
 
-class Stateful extends Flagable {
+export class Stateful extends Flagable {
+
+  static customProps = [
+    ...Flagable.customProps,
+    "onChange"
+  ];
 
   effect = new RunPool();
 
@@ -38,5 +43,3 @@ class Stateful extends Flagable {
   validateState(to, from) { return jet.merge(from, to); }
 
 }
-
-export default Stateful

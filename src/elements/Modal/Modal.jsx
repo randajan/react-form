@@ -8,31 +8,38 @@ import { onDomLoad } from "../../consts";
 import { cn } from "../../css";
 import { ModalController } from "../../controllers/ModalController";
 
-import "./Modal.scss";
+import { Flagable } from '../../components/Flagable';
 import { Pop } from '../Pop/Pop';
+
+import "./Modal.scss";
 
 const { solid } = jet.prop;
 const context = React.createContext();
 
-export class Modal extends Component {
+export class Modal extends Flagable {
 
     static use() { return useContext(context); }
 
     static className = "Modal";
 
-    static propTypes = {
-        flags: PropTypes.object,
-    }
+    static bindMethods = [
+        ...Flagable.bindMethods,
+        "buildPop"
+    ];
+    
+    static customProps = [
+        ...Flagable.customProps,
+        "children", "list", "closeButton", "transition", "onChange", "onUp", "onDown", "onMount"
+    ];
 
     static defaultProps = {
-        flags: {},
-        closeButton:"✖",
-        transition:800
+        ...Flagable.defaultProps,
+        closeButton: "✖",
+        transition: 800
     }
 
-    static customProps = ["children", "flags", "list", "closeButton", "transition", "onChange", "onUp", "onDown", "onMount"];
-
     static defaultFlags = {
+        ...Flagable.defaultFlags,
         up: m => m.ctrl.isUp(),
         mounting: p => p.state.mounting,
         modal: p => !p.props.list,
@@ -42,33 +49,25 @@ export class Modal extends Component {
     constructor(props) {
         super(props);
 
-        solid.all(this, {
-            self: this.constructor,
-            ctrl: new ModalController(this),
-            cleanUp: new RunPool(),
-            buildPop:this.buildPop.bind(this)
-        });
+        solid(this, "ctrl", new ModalController(this));
 
         this.state = { mounting: true };
     }
 
-    changeStatus(status) {
-        this.cleanUp.run();
-        this.cleanUp.flush();
-        if (status === false) { return; }
-        if (status === true) { onDomLoad(_ => this.setState({ mounting: false })); }
-
-        const { onChange, onUp, onDown } = this.props;
-        this.cleanUp.add(
-            this.ctrl.onChange.add(_ => this.forceUpdate(), onChange),
-            this.ctrl.onUp.add(onUp),
-            this.ctrl.onDown.add(onDown)
-        );
+    afterMount() {
+        onDomLoad(_ => this.setState({ mounting: false }));
     }
 
-    componentDidMount() { this.changeStatus(true); }
-    componentDidUpdate() { this.changeStatus(); }
-    componentWillUnmount() { this.changeStatus(false); }
+    afterUpdate(to, from) {
+        const { ctrl, cleanUp, props: { onChange, onUp, onDown } } = this;
+        cleanUp.run();
+        cleanUp.flush();
+        cleanUp.add(
+            ctrl.onChange.add(_ => this.forceUpdate(), onChange),
+            ctrl.onUp.add(onUp),
+            ctrl.onDown.add(onDown)
+        );
+    }
 
     setState(state) {
         const to = { ...this.state, ...state };
@@ -78,21 +77,10 @@ export class Modal extends Component {
         if (!to.mounting && mounting) { jet.run(this.props.onMount, this.ctrl); }
     }
 
-    fetchProps() {
-        const { props, self: { className, customProps, defaultFlags } } = this;
-
-        return Component.jet.buildProps(props, {
-            ref: body => this.body = body,
-            className: cn(className, props.className),
-            "data-flags": Component.jet.flags({ ...defaultFlags, ...props.flags }, this)
-        }, customProps);
-
-    }
-
     buildPop(pop) {
         const { props } = this;
         const { state } = pop;
-        
+
         const transition = state.transition || props.transition;
         const closeButton = state.closeButton || props.closeButton;
 

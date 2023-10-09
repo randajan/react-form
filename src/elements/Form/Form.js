@@ -3,23 +3,34 @@ import PropTypes from 'prop-types';
 
 import jet from "@randajan/jet-react";
 
-import Flagable from '../../Dummy/Flagable';
+import { Flagable } from '../../components/Flagable';
 
-import Button from "../Button/Button";
+import { Button } from "../Button/Button";
 
-import Field from "../Field/Field";
+import { Field } from "../Field/Field";
 import Switch from "../Switch/Switch";
-import Range from "../Range/Range";
+import { Range } from "../Range/Range";
 
 import "./Form.scss";
 
-class Form extends Flagable {
+export class Form extends Flagable {
 
   static className = "Form";
 
   static childs = [Field, Switch, Range, Button];
   static eventsPass = [ "onInput", "onOutput", "onRawput" ];
   static eventsBubble = [ "onFocus", "onBlur", "onInputDirty", "onOutputDirty" ];
+
+  static bindMethods = [
+    ...Flagable.bindMethods,
+    "injectProps"
+  ];
+
+  static customProps = [
+    ...Flagable.customProps,
+    "children", "rawput", "output", "input", "sync", "labels", "titles",
+    "onInput", "onOutput", "onRawput", "onFocus", "onBlur", "onInputDirty", "onOutputDirty"
+  ];
 
   static propTypes = {
     ...Flagable.propTypes,
@@ -49,7 +60,7 @@ class Form extends Flagable {
   fields = {};
   timers = {};
 
-  draft() {
+  afterMount() {
     this.mounted = true;
     this.cleanUp.add(_=>this.mounted = false);
   }
@@ -128,26 +139,21 @@ class Form extends Flagable {
     })
   }
 
-  fetchPropsSelf(...classNames) {
+  fetchProps() {
     const { children } = this.props;
 
     return {
-      ...super.fetchPropsSelf(...classNames),
-      onReset:ev=>{ this.reset(); ev.preventDefault(); },
-      onSubmit:ev=>{ this.submit(); ev.preventDefault(); },
-
-      children:Component.jet.inject(children, this.injectProps.bind(this), true, Form.childs)
+      ...super.fetchProps(),
+      onReset:ev=>{ this.reset(); ev?.preventDefault(); },
+      onSubmit:ev=>{ this.submit(); ev?.preventDefault(); },
+      children:Component.jet.inject(children, this.injectProps, true, Form.childs)
     };
   }
 
   render() {
-    return <form {...this.fetchPropsSelf()}/>
+    return <form {...this.fetchProps()}/>
   }
 }
-
-
-export default Form;
-
 
 
 

@@ -2,14 +2,19 @@ import React from 'react';
 
 import jet from "@randajan/jet-react";
 
-import Flagable from "../../Dummy/Flagable";
+import { Flagable } from "../../components/Flagable";
 
 import "./Bar.scss";
 import { cn } from '../../css';
 
-class Bar extends Flagable {
+export class Bar extends Flagable {
 
   static className = "Bar";
+
+  static customProps = [
+    ...Flagable.customProps,
+    "children", "value", "from", "to", "marker", "inverted", "vertical"
+];
 
   static defaultProps = {
     ...Flagable.defaultProps,
@@ -19,6 +24,7 @@ class Bar extends Flagable {
   }
 
   static defaultFlags = {
+    ...Flagable.defaultFlags,
     inverted:p=>p.props.inverted,
     vertical:p=>p.props.vertical,
     marker:p=>!!p.props.marker
@@ -58,7 +64,7 @@ class Bar extends Flagable {
   render() {
     const { children, marker } = this.props;
     return (
-      <div {...this.fetchPropsSelf()}>
+      <div {...this.fetchProps()}>
         <div className={cn("unmark")}>{marker || null}</div>
         <div {...this.fetchPropsMark()}/>
         {children ? <div className={cn("caption")}>{children}</div>: null}
@@ -66,5 +72,3 @@ class Bar extends Flagable {
     );
   }
 }
-
-export default Bar;

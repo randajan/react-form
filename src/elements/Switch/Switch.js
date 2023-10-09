@@ -4,14 +4,19 @@ import PropTypes from 'prop-types';
 import jet from "@randajan/jet-react";
 
 
-import Range from "../Range/Range";
+import { Range } from "../Range/Range";
 
 import "./Switch.scss";
 
 
-class Switch extends Range {
+export class Switch extends Range {
 
   static className = "Switch " + Range.className;
+
+  static bindMethods = [
+    ...Range.bindMethods,
+    "handleClick"
+  ];
 
   static defaultProps = {
     ...Range.defaultProps,
@@ -32,22 +37,22 @@ class Switch extends Range {
     return this.getInput();
   }
 
-  draft() {}
+  afterMount() {}
 
   handleClick(ev) {
     if (!this.getLock()) { this.tap(); }
-    ev.preventDefault();
-    ev.stopPropagation();
+    ev?.preventDefault();
+    ev?.stopPropagation();
   }
 
   validateValue(to, from) {
-    return Number.jet.round(Number.jet.frame(Number.jet.to(to), 0, 1));
+    return Math.round(Number.jet.frame(Number.jet.to(to), 0, 1));
   }
 
   fetchPropsTrack() {
     return {
       ...super.fetchPropsTrack(),
-      onClick:this.handleClick.bind(this),
+      onClick:this.handleClick,
     }
   }
 

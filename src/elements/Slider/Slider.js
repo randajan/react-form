@@ -3,16 +3,25 @@ import PropTypes from 'prop-types';
 
 import jet from "@randajan/jet-react";
 
-import Valuable from '../../Dummy/Valuable';
+import { Valuable } from '../../components/Valuable';
 
 import "./Slider.scss";
 import { cn } from '../../css';
 
 
-
-class Slider extends Valuable {
+export class Slider extends Valuable {
 
   static className = "Slider";
+
+  static bindMethods = [
+    ...Valuable.bindMethods,
+    "handleShift", "handleKeyDown"
+  ];
+
+  static customProps = [
+    ...Valuable.customProps,
+    "from", "to", "min", "max", "step", "inverted", "vertical", "shiftSubmit", "onShift",
+  ];
 
   static propTypes = {
     ...Valuable.propTypes,
@@ -54,23 +63,23 @@ class Slider extends Valuable {
   }
 
   valueToRatio(value) {
-    const props = this.props;
-    return Number.jet.toRatio(this.validateValue(value), props.from, props.to);
+    const { from, to } = this.props;
+    return Number.jet.toRatio(this.validateValue(value), from, to);
   }
   ratioToValue(ratio) {
-    const props = this.props;
-    return this.validateValue(Number.jet.fromRatio(ratio, props.from, props.to));
+    const { from, to } = this.props;
+    return this.validateValue(Number.jet.fromRatio(ratio, from, to));
   }
 
   valueToBound(value) { return this.ratioToBound(this.valueToRatio(value)); }
   boundToValue(bound) { return this.ratioToValue(this.boundToRatio(bound)); }
 
-  draft() {
+  afterMount() {
     const { relX, relY } = this.valueToBound(this.state.input);
-    this.cleanUp.add(Element.jet.drag(this.pin, this.handleShift.bind(this), {autoPick:true, initX:relX, initY:relY,}));
+    this.cleanUp.add(Element.jet.drag(this.pin, this.handleShift, {autoPick:true, initX:relX, initY:relY,}));
   }
 
-  draw() {
+  afterUpdate() {
     const { relX, relY } = this.valueToBound(this.state.input);
     this.pin.style.left = (relX*100)+"%";
     this.pin.style.top = (relY*100)+"%";
@@ -100,13 +109,13 @@ class Slider extends Valuable {
     const {relX, relY} = this.valueToBound(input);
     bound.relX = relX; bound.relY = relY;
     this.setState({ shifting, input });
-    //Event.jet.cut(ev);
+    ev?.preventDefault();
   }
 
   handleKeyDown(ev) {
     const { onKeyDown, step, inverted, vertical, lock, from, to } = this.props;
     const k = ev.keyCode, inv = (((inverted !== from > to) !== vertical)*2-1);
-    if (lock) { return ev.preventDefault(); }
+    if (lock) { return ev?.preventDefault(); }
     if (onKeyDown && onKeyDown(this, ev) === false) { return; }
     else if (ev.isDefaultPrevented()) { return; }
 
@@ -116,19 +125,18 @@ class Slider extends Valuable {
     else if (k === 39 || k === 38) { this.setInput(this.getInput()-(inv*step)); }
     else { return; }
 
-    ev.preventDefault();
+    ev?.preventDefault();
   }
 
   fetchPropsPin() {
-    const { focus, tabIndex, flags } = this.props;
-    const { lock } = this.state;
+    const { self:{ defaultFlags }, props:{ focus, tabIndex, flags }, state:{ lock } } = this;
     return {
       className:cn("pin"), autoFocus:focus, type:"button",
       readOnly:lock, disabled:lock, tabIndex:lock?-1:tabIndex,
-      onFocus: this.focus.bind(this),
-      onBlur: this.blur.bind(this),
-      onKeyDown: this.handleKeyDown.bind(this),
-      "data-flags":Component.jet.flags({...this.constructor.defaultFlags, ...flags}, this),
+      onFocus: this.focus,
+      onBlur: this.blur,
+      onKeyDown: this.handleKeyDown,
+      "data-flags":Component.jet.flags({...defaultFlags, ...flags}, this),
       ref:pin=>this.pin=pin
     }
   }
@@ -136,11 +144,9 @@ class Slider extends Valuable {
   render() {
     const { children } = this.props;
     return (
-      <div {...this.fetchPropsSelf()}>
+      <div {...this.fetchProps()}>
         <button {...this.fetchPropsPin()}>{children}</button>
       </div>
     );
   }
 }
-
-export default Slider;

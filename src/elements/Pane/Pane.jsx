@@ -5,13 +5,20 @@ import { CSSTransition } from "react-transition-group";
 
 import jet from "@randajan/jet-react";
 
-import Stateful from "../../Dummy/Stateful";
+import { Stateful } from "../../components/Stateful";
+import { cn } from '../../css';
 
 import "./Pane.scss";
 
-class Pane extends Stateful {
+
+export class Pane extends Stateful {
 
   static className = "Pane";
+
+  static customProps = [
+      ...Stateful.customProps,
+      "position", "expand", "transition", "unmountOnExit", "transition"
+  ];
 
   static propTypes = {
     ...Stateful.propTypes,
@@ -37,14 +44,14 @@ class Pane extends Stateful {
   prebound = null;
 
   getBound() {
-    const { width, height } = jet.ele.bound(this.content);
+    const { width, height } = Element.jet.bound(this.content);
     return {
       width:-width+"px",
       height:-height+"px"
     }
   }
 
-  draw() {
+  afterUpdate() {
 
     const { expand } = this.props;
     const { content } = this;
@@ -78,7 +85,7 @@ class Pane extends Stateful {
       timeout:transition,
       unmountOnExit,
       appear:true,
-      classNames:this.css.transitions(),
+      classNames:cn.transitions,
       children:this.renderBody()
     }
   }
@@ -90,13 +97,13 @@ class Pane extends Stateful {
     if (expand) {
       const bound = (this.prebound || Pane.prebound);
       this.forEachPosition((pos, axis)=>
-        style["margin"+jet.str.capitalize(pos)] = bound[axis]
+        style["margin"+String.jet.capitalize(pos)] = bound[axis]
       );
     }
 
     return {
       ref:el=>this.content=el,
-      className:this.css.get("content"),
+      className:cn("content"),
       style,
       children
     }
@@ -106,7 +113,7 @@ class Pane extends Stateful {
     const { transition, expand } = this.props;
     if (!transition && !expand) { return null; }
     return (
-      <div {...this.fetchPropsSelf(this.transition ? jet.map.melt(this.transition.appliedClasses, ",").split(",") : null)}>
+      <div {...this.fetchProps(transition?.appliedClasses)}>
         <div {...this.fetchPropsContent()}/>
       </div>
     )
@@ -122,5 +129,3 @@ class Pane extends Stateful {
   }
 
 }
-
-export default Pane;

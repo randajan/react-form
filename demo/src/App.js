@@ -1,7 +1,7 @@
 import React, { Component, useRef } from 'react'
 
 import jet from "@randajan/jet-core";
-import ModalProvider, { PopUp, Bar, Form, Range, Slider, Switch, Button, Field, cssTranslate } from "../../dist/index.js";
+import ModalProvider, { Table, Menu, PopUp, Bar, Form, Range, Slider, Switch, Button, Field, cssTranslate } from "../../dist/index.js";
 import "../../dist/index.css";
 import starPng from "./star.png";
 
@@ -56,7 +56,6 @@ function TestForm() {
       onInputDirty={(...args)=>{console.log("form_input", ...args)}}
       onChange={(...args)=>{console.log("form_change", ...args);}}
     >
-      <PopUp>Hello</PopUp>
       <Field input={"Denis"} name="fullname" maxLength={15} onInput={console.log} focus/>
       {/* <Field input={100} name="age" type="number" onInput={console.log}/> */}
       <Range input={100} name="age" step={5} from={0} to={100} marker={<FiveStar/>}/>
@@ -80,9 +79,9 @@ function App() {
     <ModalProvider className="App">
       <TestForm/>
       <Button onSubmit={console.log}>Test</Button>
-      {/* <Table columns={["Baby", "Heyby"]} rows={[[1, "a"], [2, "b"]]}/> */}
+      <Table columns={["Baby", "Heyby"]} rows={[[1, "a"], [2, "b"]]}/>
       <Slider onInput={console.log}/>
-      {/* <Menu trigger={"Menu"} noblur transition={600}>
+      <Menu trigger={"Menu"} noblur transition={600}>
         <div>Cool</div>
         <div>I want it</div>
         <Menu trigger={"SubMenu"} noblur transition={600}>
@@ -93,7 +92,7 @@ function App() {
         </Menu>
         <div>Oh my gosh</div>
         <div>I will pay you money</div>
-      </Menu> */}
+      </Menu>
     </ModalProvider>
   );
 }

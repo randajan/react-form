@@ -1,31 +1,34 @@
 import jet from "@randajan/jet-react";
 
+
+import { Flagable } from "./components/Flagable";
+import { Stateful } from "./components/Stateful";
+import { Focusable } from "./components/Focusable";
+import { Valuable } from "./components/Valuable";
+
 import { Modal } from "./elements/Modal/Modal";
 import { PopUp } from "./elements/PopUp/PopUp";
 
+import { Form } from "./elements/Form/Form";
+import { Label } from "./elements/Label/Label";
+import { Slider } from "./elements/Slider/Slider";
+import { Button } from "./elements/Button/Button";
+import { Switch } from "./elements/Switch/Switch";
+import { Range } from "./elements/Range/Range";
+import { Field } from "./elements/Field/Field";
+import { Bar } from "./elements/Bar/Bar";
+
+import { Pane } from "./elements/Pane/Pane";
+import { Trigger } from "./elements/Trigger/Trigger";
+import { Menu } from "./elements/Menu/Menu";
+
+import { Table } from "./elements/Table/Table";
+
+
 import { usePop } from "./hooks/usePop";
 
-// REVISION \/ \/
 
-import Form from "./Components/Form/Form";
-import Label from "./Components/Label/Label";
-import Slider from "./Components/Slider/Slider";
-import Button from "./Components/Button/Button";
-import Switch from "./Components/Switch/Switch";
-import Range from "./Components/Range/Range";
-import Field from "./Components/Field/Field";
-import Bar from "./Components/Bar/Bar";
-// import Table from "./Components/Table/Table";
-// import Pane from "./Components/Pane/Pane";
-// import Trigger from "./Components/Trigger/Trigger";
-// import Menu from "./Components/Menu/Menu";
-
-
-import Flagable from "./Dummy/Flagable";
 import { cssTranslate } from "./css";
-import Stateful from "./Dummy/Stateful";
-import Focusable from "./Dummy/Focusable";
-import Valuable from "./Dummy/Valuable";
 
 
 // REVISION /\ /\
@@ -33,12 +36,8 @@ import Valuable from "./Dummy/Valuable";
 export default Modal;
 
 export {
-    cssTranslate,
     Modal,
     PopUp,
-    usePop,
-
-// REVISION \/ \/
 
     Flagable,
     Stateful,
@@ -53,8 +52,11 @@ export {
     Range,
     Field,
     Bar,
-    //   Table,
-    //   Pane,
-    //   Trigger,
-    //   Menu
+    Pane,
+    Trigger,
+    Menu,
+    Table,
+
+    usePop,
+    cssTranslate
 }

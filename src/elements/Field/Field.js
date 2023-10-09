@@ -3,17 +3,28 @@ import PropTypes from 'prop-types';
 
 import jet from "@randajan/jet-react";
 
-import Button from "../Button/Button";
-import Label from "../Label/Label";
+import { Button } from "../Button/Button";
+import { Label } from "../Label/Label";
 
 import "./Field.scss";
 
-import Valuable from '../../Dummy/Valuable';
+import { Valuable } from '../../components/Valuable';
 import { cn } from '../../css';
 
-class Field extends Valuable {
+export class Field extends Valuable {
 
   static className = "Field";
+
+  static bindMethods = [
+    ...Valuable.bindMethods,
+    "autoSize", "handleKeyDown"
+  ];
+
+  static customProps = [
+    ...Valuable.customProps,
+    "children", "name", "type", "rows", "cols", "maxLength", "onKeyDown", "onPaste", "label", "input", "output", "rawput",
+    "tabIndex", "autoCorrect", "autoCapitalize", "spellCheck", "autoComplete", "autoSize"
+  ];
   
   static propTypes = {
     ...Valuable.propTypes,
@@ -39,8 +50,6 @@ class Field extends Valuable {
     autosize:p=>p.props.autoSize,
   }
 
-  box = {}
-
   isTextArea() { return this.props.type === "textarea"; }
 
   getOnbox() { return this.isTextArea() ? this.inbox : this.onbox; }
@@ -58,15 +67,15 @@ class Field extends Valuable {
     };
   }
 
-  draft() {
+  afterMount() {
     let autoSizeTimeout;
     this.cleanUp.add(Element.jet.listen(window, "resize", _=>{
       clearTimeout(autoSizeTimeout);
-      autoSizeTimeout = setTimeout(this.autoSize.bind(this), 50);
+      autoSizeTimeout = setTimeout(this.autoSize, 50);
     }));
   }
 
-  draw() {
+  afterUpdate() {
     const { inbox, onbox, state } = this;
     const { focus, input } = state;
 
@@ -118,16 +127,16 @@ class Field extends Valuable {
   }
 
   fetchPropsInbox() {
-    const {tabIndex, name, autoCorrect, autoCapitalize, spellCheck, autoComplete, onPaste, maxLength } = this.props;
+    const { tabIndex, name, autoCorrect, autoCapitalize, spellCheck, autoComplete, onPaste, maxLength } = this.props;
     const { focus, lock } = this.state;
     return {
       ref:el=>this.inbox = el, className:cn("inbox"),
       name, autoFocus:focus, autoCorrect, autoCapitalize, spellCheck, autoComplete, maxLength, 
       readOnly:lock, disabled:lock, tabIndex:lock?-1:tabIndex,
-      onFocus: _=> this.focus(),
-      onBlur: _=> this.blur(),
+      onFocus: this.focus,
+      onBlur: this.blur,
       onInput: ev=> this.setInput(ev.target.value),
-      onKeyDown: this.handleKeyDown.bind(this),
+      onKeyDown: this.handleKeyDown,
       onPaste: ev=>{if (onPaste) {onPaste(this, ev)}}
     };
   }
@@ -153,7 +162,7 @@ class Field extends Valuable {
   render() {
     const { type, children } = this.props;
     return (
-      <div {...this.fetchPropsSelf(type)}>
+      <div {...this.fetchProps(type)}>
         <div className={cn("wrap")}>
           <Label {...this.fetchPropsLabel()}/>
           <div className={cn("interface")}>
@@ -176,5 +185,3 @@ class Field extends Valuable {
 
   }
 }
-
-export default Field;
