@@ -29,6 +29,8 @@ import { usePop } from "./hooks/usePop";
 
 
 import { cssTranslate } from "./css";
+import { Block } from "./elements/Block/Block";
+import { Caption } from "./elements/Caption/Caption";
 
 
 // REVISION /\ /\
@@ -56,6 +58,8 @@ export {
     Trigger,
     Menu,
     Table,
+    Block,
+    Caption,
 
     usePop,
     cssTranslate

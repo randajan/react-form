@@ -6,125 +6,122 @@
         opacity: 0;
     }
 
-    .cover {
+    .cover .mist {
+        position: absolute;
+        background-color: rgba(0, 0, 0, 0.6);
+        opacity: 0;
+        transition: opacity .8s;
+        pointer-events: none;
 
-        .mist {
-            position: absolute;
-            background-color: rgba(0, 0, 0, 0.6);
-            opacity: 0;
-            transition: opacity .8s;
-            pointer-events: none;
+    }
+
+    &[data-flags~="modal"] {
+
+        &[data-flags~="up"] {
+            overflow: hidden;
+
+            &>.cover {
+
+                &,
+                &>.mist {
+                    opacity: 1;
+                    pointer-events: all;
+                }
+            }
         }
 
-        &[data-flags~="modal"] {
+        &>.cover {
+            position: fixed;
+            overflow: hidden;
+            pointer-events: none;
 
-            &[data-flags~="up"] {
-                overflow: hidden;
+            &,
+            &>*,
+            &>.pops>.Pop>.mist {
+                box-sizing: border-box;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+            }
 
-                &>.cover {
+            &>*,
+            &>.pops>.Pop>.mist {
+                width: 100%;
+                height: 100%;
+            }
 
-                    &,
-                    &>.mist {
+            &>.pops {
+                position: absolute;
+
+                &>.Pop {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background-color: white;
+                    box-sizing: border-box;
+
+                    &:not([data-flags~="top"])>.mist {
                         opacity: 1;
                         pointer-events: all;
                     }
-                }
-            }
 
-            &>.cover {
-                position: fixed;
-                overflow: hidden;
-                pointer-events: none;
-
-                &,
-                &>*,
-                &>.pops>.Pop>.mist {
-                    box-sizing: border-box;
-                    top: 0;
-                    bottom: 0;
-                    left: 0;
-                    right: 0;
-                }
-
-                &>*,
-                &>.pops>.Pop>.mist {
-                    width: 100%;
-                    height: 100%;
-                }
-
-                &>.pops {
-                    position: absolute;
-
-                    &>.Pop {
-                        position: absolute;
-                        top: 50%;
-                        left: 50%;
-                        transform: translate(-50%, -50%);
-                        background-color: white;
-                        box-sizing: border-box;
-
-                        &:not([data-flags~="top"])>.mist {
-                            opacity: 1;
-                            pointer-events: all;
-                        }
-
-                        &.appear,
-                        &.enter {
-                            opacity: 0;
-                            top: 45%;
-                        }
-
-                        &.appearActive,
-                        &.enterActive {
-                            opacity: 1;
-                            top: 50%;
-                            transition: opacity .8s, top .8s;
-                        }
-
-                        &.exit {
-                            opacity: 1;
-                            top: 50%;
-                        }
-
-                        &.exitActive {
-                            opacity: 0;
-                            top: 55%;
-                            transition: opacity .8s, top .8s;
-                        }
-
+                    &.appear,
+                    &.enter {
+                        opacity: 0;
+                        top: 45%;
                     }
+
+                    &.appearActive,
+                    &.enterActive {
+                        opacity: 1;
+                        top: 50%;
+                        transition: opacity .8s, top .8s;
+                    }
+
+                    &.exit {
+                        opacity: 1;
+                        top: 50%;
+                    }
+
+                    &.exitActive {
+                        opacity: 0;
+                        top: 55%;
+                        transition: opacity .8s, top .8s;
+                    }
+
                 }
             }
-
         }
 
-        &[data-flags~="list"] {
-            &>.cover>.pops>.Pop {
-                position: relative;
+    }
 
-                &.appear,
-                &.enter {
-                    max-height: 0;
-                    transform: translateX(100%);
-                }
+    &[data-flags~="list"] {
+        &>.cover>.pops>.Pop {
+            position: relative;
 
-                &.enterActive {
-                    max-height: 100vh;
-                    transform: translateX(0);
-                    transition: max-height .2s, transform .2s .2s;
-                }
+            &.appear,
+            &.enter {
+                max-height: 0;
+                transform: translateX(100%);
+            }
 
-                &.exit {
-                    max-height: 100vh;
-                    transform: translateX(0);
-                }
+            &.enterActive {
+                max-height: 100vh;
+                transform: translateX(0);
+                transition: max-height .2s, transform .2s .2s;
+            }
 
-                &.exitActive {
-                    max-height: 0;
-                    transform: translateX(-100%);
-                    transition: max-height .2s .2s, transform .2s;
-                }
+            &.exit {
+                max-height: 100vh;
+                transform: translateX(0);
+            }
 
+            &.exitActive {
+                max-height: 0;
+                transform: translateX(-100%);
+                transition: max-height .2s .2s, transform .2s;
             }
 
         }

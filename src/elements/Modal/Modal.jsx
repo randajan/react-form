@@ -8,38 +8,40 @@ import { onDomLoad } from "../../consts";
 import { cn } from "../../css";
 import { ModalController } from "../../controllers/ModalController";
 
-import { Flagable } from '../../components/Flagable';
 import { Pop } from '../Pop/Pop';
 
 import "./Modal.scss";
+import { Block } from '../Block/Block';
 
 const { solid } = jet.prop;
 const context = React.createContext();
 
-export class Modal extends Flagable {
+
+
+export class Modal extends Block {
 
     static use() { return useContext(context); }
 
     static className = "Modal";
 
     static bindMethods = [
-        ...Flagable.bindMethods,
+        ...Block.bindMethods,
         "buildPop"
     ];
     
     static customProps = [
-        ...Flagable.customProps,
+        ...Block.customProps,
         "children", "list", "closeButton", "transition", "onChange", "onUp", "onDown", "onMount"
     ];
 
     static defaultProps = {
-        ...Flagable.defaultProps,
+        ...Block.defaultProps,
         closeButton: "✖",
         transition: 800
     }
 
     static defaultFlags = {
-        ...Flagable.defaultFlags,
+        ...Block.defaultFlags,
         up: m => m.ctrl.isUp(),
         mounting: p => p.state.mounting,
         modal: p => !p.props.list,
@@ -91,21 +93,18 @@ export class Modal extends Flagable {
         )
     }
 
-    render() {
+    fetchChildren() {
         return (
             <context.Provider value={this.ctrl}>
-                <div {...this.fetchProps()}>
-                    {this.props.children}
-                    <div className={cn("cover")}>
-                        <div className={cn("mist")} />
-                        <TransitionGroup className={cn("pops")}>
-                            {Array.from(this.ctrl.pops.up).map(this.buildPop)}
-                        </TransitionGroup>
-                    </div>
+                {super.fetchChildren()}
+                <div className={cn("cover")}>
+                    <div className={cn("mist")} />
+                    <TransitionGroup className={cn("pops")}>
+                        {Array.from(this.ctrl.pops.up).map(this.buildPop)}
+                    </TransitionGroup>
                 </div>
             </context.Provider>
         );
     }
-
 
 }

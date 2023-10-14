@@ -1,7 +1,7 @@
 import React, { Component, useRef, useState } from 'react'
 
 import jet from "@randajan/jet-core";
-import ModalProvider, { Table, Menu, PopUp, Bar, Form, Range, Slider, Switch, Button, Field, cssTranslate } from "../../dist/index.js";
+import ModalProvider, { Table, Menu, PopUp, Bar, Form, Range, Slider, Switch, Button, Field, cssTranslate, Block, Caption } from "../../dist/index.js";
 import "../../dist/index.css";
 import starPng from "./star.png";
 
@@ -70,11 +70,13 @@ function App() {
   const [sw, setSw] = useState(undefined);
 
   return (
-    <ModalProvider className="App">
+    <ModalProvider className="App" caption="H1">
       <TestForm/>
       <Button onSubmit={_=>setSw(!sw)}>Switch menu</Button>
       <Table columns={["Baby", "Heyby"]} rows={[[1, "a"], [2, "b"]]}/>
       <Slider onInput={console.log}/>
+      <Block caption="WTF"><Block caption="WTF2">Hello</Block></Block>
+      <PopUp caption="TEST caption"></PopUp>
       <Menu trigger={"Menu"} flat={sw} transition={600}>
         <div>Cool</div>
         <div>I want it</div>
