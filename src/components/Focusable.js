@@ -29,8 +29,8 @@ export class Focusable extends Stateful {
     focus:p=>p.getFocus(),
   }
 
-  fetchPropState(props) {
-    const { lock, focus } = (props || this.props);
+  fetchPropState() {
+    const { lock, focus } = this.props;
     return {
       lock:Boolean.jet.to(lock),
       focus:Boolean.jet.to(focus)

@@ -1,16 +1,9 @@
-import React, { Component, useRef } from 'react'
+import React, { Component, useRef, useState } from 'react'
 
 import jet from "@randajan/jet-core";
 import ModalProvider, { Table, Menu, PopUp, Bar, Form, Range, Slider, Switch, Button, Field, cssTranslate } from "../../dist/index.js";
 import "../../dist/index.css";
 import starPng from "./star.png";
-
-
-cssTranslate(cn=>{
-  console.log(cn);
-  return cn;
-});
-
 
 function TestForm2() {
   //const onInput = useForceRender();
@@ -74,17 +67,18 @@ function TestForm() {
 }
 
 function App() {
+  const [sw, setSw] = useState(undefined);
 
   return (
     <ModalProvider className="App">
       <TestForm/>
-      <Button onSubmit={console.log}>Test</Button>
+      <Button onSubmit={_=>setSw(!sw)}>Switch menu</Button>
       <Table columns={["Baby", "Heyby"]} rows={[[1, "a"], [2, "b"]]}/>
       <Slider onInput={console.log}/>
-      <Menu trigger={"Menu"} noblur transition={600}>
+      <Menu trigger={"Menu"} flat={sw} transition={600}>
         <div>Cool</div>
         <div>I want it</div>
-        <Menu trigger={"SubMenu"} noblur transition={600}>
+        <Menu trigger={"SubMenu"} flat={false} noblur transition={600}>
           <div>Cool</div>
           <div>I want it</div>
           <div>Oh my gosh</div>

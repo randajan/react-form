@@ -8,6 +8,11 @@
     max-height:100%;
     overflow:hidden;
 
+    .content {
+        position: relative;
+        overflow: auto;
+    }
+
     .nav, .content {
         padding: .5vh 1vw;
     }

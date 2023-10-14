@@ -33,12 +33,11 @@ export class Valuable extends Focusable {
     dirtyIn:p=>p.isInputDirty(),
   }
 
-  fetchPropState(props) {
-    props = props || this.props;
-    let { rawput, output, input} = props;
+  fetchPropState() {
+    let { rawput, output, input} = this.props
     output = jet.isFull(output) ? output : rawput;
     input = jet.isFull(input) ? input : output;
-    return { ...super.fetchPropState(props), rawput, output, input };
+    return { ...super.fetchPropState(), rawput, output, input };
   }
 
   isOutputDirty() { return this.state.outputDirty || false; }

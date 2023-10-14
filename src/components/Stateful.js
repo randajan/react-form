@@ -19,7 +19,7 @@ export class Stateful extends Flagable {
     this.state = this.validateState(this.fetchPropState(), {});
   }
 
-  fetchPropState(props) { return {}; }
+  fetchPropState() { return {}; }
 
   setState(state) {
     this.effect.flush();

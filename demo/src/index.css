@@ -21,7 +21,10 @@ code {
 }
 
 
-
+.App > .Menu {
+  width:20%;
+  height:2em;
+}
 
 
   .Pane.appear .content, .Pane.enter .content, .Pane.exit .content {
