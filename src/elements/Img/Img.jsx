@@ -11,18 +11,17 @@ const _rgExt = /\.[^\/\\]*$/;
 const _rgSvg = /<svg[^>]*>[\s\S]*<\/svg>/;
 const _cache = {};
 
+const fetchSVG = async src=>{
+    const resp = await fetch(src);
+    const data = await resp.text();
+    if (typeof data === "string" && _rgSvg.test(data)) { return data; }
+}
 
 const Svg = (props)=>{
     const { alt, src } = props;
     const body = useRef();
 
-    const [ svg ] = usePromise(null, async _=>{
-        if (_cache[src]) { return _cache[src]; }
-        const resp = await fetch(src);
-        const data = await resp.text();
-        if (typeof data !== "string" || !_rgSvg.test(data)) { return; }
-        return _cache[src] = data;
-    }, [src]);
+    const [ svg ] = usePromise(null, async _=>_cache[src] || (_cache[src] = fetchSVG(src)), [src]);
     
     useEffect(_=>{ if (body.current && svg != null) { body.current.innerHTML = svg; } }, [svg, body?.current]);
     
