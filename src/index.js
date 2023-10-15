@@ -24,13 +24,13 @@ import { Menu } from "./elements/Menu/Menu";
 
 import { Table } from "./elements/Table/Table";
 
-
 import { usePop } from "./hooks/usePop";
 
 
 import { cssTranslate } from "./css";
 import { Block } from "./elements/Block/Block";
 import { Caption } from "./elements/Caption/Caption";
+import { Img } from "./elements/Img/Img";
 
 
 // REVISION /\ /\
@@ -60,6 +60,7 @@ export {
     Table,
     Block,
     Caption,
+    Img,
 
     usePop,
     cssTranslate

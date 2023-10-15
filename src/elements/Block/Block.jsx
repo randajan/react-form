@@ -16,8 +16,13 @@ export class Block extends Flagable {
   
   static customProps = [
       ...Flagable.customProps,
-      "children", "caption",
+      "children", "caption", "level"
   ];
+
+  static defaultProps = {
+    ...Flagable.defaultProps,
+    level:1
+  }
 
   fetchChildren() {
     const { caption } = this.props;
@@ -25,18 +30,18 @@ export class Block extends Flagable {
     return (
       <>
         { caption ? <Caption>{caption}</Caption> : null }
-        {this.props.children}
+        { this.props.children }
       </>
     )
   }
 
   render() {
-    
+    const { level } = this.props;
 
     return (
       <context.Consumer>
         {lvl=>(
-          <context.Provider value={lvl == null ? 0 : lvl+1}>
+          <context.Provider value={lvl == null ? 0 : lvl+level}>
             <div {...this.fetchProps()}>
               { this.fetchChildren() }
             </div>

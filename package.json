@@ -24,8 +24,8 @@
   },
   "peerDependencies": {
     "@randajan/jet-base": "^2.1.4",
-    "@randajan/jet-core": "^3.2.14",
-    "@randajan/jet-react": "^1.2.15",
+    "@randajan/jet-core": "^3.2.15",
+    "@randajan/jet-react": "^1.2.20",
     "path-to-regexp": "^6.2.1",
     "postcss": "^8.4.31",
     "prop-types": "^15.8.1",

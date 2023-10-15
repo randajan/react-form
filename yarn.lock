@@ -25,9 +25,9 @@
     js-tokens "^4.0.0"
 
 "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.7":
-  version "7.23.1"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.23.1.tgz#72741dc4d413338a91dcb044a86f3c0bc402646d"
-  integrity sha512-hC2v6p8ZSI/W0HUzh3V8C5g+NwSKzKPtJwSpTjwl0o297GP9+ZLQSkdvHz46CM3LqyoXxq+5G9komY+eSqSO0g==
+  version "7.23.2"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.23.2.tgz#062b0ac103261d68a966c4c7baf2ae3e62ec3885"
+  integrity sha512-mM8eg4yl5D6i3lu2QKPuPH4FArvJ8KhTofbE7jwMUv9KX5mBvwPAqnV3MlyBNqdp9RyRKP6Yck8TrfYrPvX3bg==
   dependencies:
     regenerator-runtime "^0.14.0"
 
@@ -188,15 +188,15 @@
   resolved "https://registry.yarnpkg.com/@randajan/jet-base/-/jet-base-2.1.4.tgz#7a7aaffa27b71023a038447403adeef8d69fcd42"
   integrity sha512-NPPr/QXNMIVz5ZQAWybmosQJugcg6ZG7WCuZaaRqU5fGIGDJL346kXJi/GDsVEWEKbe2Uw49+s1i3QJ1NGsUuw==
 
-"@randajan/jet-core@^3.2.14":
-  version "3.2.14"
-  resolved "https://registry.yarnpkg.com/@randajan/jet-core/-/jet-core-3.2.14.tgz#410cfc682a9823ce63ab613ad1c68bb1514fbe2b"
-  integrity sha512-ZdBawLskWAFuA7uK1ikByMecOHI/YGUh3FgPghCv+BPv5eIUDTz0lql0jz9PVbqWGq4wgrvQmE/O2cItjwew+g==
+"@randajan/jet-core@^3.2.15":
+  version "3.2.15"
+  resolved "https://registry.yarnpkg.com/@randajan/jet-core/-/jet-core-3.2.15.tgz#8d7cd76552e79a08ab6d80dd331f25d022963002"
+  integrity sha512-ff+tq6cxQVBpwXZ7fmBcFOvEPai+EZkQlZ2znyGCXSwGLb0tL8OyKYI+viv/WxuFY9rcDOFigQeEL/t4AKny0Q==
 
-"@randajan/jet-react@^1.2.15":
-  version "1.2.15"
-  resolved "https://registry.yarnpkg.com/@randajan/jet-react/-/jet-react-1.2.15.tgz#f00c8eeac30b9007cbf28e7c19ce32825f2d31e9"
-  integrity sha512-SCPFGQFJyR1fVlXDnZ8yMUVGQIzDaGcUpewjpa44ZVT2/TQD7EFvP7Lh+r+LieyrxFKwl1uOdKGluUuhBQ2zew==
+"@randajan/jet-react@^1.2.20":
+  version "1.2.20"
+  resolved "https://registry.yarnpkg.com/@randajan/jet-react/-/jet-react-1.2.20.tgz#29a5c58413449216a2704ae5628f38527006b64d"
+  integrity sha512-2jK9BZqBBq+VAYrfwAfdjPB7bQDoCP4RGgqegQc9sW2yGVYgWE5K+sKAoaU1TXGCniTUQ3ghLtBybxlzxY80bQ==
 
 "@randajan/simple-lib@^2.1.4":
   version "2.1.4"
