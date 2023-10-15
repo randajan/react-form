@@ -30,10 +30,14 @@ const Svg = (props)=>{
 
 
 export const Img = (props)=>{
-    const origin = page.get("origin");
-    const url = new URL(props.src, origin);
-    const ext = (url?.pathname?.match(_rgExt) || [])[0];
 
-    return ext === ".svg" ? <Svg {...props}/> : <img {...props} className={cn("Img", props.className)}/>;
+    if (!props.noSVG) {
+        const origin = page.get("origin");
+        const url = new URL(props.src, origin);
+        const ext = (url?.pathname?.match(_rgExt) || [])[0];
+        if (ext === ".svg") { return <Svg {...props} noSVG={null}/>; }
+    }
+
+    return <img {...props} className={cn("Img", props.className)} noSVG={null}/>;
 }
 
