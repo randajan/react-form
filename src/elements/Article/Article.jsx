@@ -31,8 +31,8 @@ export const Article = (props) => {
             p: p=><div {...p}/>,
             img: p=>{
                 const [kind, src] = String.jet.bite(p.src, "::");
-                const prt = particles[kind] || _particles[kind];
-                return prt ? prt(p.alt, src, fetch) : <Img {...p} />;
+                const prt = (particles ? particles[kind] : null) || _particles[kind];
+                return prt ? prt(p.alt, src, fetch) : <Img {...p}/>;
             },
             h1: Caption.h1,
             h2: Caption.h2,
@@ -49,5 +49,5 @@ export const Article = (props) => {
         children:compiler(String.jet.to(article), options),
     }
 
-    return <Block {...Component.jet.buildProps(props, pass, ["src", "fetch", "overrides"])} />;
+    return <Block {...Component.jet.buildProps(props, pass, ["src", "fetch", "particles", "overrides"])} />;
 }

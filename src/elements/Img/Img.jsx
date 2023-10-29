@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { Component, useEffect, useRef } from 'react';
 
 import page from '@randajan/jet-react/page';
 import { usePromise } from '@randajan/jet-react';
@@ -7,7 +7,7 @@ import { cn } from "../../css";
 
 import "./Img.scss";
 
-const _rgExt = /\.[^\/\\]*$/;
+const _rgExt = /\.[^\.\/\\]*$/;
 const _rgSvg = /<svg[^>]*>[\s\S]*<\/svg>/;
 const _cache = {};
 
@@ -25,19 +25,26 @@ const Svg = (props)=>{
     
     useEffect(_=>{ if (body.current && svg != null) { body.current.innerHTML = svg; } }, [svg, body?.current]);
     
-    return <span ref={body} className={cn("Img", props.className)}>{svg == null ? alt : null}</span>;
+    return <span ref={body} {...props} src={null} alt={null}>{svg == null ? alt : null}</span>;
 }
 
 
 export const Img = (props)=>{
+    const { src, alt } = props;
+    
+    const pass = Component.jet.buildProps(props, {
+        className:cn("Img", props.className),
+        title:String.jet.only(props.title, alt)
+    }, ["noSVG"]);
 
     if (!props.noSVG) {
         const origin = page.get("origin");
-        const url = new URL(props.src, origin);
+        const url = new URL(src, origin);
         const ext = (url?.pathname?.match(_rgExt) || [])[0];
-        if (ext === ".svg") { return <Svg {...props} noSVG={null}/>; }
+        if (ext === ".svg") { return <Svg {...pass}/>; }
+        console.log(ext);
     }
 
-    return <img {...props} className={cn("Img", props.className)} noSVG={null}/>;
+    return <img {...pass}/>;
 }
 
