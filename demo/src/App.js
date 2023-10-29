@@ -1,7 +1,7 @@
 import React, { Component, useRef, useState } from 'react'
 
 import jet from "@randajan/jet-core";
-import ModalProvider, { Table, Menu, PopUp, Bar, Form, Range, Slider, Switch, Button, Field, cssTranslate, Block, Caption } from "../../dist/index.js";
+import ModalProvider, { Table, Menu, PopUp, Bar, Form, Range, Slider, Switch, Button, Field, cssTranslate, Block, Caption, Article } from "../../dist/index.js";
 import "../../dist/index.css";
 import starPng from "./star.png";
 
@@ -71,6 +71,7 @@ function App() {
 
   return (
     <ModalProvider className="App" caption="H1">
+      <Article fetch={_=>"# AAAA <br> [hello](https://youtube.com)"}/>
       <TestForm/>
       <Button onSubmit={_=>setSw(!sw)}>Switch menu</Button>
       <Table columns={["Baby", "Heyby"]} rows={[[1, "a"], [2, "b"]]}/>

@@ -24,10 +24,10 @@
   },
   "peerDependencies": {
     "@randajan/jet-base": "^2.1.4",
-    "@randajan/jet-core": "^3.2.15",
-    "@randajan/jet-react": "^1.2.20",
+    "@randajan/jet-core": "^3.2.16",
+    "@randajan/jet-react": "^1.2.21",
+    "markdown-to-jsx": "^7.3.2",
     "path-to-regexp": "^6.2.1",
-    "postcss": "^8.4.31",
     "prop-types": "^15.8.1",
     "query-string": "^8.1.0",
     "react": "^18.2.0",

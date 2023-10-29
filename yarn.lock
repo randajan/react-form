@@ -188,15 +188,15 @@
   resolved "https://registry.yarnpkg.com/@randajan/jet-base/-/jet-base-2.1.4.tgz#7a7aaffa27b71023a038447403adeef8d69fcd42"
   integrity sha512-NPPr/QXNMIVz5ZQAWybmosQJugcg6ZG7WCuZaaRqU5fGIGDJL346kXJi/GDsVEWEKbe2Uw49+s1i3QJ1NGsUuw==
 
-"@randajan/jet-core@^3.2.15":
-  version "3.2.15"
-  resolved "https://registry.yarnpkg.com/@randajan/jet-core/-/jet-core-3.2.15.tgz#8d7cd76552e79a08ab6d80dd331f25d022963002"
-  integrity sha512-ff+tq6cxQVBpwXZ7fmBcFOvEPai+EZkQlZ2znyGCXSwGLb0tL8OyKYI+viv/WxuFY9rcDOFigQeEL/t4AKny0Q==
+"@randajan/jet-core@^3.2.16":
+  version "3.2.16"
+  resolved "https://registry.yarnpkg.com/@randajan/jet-core/-/jet-core-3.2.16.tgz#82cdf4384c0df65e73cae2514427b146fb00231e"
+  integrity sha512-9jDgxydBQzbR75vFAu0G1EArD8vEKlWj8GlJdwRXD8zw07CQ+FQk9WhCJ7LOUjDtvRQVj03hDg2KKODl5LIgvQ==
 
-"@randajan/jet-react@^1.2.20":
-  version "1.2.20"
-  resolved "https://registry.yarnpkg.com/@randajan/jet-react/-/jet-react-1.2.20.tgz#29a5c58413449216a2704ae5628f38527006b64d"
-  integrity sha512-2jK9BZqBBq+VAYrfwAfdjPB7bQDoCP4RGgqegQc9sW2yGVYgWE5K+sKAoaU1TXGCniTUQ3ghLtBybxlzxY80bQ==
+"@randajan/jet-react@^1.2.21":
+  version "1.2.21"
+  resolved "https://registry.yarnpkg.com/@randajan/jet-react/-/jet-react-1.2.21.tgz#cd824fc6e576b243324b8559f545210fb11176d8"
+  integrity sha512-AK5dUnT55a/9McBR/WKrkT2GDUi5A3We8cCmQNaDZC1pZz973F1Y7KujFEQ1SKLtjMpAtXq4bKeMl2NkCwX2Iw==
 
 "@randajan/simple-lib@^2.1.4":
   version "2.1.4"
@@ -1883,6 +1883,11 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
+markdown-to-jsx@^7.3.2:
+  version "7.3.2"
+  resolved "https://registry.yarnpkg.com/markdown-to-jsx/-/markdown-to-jsx-7.3.2.tgz#f286b4d112dad3028acc1e77dfe1f653b347e131"
+  integrity sha512-B+28F5ucp83aQm+OxNrPkS8z0tMKaeHiy0lHJs3LqCyDQFtWuenaIrkaVTgAm1pf1AU85LXltva86hlaT17i8Q==
+
 meow@^9.0.0:
   version "9.0.0"
   resolved "https://registry.yarnpkg.com/meow/-/meow-9.0.0.tgz#cd9510bc5cac9dee7d03c73ee1f9ad959f4ea364"
@@ -2085,11 +2090,6 @@ nan@^2.12.1, nan@^2.17.0:
   version "2.18.0"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.18.0.tgz#26a6faae7ffbeb293a39660e88a76b82e30b7554"
   integrity sha512-W7tfG7vMOGtD30sHoZSSc/JVYiyDPEyQVso/Zz+/uQd0B0L46gtC+pHha5FFMRpil6fm/AoEcRWyOVi4+E/f8w==
-
-nanoid@^3.3.6:
-  version "3.3.6"
-  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.6.tgz#443380c856d6e9f9824267d960b4236ad583ea4c"
-  integrity sha512-BGcqMMJuToF7i1rt+2PWSNVnWIkGCU78jBG3RxO/bZlnZPK2Cmi2QaffxGO/2RvWi9sL+FAiRiXMgsyxQ1DIDA==
 
 nanomatch@^1.2.9:
   version "1.2.13"
@@ -2356,11 +2356,6 @@ pause-stream@0.0.11:
   dependencies:
     through "~2.3"
 
-picocolors@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/picocolors/-/picocolors-1.0.0.tgz#cb5bdc74ff3f51892236eaf79d68bc44564ab81c"
-  integrity sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==
-
 picomatch@^2.0.4, picomatch@^2.2.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-2.3.1.tgz#3ba3833733646d9d3e4995946c1365a67fb07a42"
@@ -2370,15 +2365,6 @@ posix-character-classes@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
   integrity sha512-xTgYBc3fuo7Yt7JbiuFxSYGToMoz8fLoE6TC9Wx1P/u+LfeThMOAqmuyECnlBaaJb+u1m9hHiXUEtwW4OzfUJg==
-
-postcss@^8.4.31:
-  version "8.4.31"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.31.tgz#92b451050a9f914da6755af352bdc0192508656d"
-  integrity sha512-PS08Iboia9mts/2ygV3eLpY5ghnUcfLV/EXTOW1E2qYxJKGGBUtNjN76FYHnMs36RmARn41bC0AZmn+rR0OVpQ==
-  dependencies:
-    nanoid "^3.3.6"
-    picocolors "^1.0.0"
-    source-map-js "^1.0.2"
 
 process-nextick-args@~2.0.0:
   version "2.0.1"
@@ -2793,7 +2779,7 @@ socks@^2.6.2:
     ip "^2.0.0"
     smart-buffer "^4.2.0"
 
-"source-map-js@>=0.6.2 <2.0.0", source-map-js@^1.0.2:
+"source-map-js@>=0.6.2 <2.0.0":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/source-map-js/-/source-map-js-1.0.2.tgz#adbc361d9c62df380125e7f161f71c826f1e490c"
   integrity sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==

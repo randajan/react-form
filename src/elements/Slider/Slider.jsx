@@ -103,13 +103,13 @@ export class Slider extends Valuable {
     return to;
   }
 
-  handleShift(ev, bound) {
+  handleShift(bound) {
     const shifting = bound.state === "start" || bound.state === "move";
     const input = this.boundToValue(bound);
     const {relX, relY} = this.valueToBound(input);
     bound.relX = relX; bound.relY = relY;
     this.setState({ shifting, input });
-    ev?.preventDefault();
+    bound.event?.preventDefault();
   }
 
   handleKeyDown(ev) {

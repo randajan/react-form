@@ -31,6 +31,8 @@ import { cssTranslate } from "./css";
 import { Block } from "./elements/Block/Block";
 import { Caption } from "./elements/Caption/Caption";
 import { Img } from "./elements/Img/Img";
+import { Tile } from "./elements/Tile/Tile";
+import { Article } from "./elements/Article/Article";
 
 
 // REVISION /\ /\
@@ -61,7 +63,10 @@ export {
     Block,
     Caption,
     Img,
+    Tile,
+    Article,
 
     usePop,
     cssTranslate
 }
+
