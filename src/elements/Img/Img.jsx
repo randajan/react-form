@@ -42,7 +42,6 @@ export const Img = (props)=>{
         const url = new URL(src, origin);
         const ext = (url?.pathname?.match(_rgExt) || [])[0];
         if (ext === ".svg") { return <Svg {...pass}/>; }
-        console.log(ext);
     }
 
     return <img {...pass}/>;

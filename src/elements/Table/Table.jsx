@@ -55,7 +55,6 @@ export class Table extends Flagable {
 
   refreshSize() {
     this.refreshScroll();
-    console.log("refresh");
     jet.forEach(this.headings, th=>th.real.style.width = th.dummy.offsetWidth + "px");
   }
 

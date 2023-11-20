@@ -66,7 +66,7 @@ export class Form extends Flagable {
   }
 
   mapFields(callback, custommap) {
-    return jet.forEach(custommap||this.fields, (val, k)=>{
+    return jet.map(custommap||this.fields, (val, k)=>{
       const field = this.fields[k];
       return field ? callback(field, val) : undefined;
     });

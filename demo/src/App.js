@@ -78,10 +78,10 @@ function App() {
       <Slider onInput={console.log}/>
       <Block caption="WTF"><Block caption="WTF2">Hello</Block></Block>
       <PopUp caption="TEST caption"></PopUp>
-      <Menu trigger={"Menu"} flat={sw} transition={600}>
+      <Menu trigger={"Menu"} transition={600} noblur>
         <div>Cool</div>
         <div>I want it</div>
-        <Menu trigger={"SubMenu"} flat={false} noblur transition={600}>
+        <Menu trigger={"SubMenu"} noblur transition={600}>
           <div>Cool</div>
           <div>I want it</div>
           <div>Oh my gosh</div>
@@ -90,6 +90,7 @@ function App() {
         <div>Oh my gosh</div>
         <div>I will pay you money</div>
       </Menu>
+      aaaaa
     </ModalProvider>
   );
 }

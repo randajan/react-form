@@ -16,6 +16,7 @@ export class Valuable extends Focusable {
 
   static customProps = [
     ...Focusable.customProps,
+    "rawput", "output", "input",
     "fitRawput", "fitOutput", "fitInput", "skipInput", "onInput", "onOutput", "onRawput", "onInputDirty", "onOutputDirty",
   ];
   
