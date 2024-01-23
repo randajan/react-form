@@ -16,7 +16,7 @@ export class Pop extends Block {
 
   static customProps = [
     ...Block.customProps,
-    "ctrl", "lock", "closeButton", "up",
+    "ctrl", "lock", "closeButton", "up", "onUp", "onDown"
   ];
 
   static defaultFlags = {
