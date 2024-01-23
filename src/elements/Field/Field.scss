@@ -42,6 +42,10 @@
         transition: color .5s;
     }
 
+    textarea.inbox {
+        min-width:100%;
+    }
+
     .onbox {
         visibility:hidden;
         opacity:0;
