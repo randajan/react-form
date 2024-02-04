@@ -13,7 +13,7 @@ export class Bar extends Flagable {
 
   static customProps = [
     ...Flagable.customProps,
-    "children", "value", "from", "to", "marker", "inverted", "vertical"
+    "children", "value", "from", "to", "marker", "inverted", "vertical", "min", "max", "step",
 ];
 
   static defaultProps = {
