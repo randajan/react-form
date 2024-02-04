@@ -20,8 +20,10 @@ const _particles = {
 }
 
 export const Article = (props) => {
-    const { src, className, overrides, fetch, particles } = props;
-    const [ article ] = usePromise("", _=>fetch(src), [src]);
+    const { src, className, overrides, fetch, children, particles } = props;
+    const [ article, status ] = usePromise("", !src ? null : _=>{
+        return jet.isRunnable(fetch) ? fetch(src) : src;
+    }, [fetch, src]);
 
     const options = {
         wrapper:null,
@@ -46,8 +48,9 @@ export const Article = (props) => {
 
     const pass = {
         className: cn("Article", className, String.jet.camelCase(String.jet.delone(src || ""))),
-        children:compiler(String.jet.to(article), options),
+        children:compiler(String.jet.to(article) || String.jet.to(children), options),
+        "data-status":status
     }
 
-    return <Block {...Component.jet.buildProps(props, pass, ["src", "fetch", "particles", "overrides"])} />;
+    return <Block {...Component.jet.buildProps(props, pass, ["src", "fetch", "particles", "overrides"])}/>;
 }

@@ -21,11 +21,11 @@ const Svg = (props)=>{
     const { alt, src } = props;
     const body = useRef();
 
-    const [ svg ] = usePromise(null, async _=>_cache[src] || (_cache[src] = fetchSVG(src)), [src]);
+    const [ svg, status ] = usePromise(null, async _=>_cache[src] || (_cache[src] = fetchSVG(src)), [src]);
     
     useEffect(_=>{ if (body.current && svg != null) { body.current.innerHTML = svg; } }, [svg, body?.current]);
     
-    return <span ref={body} {...props} src={null} alt={null}>{svg == null ? alt : null}</span>;
+    return <span ref={body} {...props} src={null} alt={null} data-status={status}>{svg == null ? alt : null}</span>;
 }
 
 

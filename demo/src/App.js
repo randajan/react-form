@@ -71,7 +71,7 @@ function App() {
 
   return (
     <ModalProvider className="App" caption="H1">
-      <Article fetch={_=>"# AAAA <br> ![hello](img::https://upload.wikimedia.org/wikipedia/commons/5/5a/Wikipedia%27s_W.svg)"}/>
+      <Article src={"# AAAA <br> ![hello](https://upload.wikimedia.org/wikipedia/commons/5/5a/Wikipedia%27s_W.svg)"}/>
       <TestForm/>
       <Button onSubmit={_=>setSw(!sw)}>Switch menu</Button>
       <Table columns={["Baby", "Heyby"]} rows={[[1, "a"], [2, "b"]]}/>
