@@ -41,12 +41,22 @@ export class Flagable extends Component {
 
   }
 
-  componentDidMount() { this.afterMount(); this.afterUpdate(this.props, {}); }
-  componentDidUpdate(props) { this.afterUpdate(this.props, props); }
-  componentWillUnmount() { this.cleanUp.run(); this.cleanUp.flush(); }
+  componentDidMount() {
+    this.afterMount();
+    this.afterRender();
+  }
+
+  componentDidUpdate(props) {
+    this.afterRender();
+  }
+
+  componentWillUnmount() {
+    this.cleanUp.run();
+    this.cleanUp.flush();
+  }
 
   afterMount() { }
-  afterUpdate(to, from) { }
+  afterRender() { }
 
   fetchProps(...classNames) {
     const { props, self: { className, customProps, defaultFlags } } = this;

@@ -29,11 +29,15 @@ export class Focusable extends Stateful {
     focus:p=>p.getFocus(),
   }
 
-  fetchPropState() {
-    const { lock, focus } = this.props;
+  static stateProps = [
+    ...Stateful.stateProps,
+    "lock", "focus"
+  ];
+
+  fetchPropState(props) {
     return {
-      lock:Boolean.jet.to(lock),
-      focus:Boolean.jet.to(focus)
+      lock:Boolean.jet.to(props.lock),
+      focus:Boolean.jet.to(props.focus),
     };
   }
 

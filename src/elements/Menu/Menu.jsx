@@ -45,7 +45,7 @@ export class Menu extends Focusable {
     "position": "top"
   }
 
-  afterUpdate() {
+  afterRender() {
     const { body, cleanUp, props:{ noblur }, state:{ focus } } = this;
     cleanUp.run();
     cleanUp.flush();

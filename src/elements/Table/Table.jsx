@@ -42,7 +42,7 @@ export class Table extends Flagable {
     this.cleanUp.add(Element.jet.listen(this.rows, "scroll", this.refreshScroll));
   }
 
-  afterUpdate() {
+  afterRender() {
     this.refreshSize();
   }
 

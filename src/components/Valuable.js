@@ -5,24 +5,16 @@ import jet from "@randajan/jet-react";
 
 import { Focusable } from './Focusable';
 
-function validator(his, fit, on, to, from) {
-  if (fit) { to = fit(to, from); }
-  to = his.validateValue(to);
-  if (on && his.isValueDirty(to, from)) { jet.run(on, his, to, from); }
-  return to;
-}
-
 export class Valuable extends Focusable {
 
   static customProps = [
     ...Focusable.customProps,
     "rawput", "output", "input",
-    "fitRawput", "fitOutput", "fitInput", "skipInput", "onInput", "onOutput", "onRawput", "onInputDirty", "onOutputDirty",
+    "fitOutput", "fitInput", "skipInput", "onInput", "onOutput", "onInputDirty", "onOutputDirty",
   ];
   
   static propTypes = {
     ...Focusable.propTypes,
-    fitRawput: PropTypes.func,
     fitOutput: PropTypes.func,
     fitInput: PropTypes.func,
     skipInput: PropTypes.bool
@@ -34,11 +26,17 @@ export class Valuable extends Focusable {
     dirtyIn:p=>p.isInputDirty(),
   }
 
-  fetchPropState() {
-    let { rawput, output, input} = this.props
+  static stateProps = [
+    ...Focusable.stateProps,
+    "rawput", "output", "input",
+  ];
+
+
+  fetchPropState(props) {
+    let { rawput, output, input} = props;
     output = jet.isFull(output) ? output : rawput;
     input = jet.isFull(input) ? input : output;
-    return { ...super.fetchPropState(), rawput, output, input };
+    return { ...super.fetchPropState(props), rawput, output, input };
   }
 
   isOutputDirty() { return this.state.outputDirty || false; }
@@ -48,13 +46,13 @@ export class Valuable extends Focusable {
   getOutput() { return this.state.output; }
   getInput() { return this.state.input; }
 
-  setRawput(rawput) { this.setState({rawput, output:rawput, input:rawput}); return this.getRawput(); }
-  setOutput(output) { this.setState({output, input:output}); return this.getOutput(); }
-  setInput(input) { this.setState({input}); return this.getInput(); }
+  setRawput(rawput) { this.setState({ rawput }); return this.getRawput(); }
+  setOutput(output) { this.setState({ output }); return this.getOutput(); }
+  setInput(input) { this.setState({ input }); return this.getInput(); }
 
-  submit() { return this.setRawput(this.state.output); }
-  reject() { return this.setOutput(this.state.rawput); }
-  undo() { return this.setInput(this.state.output); }
+  submit() { this.setRawput(this.state.output); return true; }
+  reject() { this.setOutput(this.state.rawput); return true; }
+  undo() { this.setInput(this.state.output); return true; }
 
   blur() { return this.setState({focus:false, output:this.getInput()}); }
 
@@ -62,31 +60,37 @@ export class Valuable extends Focusable {
     return to !== from;
   }
 
-  validateValue(to, from) {
+  validateValue(to, from, force=false) {
     return to;
   }
 
-  fitValue(to, from, fit, eye) {
-    to = this.validateValue(fit ? fit(to, from) : to, from);
+  fitValue(to, from, fit, eye, force=false) {
+    to = this.validateValue(fit ? fit(to, from) : to, from, force);
     if (eye && this.isValueDirty(to, from)) { this.effect.add(_=>jet.run(eye, this, to, from)); }
     return to;
   }
 
   validateState(to, from) {
-    to = super.validateState(to, from);
-    const { fitInput, fitOutput, fitRawput, onInput, onOutput, onRawput, onInputDirty, onOutputDirty, skipInput } = this.props;
-    to.rawput = this.fitValue(to.rawput, from.rawput, fitRawput, onRawput);
+    const { fitInput, fitOutput, onInput, onOutput, onInputDirty, onOutputDirty, skipInput } = this.props;
     
-    if (skipInput) { to.output = to.input; }
-    to.output = this.fitValue(to.output, from.output, fitOutput, onOutput);
-    if (!to.focus) { to.input = to.output; }
-    to.input = this.fitValue(to.input, from.input, fitInput, onInput);
+    to = super.validateState(to, from);
+    
+    to.rawput = this.validateValue(to.rawput, from.rawput, true);
 
+    if (to.focus) { to.input = this.fitValue(to.input, from.input, fitInput, onInput, false); }
+    
+    if (this.isValueDirty(from.rawput, to.rawput)) { to.output = to.rawput; }
+    else if (skipInput && to.focus) { to.output = to.input; }
+
+    to.output = this.fitValue(to.output, from.output, fitOutput, onOutput, true);
+    
+    if (!to.focus) { to.input = this.fitValue(to.output, from.input, fitInput, onInput, false); }
+    
     to.outputDirty = this.isValueDirty(to.rawput, to.output);
     to.inputDirty = this.isValueDirty(to.output, to.input);
 
     if (onOutputDirty && to.outputDirty !== from.outputDirty) {
-      this.effect.add(_=>jet.run(onInputDirty, this, to.outputDirty));
+      this.effect.add(_=>jet.run(onOutputDirty, this, to.outputDirty));
     }
     if (onInputDirty && to.inputDirty !== from.inputDirty) {
       this.effect.add(_=>jet.run(onInputDirty, this, to.inputDirty));

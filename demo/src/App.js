@@ -1,4 +1,4 @@
-import React, { Component, useRef, useState } from 'react'
+import React, { Component, useEffect, useRef, useState } from 'react'
 
 import jet from "@randajan/jet-core";
 import ModalProvider, { Table, Menu, PopUp, Bar, Form, Range, Slider, Switch, Button, Field, cssTranslate, Block, Caption, Article } from "../../dist/index.js";
@@ -42,15 +42,15 @@ function TestForm() {
   return (
     <Form
       flags={{focus:p=>p.getFocus()}}
-      rawput={{ fullname:"Adam", age:0 }}
-      output={{ fullname:"Boris", age:30 }}
-      labels={{fullname:"Name", age:"Age", gender:"Gender", bio:"Bio"}}
-      onOutputDirty={(...args)=>{console.log("form_output", ...args)}}
-      onInputDirty={(...args)=>{console.log("form_input", ...args)}}
+      rawput={{ fullname:"Adam", age:0, gender:false }}
+      output={{ fullname:"Boris", age:30, gender:false }}
+      labels={{ fullname:"Name", age:"Age", gender:"Gender", bio:"Bio" }}
+      onOutput={(...args)=>{console.log("form_output", ...args)}}
+      onInput={(...args)=>{console.log("form_input", ...args)}}
       onChange={(...args)=>{console.log("form_change", ...args);}}
     >
-      <Field input={"Denis"} name="fullname" maxLength={15} onInput={console.log} focus/>
-      {/* <Field input={100} name="age" type="number" onInput={console.log}/> */}
+      <Field input={"Denis"} name="fullname" maxLength={15} onInput={console.log}/>
+      <Field input={100} name="age" type="number" onInput={console.log} focus step={5} min={10} max={150}/>
       <Range input={100} name="age" step={5} from={0} to={100} marker={<FiveStar/>}/>
       <Switch name="gender" onOutput={(s,v)=>console.log("output", v)} onInput={(s,v)=>console.log("input", v)}/>
       <Field name="bio" maxLength={255} type="textarea" autoSize/>
@@ -66,18 +66,28 @@ function TestForm() {
   )
 }
 
+function RndField() {
+  const [rndval, setRndval] = useState("test");
+
+  useEffect(_=>{ let id = setInterval(_=>setRndval(String.jet.rnd(5)), 5000); return _=>clearInterval(id); });
+  console.log(rndval);
+  return <Field name={"test"} rawput={rndval} autoSize/>;
+}
+
 function App() {
   const [sw, setSw] = useState(undefined);
+
 
   return (
     <ModalProvider className="App" caption="H1">
       <Article src={"# AAAA <br> ![hello](https://upload.wikimedia.org/wikipedia/commons/5/5a/Wikipedia%27s_W.svg)"}/>
+      {/* <RndField/> */}
       <TestForm/>
       <Button onSubmit={_=>setSw(!sw)}>Switch menu</Button>
       <Table columns={["Baby", "Heyby"]} rows={[[1, "a"], [2, "b"]]}/>
       <Slider onInput={console.log}/>
       <Block caption="WTF"><Block caption="WTF2">Hello</Block></Block>
-      <PopUp caption="TEST caption"></PopUp>
+      {/* <PopUp caption="TEST caption"></PopUp> */}
       <Menu trigger={"Menu"} transition={600} noblur>
         <div>Cool</div>
         <div>I want it</div>

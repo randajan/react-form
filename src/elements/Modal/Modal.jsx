@@ -60,7 +60,7 @@ export class Modal extends Block {
         onDomLoad(_ => this.setState({ mounting: false }));
     }
 
-    afterUpdate(to, from) {
+    afterRender() {
         const { ctrl, cleanUp, props: { onChange, onUp, onDown } } = this;
         cleanUp.run();
         cleanUp.flush();

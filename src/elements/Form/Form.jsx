@@ -18,7 +18,7 @@ export class Form extends Flagable {
   static className = "Form";
 
   static childs = [Field, Switch, Range, Button];
-  static eventsPass = [ "onInput", "onOutput", "onRawput" ];
+  static eventsPass = [ "onInput", "onOutput" ];
   static eventsBubble = [ "onFocus", "onBlur", "onInputDirty", "onOutputDirty" ];
 
   static bindMethods = [
@@ -29,7 +29,7 @@ export class Form extends Flagable {
   static customProps = [
     ...Flagable.customProps,
     "children", "rawput", "output", "input", "sync", "labels", "titles",
-    "onInput", "onOutput", "onRawput", "onFocus", "onBlur", "onInputDirty", "onOutputDirty"
+    "onInput", "onOutput", "onFocus", "onBlur", "onInputDirty", "onOutputDirty"
   ];
 
   static propTypes = {

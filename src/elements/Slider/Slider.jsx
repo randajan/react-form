@@ -79,7 +79,7 @@ export class Slider extends Valuable {
     this.cleanUp.add(Element.jet.drag(this.pin, this.handleShift, {autoPick:true, initX:relX, initY:relY,}));
   }
 
-  afterUpdate() {
+  afterRender() {
     const { relX, relY } = this.valueToBound(this.state.input);
     this.pin.style.left = (relX*100)+"%";
     this.pin.style.top = (relY*100)+"%";

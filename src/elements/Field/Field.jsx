@@ -23,7 +23,7 @@ export class Field extends Valuable {
   static customProps = [
     ...Valuable.customProps,
     "children", "name", "type", "rows", "cols", "maxLength", "onKeyDown", "onPaste", "label", "input", "output", "rawput",
-    "tabIndex", "autoCorrect", "autoCapitalize", "spellCheck", "autoComplete", "autoSize"
+    "min", "max", "step", "tabIndex", "autoCorrect", "autoCapitalize", "spellCheck", "autoComplete", "autoSize"
   ];
   
   static propTypes = {
@@ -31,6 +31,9 @@ export class Field extends Valuable {
     type: PropTypes.oneOf(["number", "text", "email", "tel", "textarea", "password"]),
     rows:PropTypes.number,
     cols:PropTypes.number,
+    min:PropTypes.number,
+    max:PropTypes.number,
+    step:PropTypes.number,
     maxLength:PropTypes.number,
     onKeyDown: PropTypes.func,
     onPaste: PropTypes.func
@@ -75,7 +78,9 @@ export class Field extends Valuable {
     }));
   }
 
-  afterUpdate() {
+  afterRender(propUpdated, from) {
+    super.afterRender(propUpdated, from);
+    
     const { inbox, onbox, state } = this;
     const { focus, input } = state;
 
@@ -109,14 +114,18 @@ export class Field extends Valuable {
 
     if (k === 27) { if (this.getInput() === this.getOutput()) { this.blur() } else { this.undo(); } } //escape 
     else if (k === 13 && (ev.ctrlKey === this.isTextArea())) { this.blur(); } //not enter
-    else { return }
+    else { return; }
 
     ev.preventDefault();
   }
 
 
-  validateValue(to, from) {
-    return String.jet.to(to).slice(0, this.props.maxLength);
+  validateValue(to, from, force) {
+    const { type, min, max, step, maxLength } = this.props;
+    const val = maxLength > 0 ? String.jet.to(to).slice(0, maxLength) : to;
+    if (type !== "number") { return val; }
+    const num = Number.jet.to(val);
+    return !force ? num : step ? Number.jet.snap(num, step, min, max) : Number.jet.frame(num, min, max);
   }
 
   validateState(now, from) {
@@ -127,12 +136,12 @@ export class Field extends Valuable {
   }
 
   fetchPropsInbox() {
-    const { tabIndex, name, autoCorrect, autoCapitalize, spellCheck, autoComplete, onPaste, maxLength } = this.props;
+    const { tabIndex, name, autoCorrect, autoCapitalize, spellCheck, autoComplete, onPaste, maxLength, step } = this.props;
     const { focus, lock } = this.state;
     return {
       ref:el=>this.inbox = el, className:cn("inbox"),
       name, autoFocus:focus, autoCorrect, autoCapitalize, spellCheck, autoComplete, maxLength, 
-      readOnly:lock, disabled:lock, tabIndex:lock?-1:tabIndex,
+      readOnly:lock, disabled:lock, tabIndex:lock?-1:tabIndex, step,
       onFocus: this.focus,
       onBlur: this.blur,
       onInput: ev=> this.setInput(ev.target.value),

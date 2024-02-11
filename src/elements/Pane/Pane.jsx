@@ -51,10 +51,8 @@ export class Pane extends Stateful {
     }
   }
 
-  afterUpdate() {
-
-    const { expand } = this.props;
-    const { content } = this;
+  afterRender() {
+    const { content, props:{ expand } } = this;
     const bound = this.getBound();
 
     if (!expand) { this.prebound = null; }

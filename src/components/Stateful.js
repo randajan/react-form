@@ -5,6 +5,8 @@ import { RunPool } from "@randajan/jet-core";
 
 import { Flagable } from "./Flagable";
 
+const { virtual, solid } = jet.prop;
+
 export class Stateful extends Flagable {
 
   static customProps = [
@@ -12,14 +14,41 @@ export class Stateful extends Flagable {
     "onChange"
   ];
 
+  static stateProps = [
+
+  ];
+
   effect = new RunPool();
 
   constructor(props) {
     super(props);
-    this.state = this.validateState(this.fetchPropState(), {});
+    const propState = this.fetchPropState(props);
+    this.state = this.validateState(propState, propState);
   }
 
-  fetchPropState() { return {}; }
+  componentDidUpdate(props) {
+    const stateProps = {};
+    let propsUpdated = false;
+
+    for (const sp of this.self.stateProps) {
+      if (this.props[sp] === props[sp]) {
+        stateProps[sp] = this.state[sp];
+      } else {
+        stateProps[sp] = this.props[sp];
+        propsUpdated = true;
+      }
+    }
+
+    if (propsUpdated) {
+      this.setState(this.fetchPropState(stateProps));
+    } else {
+      super.componentDidUpdate();
+    }
+  }
+
+  fetchPropState(changes) {
+    return {};
+  }
 
   setState(state) {
     this.effect.flush();
@@ -37,7 +66,7 @@ export class Stateful extends Flagable {
   }
 
   reset() {
-    return this.setState(this.fetchPropState());
+    return this.setState(this.fetchPropState(this.props));
   }
 
   validateState(to, from) { return jet.merge(from, to); }
