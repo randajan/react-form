@@ -45,9 +45,10 @@ function TestForm() {
       rawput={{ fullname:"Adam", age:0, gender:false }}
       output={{ fullname:"Boris", age:30, gender:false }}
       labels={{ fullname:"Name", age:"Age", gender:"Gender", bio:"Bio" }}
-      onOutput={(...args)=>{console.log("form_output", ...args)}}
-      onInput={(...args)=>{console.log("form_input", ...args)}}
-      onChange={(...args)=>{console.log("form_change", ...args);}}
+      onSubmit={form=>{ return false; }}
+      // onOutput={(...args)=>{console.log("form_output", ...args)}}
+      // onInput={(...args)=>{console.log("form_input", ...args)}}
+      // onChange={(...args)=>{console.log("form_change", ...args);}}
     >
       <Field input={"Denis"} name="fullname" maxLength={15} onInput={console.log}/>
       <Field input={100} name="age" type="number" onInput={console.log} focus step={5} min={10} max={150}/>

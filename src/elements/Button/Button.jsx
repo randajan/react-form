@@ -43,7 +43,7 @@ export class Button extends Focusable {
 
   getLock() {
     const { parent, type } = this.props;
-    if (parent && (type === "submit" || type === "reject") && !parent.isOutputDirty()) {
+    if (parent && (type === "submit" || type === "reject") && !parent.isInputDirty()) {
       return true;
     }
 
