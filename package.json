@@ -25,7 +25,7 @@
   "peerDependencies": {
     "@randajan/jet-base": "^2.2.1",
     "@randajan/jet-core": "^3.4.6",
-    "@randajan/jet-react": "^1.2.21",
+    "@randajan/jet-react": "^1.3.2",
     "markdown-to-jsx": "^7.4.6",
     "path-to-regexp": "^6.2.2",
     "prop-types": "^15.8.1",
@@ -50,9 +50,5 @@
     "name": "Jan Randa",
     "email": "jnranda@gmail.com",
     "url": "https://www.linkedin.com/in/randajan/"
-  },
-  "dependencies": {
-    "@randajan/jet-core": "^3.4.6",
-    "@randajan/jet-react": "^1.3.2"
   }
 }
