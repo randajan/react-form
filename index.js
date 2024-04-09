@@ -1,11 +1,9 @@
-import slib from "@randajan/simple-lib";
+import slib, { argv } from "@randajan/simple-lib";
 import { sassPlugin } from 'esbuild-sass-plugin';
 
 slib(
-    process.env.NODE_ENV !== "dev",
+    argv.isBuild,
     {
-        port:4009,
-
         loader:{
             ".js":"jsx",
             '.png': 'file',

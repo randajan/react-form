@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import jet from "@randajan/jet-react";
-import { RunPool } from "@randajan/jet-core";
+import RunPool from "@randajan/jet-core/runpool";
 
 import { cn } from "../css";
 

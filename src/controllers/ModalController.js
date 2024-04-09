@@ -1,7 +1,8 @@
 
 import jet from "@randajan/jet-react";
 
-import { Pool, RunPool } from '@randajan/jet-core';
+import Pool from '@randajan/jet-core/pool';
+import RunPool from '@randajan/jet-core/runpool';
 import { PopController } from "./PopController";
 
 const { solid } = jet.prop;

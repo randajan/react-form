@@ -88,7 +88,7 @@ function App() {
       <Table columns={["Baby", "Heyby"]} rows={[[1, "a"], [2, "b"]]}/>
       <Slider onInput={console.log}/>
       <Block caption="WTF"><Block caption="WTF2">Hello</Block></Block>
-      {/* <PopUp caption="TEST caption"></PopUp> */}
+      <PopUp caption="TEST caption"></PopUp>
       <Menu trigger={"Menu"} transition={600} noblur>
         <div>Cool</div>
         <div>I want it</div>

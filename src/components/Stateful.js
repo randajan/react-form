@@ -1,7 +1,7 @@
 import React from 'react';
 
 import jet from "@randajan/jet-react";
-import { RunPool } from "@randajan/jet-core";
+import RunPool from "@randajan/jet-core/runpool";
 
 import { Flagable } from "./Flagable";
 

@@ -31,12 +31,13 @@ export class Modal extends Block {
     
     static customProps = [
         ...Block.customProps,
-        "children", "list", "closeButton", "transition", "onChange", "onUp", "onDown", "onMount"
+        "children", "list", "closeButton", "closeOnBlur", "transition", "onChange", "onUp", "onDown", "onMount"
     ];
 
     static defaultProps = {
         ...Block.defaultProps,
         closeButton: "✖",
+        closeOnBlur:false,
         transition: 800
     }
 
@@ -51,7 +52,7 @@ export class Modal extends Block {
     constructor(props) {
         super(props);
 
-        solid(this, "ctrl", new ModalController(this));
+        solid(this, "ctrl", new ModalController());
 
         this.state = { mounting: true };
     }
@@ -64,7 +65,10 @@ export class Modal extends Block {
         const { ctrl, cleanUp, props: { onChange, onUp, onDown } } = this;
         cleanUp.run();
         cleanUp.flush();
+
+        ctrl.current = this;
         cleanUp.add(
+            _=>{ if (ctrl.current === this) { delete ctrl.current; } },
             ctrl.onChange.add(_ => this.forceUpdate(), onChange),
             ctrl.onUp.add(onUp),
             ctrl.onDown.add(onDown)
@@ -93,11 +97,18 @@ export class Modal extends Block {
         )
     }
 
+    fetchPropsCover() {
+        return {
+            className:cn("cover"),
+            onClick:({target})=>{ if (target) { this.ctrl.getTop()?.blur(target); } }
+        }
+    }
+
     fetchChildren() {
         return (
             <context.Provider value={this.ctrl}>
                 {super.fetchChildren()}
-                <div className={cn("cover")}>
+                <div {...this.fetchPropsCover()}>
                     <div className={cn("mist")} />
                     <TransitionGroup className={cn("pops")}>
                         {Array.from(this.ctrl.pops.up).map(this.buildPop)}

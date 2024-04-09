@@ -1,11 +1,9 @@
 
-import jet, { RunPool } from "@randajan/jet-core";
+import jet from "@randajan/jet-core";
+import RunPool from "@randajan/jet-core/runpool";
 import { fetchProps } from "../consts";
 
-
 const { solid, safe, virtual } = jet.prop;
-
-const fetchState = (currentState, newState)=>({...currentState, ...fetchProps(newState)})
 
 export class PopController {
 
@@ -53,5 +51,16 @@ export class PopController {
   down(...toListeners) { return this.setState({up:false}, ...toListeners); }
   lock(lock, ...toListeners) { return this.setState({lock}, ...toListeners); }
   unlock(lock, ...toListeners) { return this.setState({lock:lock === false}, ...toListeners); }
+
+  blur(source) {
+    const { current, modal, state:{ lock, closeOnBlur } } = this;
+    if (!source || lock) { return; }
+    const cob = closeOnBlur != null ? closeOnBlur : modal?.current?.props?.closeOnBlur;
+    console.log(modal?.current?.props?.closeOnBlur);
+    if (!cob) { return; }
+    const body = current?.body;
+    if (!body || body?.contains(source)) { return; }
+    this.down();
+  }
 
 }

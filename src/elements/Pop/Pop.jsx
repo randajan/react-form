@@ -16,7 +16,7 @@ export class Pop extends Block {
 
   static customProps = [
     ...Block.customProps,
-    "ctrl", "lock", "closeButton", "up", "onUp", "onDown"
+    "ctrl", "lock", "closeButton", "closeOnBlur", "up", "onUp", "onDown"
   ];
 
   static defaultFlags = {
@@ -29,6 +29,12 @@ export class Pop extends Block {
     super(props);
 
     solid(this, "ctrl", props.ctrl);
+  }
+
+  afterMount() {
+    const { ctrl } = this;
+    ctrl.current = this;
+    this.cleanUp.add(_=>{ if (ctrl.current === this) { delete ctrl.current; } });
   }
 
   down(ev) {
