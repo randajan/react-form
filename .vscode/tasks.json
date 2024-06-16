@@ -26,15 +26,15 @@
         {
             "label": "GIT commit",
             "type": "shell",
-            "command": "git add .; git commit -m '${input:commit}'; git push -u origin main",
-            "dependsOn": [
-                "Build package"
-            ]
+            "command": "git add .; git commit -m '${input:commit}'; git push origin main"
         },
         {
-            "label": "Build package",
-            "type": "shell",
-            "command": "node index isBuild=true",
+            "type": "npm",
+            "script": "build",
+            "group": "build",
+            "problemMatcher": [],
+            "label": "npm: build",
+            "detail": "node ./build.js"
         }
     ],
     "inputs": [
