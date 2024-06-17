@@ -56,7 +56,6 @@ export class PopController {
     const { current, modal, state:{ lock, closeOnBlur } } = this;
     if (!source || lock) { return; }
     const cob = closeOnBlur != null ? closeOnBlur : modal?.current?.props?.closeOnBlur;
-    console.log(modal?.current?.props?.closeOnBlur);
     if (!cob) { return; }
     const body = current?.body;
     if (!body || body?.contains(source)) { return; }

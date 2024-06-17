@@ -46,13 +46,13 @@ function TestForm() {
       output={{ fullname:"Boris", age:30, gender:false }}
       labels={{ fullname:"Name", age:"Age", gender:"Gender", bio:"Bio" }}
       onSubmit={form=>{ return false; }}
-      // onOutput={(...args)=>{console.log("form_output", ...args)}}
-      // onInput={(...args)=>{console.log("form_input", ...args)}}
-      // onChange={(...args)=>{console.log("form_change", ...args);}}
+      onOutput={(form)=>{console.log("form_output", form.getOutput())}}
+      onInput={(form)=>{console.log("form_input", form.getInput())}}
+      onChange={(...args)=>{console.log("form_change", ...args);}}
     >
       <Field input={"Denis"} name="fullname" maxLength={15} onInput={console.log}/>
-      <Field input={100} name="age" type="number" onInput={console.log} focus step={5} min={10} max={150}/>
-      <Range input={100} name="age" step={5} from={0} to={100} marker={<FiveStar/>}/>
+      <Field input={100} name="agen" type="number" onInput={console.log} focus step={5} min={10} max={150}/>
+      <Range input={100} name="ager" step={5} from={0} to={100} marker={<FiveStar/>}/>
       <Switch name="gender" onOutput={(s,v)=>console.log("output", v)} onInput={(s,v)=>console.log("input", v)}/>
       <Field name="bio" maxLength={255} type="textarea" autoSize/>
       <div>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import jet from "@randajan/jet-react";
+import { map } from "@randajan/jet-core/eachSync";
 
 import { Flagable } from '../../components/Flagable';
 
@@ -66,8 +67,8 @@ export class Form extends Flagable {
   }
 
   mapFields(callback, custommap) {
-    return jet.map(custommap||this.fields, (val, k)=>{
-      const field = this.fields[k];
+    return map(custommap||this.fields, (val, {key})=>{
+      const field = this.fields[key];
       return field ? callback(field, val) : undefined;
     });
   }

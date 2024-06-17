@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import jet from "@randajan/jet-react";
+import { each, list } from "@randajan/jet-core/eachSync";
 
 import { Flagable } from "../../components/Flagable";
 import { cn } from '../../css';
@@ -55,7 +56,7 @@ export class Table extends Flagable {
 
   refreshSize() {
     this.refreshScroll();
-    jet.forEach(this.headings, th=>th.real.style.width = th.dummy.offsetWidth + "px");
+    each(this.headings, th=>th.real.style.width = th.dummy.offsetWidth + "px");
   }
 
   thRef(el, col, real) {
@@ -65,7 +66,7 @@ export class Table extends Flagable {
 
   heading(real=false) {
     const { columns } = this.props;
-    return jet.forEach(columns, (children, key)=>{
+    return each(columns, (children, { key })=>{
       const prop = { key, children, ref:el=>this.thRef(el, key, real) };
       return <th {...prop}/>;
     });
@@ -105,7 +106,7 @@ export class Table extends Flagable {
             </thead>
             <tbody>
               {rows.map((row, k)=>
-                <tr key={k}>{jet.forEach(columns||row, (v, col)=><td key={col}>{row[col]}</td>)}</tr>
+                <tr key={k}>{list(columns||row, (v, {key})=><td key={key}>{row[key]}</td>)}</tr>
               )}
             </tbody>
           </table>
