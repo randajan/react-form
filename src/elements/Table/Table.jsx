@@ -66,7 +66,7 @@ export class Table extends Flagable {
 
   heading(real=false) {
     const { columns } = this.props;
-    return each(columns, (children, { key })=>{
+    return list(columns, (children, { key })=>{
       const prop = { key, children, ref:el=>this.thRef(el, key, real) };
       return <th {...prop}/>;
     });
